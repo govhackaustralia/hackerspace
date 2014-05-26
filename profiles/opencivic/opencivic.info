@@ -69,6 +69,7 @@ dependencies[] = fivestar_green
 dependencies[] = flag
 dependencies[] = fontyourface
 dependencies[] = globalredirect
+dependencies[] = general_services
 dependencies[] = honeypot
 dependencies[] = imagecache_actions
 dependencies[] = imagecache_canvasactions
@@ -107,6 +108,7 @@ dependencies[] = search_api_facetapi
 dependencies[] = search_api_views
 dependencies[] = search_api_db
 dependencies[] = service_links
+;dependencies[] = smtp
 dependencies[] = stringoverrides
 dependencies[] = stylizer
 dependencies[] = styles
@@ -154,8 +156,7 @@ dependencies[] = schemaorg
 ; dependencies[] = schemaorg_ui
 ; dependencies[] = schemaorg_cache
 ; Used for importing terms
-dependencies[] = taxonomy_csv
-; dependencies[] = taxonomy_manager
+; dependencies[] = taxonomy_csv
 ; dependencies[] = field_tools
 
 ; Panopoly Foundation
@@ -188,7 +189,6 @@ dependencies[] = appcat_misc_menus
 
 ; Included in distro but not enabled at installation
 ; dependencies[] = inline_entity_form
-; dependencies[] = insert_block
 ; dependencies[] = ole
 
 
