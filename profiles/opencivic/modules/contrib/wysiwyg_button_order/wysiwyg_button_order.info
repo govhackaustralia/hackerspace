@@ -1,0 +1,15 @@
+; $Id$
+name = Wysiwyg Button Order
+description = Allows reordering and seperators for TinyMCE in Wysiwyg module.
+package = User interface
+dependencies[] = wysiwyg
+core = 7.x
+
+files[] = wysiwyg_button_order
+
+; Information added by drush on 2014-05-28
+version = "7.x-1.0-rc1+0-dev"
+core = "7.x"
+project = "wysiwyg_button_order"
+datestamp = "1401269385"
+
