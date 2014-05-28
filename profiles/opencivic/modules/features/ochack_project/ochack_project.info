@@ -1,7 +1,7 @@
-name = OpenCivic Hackathon project
+name = Hackathon project
 core = 7.x
-package = OpenCivic
-dependencies[] = opencivic_organization
+package = Hackathon project
+dependencies[] = appcat_organization_content
 dependencies[] = autocomplete_deluxe
 dependencies[] = ctools
 dependencies[] = entityreference
@@ -52,3 +52,11 @@ features[variable][] = menu_parent_project
 features[variable][] = node_options_project
 features[variable][] = node_preview_project
 features[variable][] = node_submitted_project
+
+
+; Information added by drush on 2014-05-28
+version = "7.x-1.0-alpha4+59-dev"
+core = "7.x"
+project = "opencivic"
+datestamp = "1401269000"
+

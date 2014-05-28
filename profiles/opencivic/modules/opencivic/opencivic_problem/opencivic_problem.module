@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Hackathon problem  feature.
- */
-
-include_once 'opencivic_problem.features.inc';

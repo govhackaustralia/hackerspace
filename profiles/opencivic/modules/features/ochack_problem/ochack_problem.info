@@ -1,11 +1,11 @@
-name = OpenCivic Hackathon problem
+name = Hackathon problem
 description = Defines the Hackathon content type
 core = 7.x
-package = OpenCivic
+package = Hackathon problem
 php = 5.2.4
 version = 7.x-1.0-beta1
 project = ochack_problem
-dependencies[] = opencivic_organization
+dependencies[] = appcat_organization_content
 dependencies[] = field_group
 dependencies[] = fivestar
 dependencies[] = media
@@ -62,3 +62,11 @@ features_exclude[dependencies][rdfx] = rdfx
 features_exclude[dependencies][schemaorg] = schemaorg
 features_exclude[dependencies][strongarm] = strongarm
 features_exclude[dependencies][taxonomy] = taxonomy
+
+
+; Information added by drush on 2014-05-28
+version = "7.x-1.0-alpha4+59-dev"
+core = "7.x"
+project = "opencivic"
+datestamp = "1401269000"
+

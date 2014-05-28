@@ -3,94 +3,58 @@ core = 7.x
 
 ; Modules =====================================================================
 
-; The Panopoly Foundation
-
-projects[panopoly_core][version] = 1.5
-projects[panopoly_core][subdir] = panopoly
-; projects[panopoly_core][patch][1962642] = http://drupal.org/files/1962642-defaultconfig.undefinedindex-2.patch
-
-projects[panopoly_images][version] = 1.5
-projects[panopoly_images][subdir] = panopoly
-
-projects[panopoly_theme][version] = 1.5
-projects[panopoly_theme][subdir] = panopoly
-
-projects[panopoly_magic][version] = 1.5
-projects[panopoly_magic][subdir] = panopoly
-
-projects[panopoly_widgets][version] = 1.5
-projects[panopoly_widgets][subdir] = panopoly
-
-projects[panopoly_admin][version] = 1.5
-projects[panopoly_admin][subdir] = panopoly
-
-projects[panopoly_users][version] = 1.5
-projects[panopoly_users][subdir] = panopoly
-
-; The Panopoly Toolset
-
-projects[panopoly_pages][version] = 1.5
-projects[panopoly_pages][subdir] = panopoly
-
-projects[panopoly_wysiwyg][version] = 1.5
-projects[panopoly_wysiwyg][subdir] = panopoly
-
-projects[panopoly_search][version] = 1.5
-projects[panopoly_search][subdir] = panopoly
-
-
-; OpenCivic modules
-
-projects[apps_compatible][subdir] = contrib
-projects[apps_compatible][version] = 1.0-alpha3
-
 projects[diff][subdir] = contrib
 projects[diff][version] = 3.2
 
 projects[openidadmin][subdir] = contrib
 projects[openidadmin][version] = 1.0
 
+projects[views_bulk_operations][subdir] = "contrib"
+projects[views_bulk_operations][version] = "3.0"
+
 projects[addanother][subdir] = "contrib"
 projects[addanother][version] = "2.1"
 
 ; Patched to support devel_generate integration
 projects[addressfield][subdir] = "contrib"
-projects[addressfield][version] = "1.0-beta5"
-
-projects[addressfield_tokens][subdir] = "contrib"
-projects[addressfield_tokens][version] = 1.3
+projects[addressfield][version] = "1.0-beta3"
+projects[addressfield][patch][1156776] = http://drupal.org/files/addressfield_devel_generate-1156776-2.patch
 
 projects[addtoany][subdir] = "contrib"
-projects[addtoany][version] = 4.5
+projects[addtoany][version] = "3.1"
 
-projects[admin_menu][version] = 3.0-rc4
 projects[admin_menu][subdir] = "contrib"
 
-projects[auto_entitylabel][subdir] = "contrib"
-projects[auto_entitylabel][version] = 1.2
+projects[module_filter][subdir] = "contrib"
+projects[module_filter][version] = "1.7"
 
-; Since auto_entitylabel is intended to be a replacement for
-; auto_nodetitle, we should probably deprecate this.
+projects[auto_entitylabel][subdir] = "contrib"
+projects[auto_entitylabel][version] = "1.x-dev"
+projects[auto_entitylabel][download][type] = "git"
+projects[auto_entitylabel][download][url] = "http://git.drupal.org/project/auto_entitylabel.git"
+projects[auto_entitylabel][download][revision] = 9a8762080f106248a4dd6fc498035877f9d917e3
+projects[auto_entitylabel][download][branch] = 7.x-1.x
+projects[auto_entitylabel][type] = "module"
+
 projects[auto_nodetitle][subdir] = "contrib"
 projects[auto_nodetitle][version] = "1.0"
 
 projects[autocomplete_deluxe][subdir] = "contrib"
-projects[autocomplete_deluxe][version] = 2.0-beta3
+projects[autocomplete_deluxe][version] = "2.0-beta2"
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.0-beta4"
+projects[better_exposed_filters][version] = "3.0-beta3"
 
 projects[block_class][subdir] = "contrib"
-projects[block_class][version] = 2.1
+projects[block_class][version] = "1.2"
 
 projects[calendar][subdir] = "contrib"
 projects[calendar][version] = "3.4"
 
-projects[compact_forms][subdir] = "contrib"
-projects[compact_forms][version] = 1.0
+projects[ctools][subdir] = "contrib"
 
 projects[captcha][subdir] = "contrib"
-projects[captcha][version] = 1.0
+projects[captcha][version] = "1.0-beta2"
 
 projects[cck_phone][subdir] = "contrib"
 projects[cck_phone][version] = "1.x-dev"
@@ -108,11 +72,8 @@ projects[conditional_fields][download][revision] = cd29b003a592d375f3fdb4c46f563
 projects[conditional_fields][download][branch] = 7.x-3.x
 projects[conditional_fields][type] = "module"
 
-projects[connector][version] = 1.0-beta2
-projects[connector][subdir] = contrib
-
 projects[content_taxonomy][subdir] = "contrib"
-projects[content_taxonomy][version] = "1.0-beta2"
+projects[content_taxonomy][version] = "1.0-beta1"
 
 projects[context][subdir] = "contrib"
 
@@ -132,7 +93,10 @@ projects[colorbox][download][branch] = 7.x-2.x
 projects[colorbox][type] = "module"
 
 projects[date_ical][subdir] = "contrib"
-projects[date_ical][version] = 3.1
+projects[date_ical][version] = "1.1"
+
+projects[facetapi][subdir] = "contrib"
+projects[facetapi][version] = "1.2"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.6"
@@ -143,29 +107,28 @@ projects[delta][version] = "3.0-beta11"
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.2"
 
+projects[entity][subdir] = "contrib"
+projects[entity][version] = "1.0-rc3"
+
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][version] = 1.0-beta3
+projects[entity_translation][version] = "1.0-beta2"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
-projects[entityreference_prepopulate][version] = "1.5"
-
-projects[entityreference_view_widget][subdir] = "contrib"
-projects[entityreference_view_widget][version] = 2.0-beta3
-
-projects[extlink][subdir] = "contrib"
-projects[extlink][version] = 1.17
+projects[entityreference_prepopulate][version] = "1.1"
 
 projects[features_extra][subdir] = "contrib"
-projects[features_extra][version] = 1.0-beta1
+projects[features_extra][version] = "1.0-alpha1"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = 2.0
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = 2.0-alpha8
+projects[feeds][version] = "2.0-alpha6"
 
 projects[field_group][subdir] = "contrib"
-projects[field_group][version] = 1.3
+projects[field_group][version] = "1.1"
+
+projects[media][subdir] = "contrib"
+projects[media][version] = "1.2"
 
 projects[styles][subdir] = "contrib"
 projects[styles][version] = "2.0-alpha8"
@@ -174,37 +137,38 @@ projects[fivestar][subdir] = "contrib"
 projects[fivestar][version] = "2.0-alpha2"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = 3.2
+projects[flag][version] = "2.0"
 
 projects[geocoder][subdir] = contrib
 projects[geocoder][version] = "1.2"
 
 projects[geofield][subdir] = "contrib"
-projects[geofield][version] = 2.0
+projects[geofield][version] = "1.1"
+projects[geofield][patch][1942826] = http://drupal.org/files/1942826-5-openlayers_projections_1.1.patch
 
 projects[geophp][subdir] = "contrib"
-projects[geophp][version] = 1.7
+projects[geophp][version] = "1.6"
 
 projects[globalredirect][subdir] = "contrib"
 projects[globalredirect][version] = "1.5"
 
-projects[fontyourface][version] = 2.8
-projects[fontyourface][subdir] = "contrib"
+projects[google_fonts][subdir] = "contrib"
 
-projects[google_analytics][version] = 1.4
 projects[google_analytics][subdir] = "contrib"
 
-projects[http_client][version] = 2.4
-projects[http_client][subdir] = contrib
-
-projects[honeypot][version] = 1.16
-projects[honeypot][subdir] = contrib
-
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = 1.11
+projects[i18n][version] = "1.8"
 
 projects[imagecache_actions][subdir] = "contrib"
-projects[imagecache_actions][version] = 1.4
+projects[imagecache_actions][version] = "1.0"
+
+projects[insert_block][subdir] = "contrib"
+projects[insert_block][version] = "1.x-dev"
+projects[insert_block][download][type] = "git"
+projects[insert_block][download][url] = "http://git.drupal.org/project/insert_block.git"
+projects[insert_block][download][revision] = be4314aef56af4b6bdf78d2f18e005c959d8cdd9
+projects[insert_block][download][branch] = 7.x-1.x
+projects[insert_block][type] = "module"
 
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
@@ -216,7 +180,7 @@ projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "1.0-beta3"
 
 projects[l10n_client][subdir] = "contrib"
-projects[l10n_client][version] = 1.3
+projects[l10n_client][version] = "1.2"
 
 projects[label_help][subdir] = contrib
 projects[label_help][version] = "1.0"
@@ -224,39 +188,36 @@ projects[label_help][version] = "1.0"
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
 
-; Getting dev version until a new release after 1.0-beta3 is made, to get
-; around https://drupal.org/node/1954942
-projects[leaflet][subdir] = "contrib"
-projects[leaflet][version] = 1.x-dev
-
-projects[leaflet_more_maps][subdir] = "contrib"
-projects[leaflet_more_maps][version] = 1.7
+projects[libraries][subdir] = "contrib"
+projects[libraries][version] = "2.1"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = 1.2
+projects[link][version] = "1.0"
 
 projects[logintoboggan][subdir] = "contrib"
 projects[logintoboggan][version] = "1.3"
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.0"
-projects[mail_edit][patch][1826220] = https://drupal.org/files/mail_edit-undefined_index_path-1826220-2.patch
 
 projects[maxlength][subdir] = "contrib"
-projects[maxlength][version] = 3.0-beta1
-;projects[maxlength][download][type] = "git"
-;projects[maxlength][download][url] = "http://git.drupal.org/project/maxlength.git"
-;projects[maxlength][download][revision] = 0fd9604a75c559fe14fe7d726211b5910f663746
-;projects[maxlength][download][branch] = 7.x-3.x
-;projects[maxlength][type] = "module"
+projects[maxlength][version] = "3.x-dev"
+projects[maxlength][download][type] = "git"
+projects[maxlength][download][url] = "http://git.drupal.org/project/maxlength.git"
+projects[maxlength][download][revision] = 0fd9604a75c559fe14fe7d726211b5910f663746
+projects[maxlength][download][branch] = 7.x-3.x
+projects[maxlength][type] = "module"
+
+projects[media_youtube][subdir] = "contrib"
+projects[media_youtube][version] = "2.0-rc1"
 
 projects[menu_block][subdir] = "contrib"
-projects[menu_block][version] = 2.3
-;projects[menu_block][download][type] = "git"
-;projects[menu_block][download][url] = "http://git.drupal.org/project/menu_block.git"
-;projects[menu_block][download][revision] = 32ab1cf08b729c93302455d67dd05f64ad2fc056
-;projects[menu_block][download][branch] = 7.x-2.x
-;projects[menu_block][type] = "module"
+projects[menu_block][version] = "2.x-dev"
+projects[menu_block][download][type] = "git"
+projects[menu_block][download][url] = "http://git.drupal.org/project/menu_block.git"
+projects[menu_block][download][revision] = 32ab1cf08b729c93302455d67dd05f64ad2fc056
+projects[menu_block][download][branch] = 7.x-2.x
+projects[menu_block][type] = "module"
 
 ; References has been replaced with the Entity Reference module
 ; projects[references][subdir] = "contrib"
@@ -266,24 +227,19 @@ projects[nodequeue][subdir] = "contrib"
 projects[nodequeue][version] = "2.0-beta1"
 
 ; projects[nodereference_url][subdir] = "contrib"
-; projects[nodereference_url][version] = "1.52"
-
-projects[oauth][version] = 3.2
-projects[oauth][subdir] = contrib
-
-;projects[oauth2][version] = 1.x-dev
-;projects[oauth2][subdir] = contrib
-;projects[oauth2][download][type] = "git"
-;projects[oauth2][download][url] = "http://git.drupal.org/project/oauth2.git"
-;projects[oauth2][download][revision] = c9723e67ebe906b8eca2d7d6c2dd3bbe97093b1f
-;projects[oauth2][download][branch] = 7.x-1.x
-;projects[oauth2][type] = "module"
-
-;projects[oauthconnector][version] = 1.0-beta2
-;projects[oauthconnector][subdir] = contrib
+; projects[nodereference_url][version] = "1.12"
 
 projects[omega_tools][subdir] = "contrib"
 projects[omega_tools][version] = "3.0-rc4"
+
+projects[openlayers][subdir] = "contrib"
+projects[openlayers][version] = "2.x-dev"
+projects[openlayers][download][type] = "git"
+projects[openlayers][download][url] = "http://git.drupal.org/project/openlayers.git"
+projects[openlayers][download][revision] = a6bd2cd9d994ede2537798f16df5e7f81b69ebdf
+projects[openlayers][download][branch] = 7.x-2.x
+projects[openlayers][type] = "module"
+projects[openlayers][patch][1951336] = http://drupal.org/files/1951336-1-markers_disappear.patch
 
 projects[ole][subdir]  = "contrib"
 projects[ole][version] = "1.0-beta3"
@@ -299,8 +255,8 @@ projects[ole][version] = "1.0-beta3"
 ; projects[olfp][download][branch] = 7.x-2.x
 ; projects[olfp][type] = "module"
 
-projects[potx][subdir] = "contrib"
-projects[potx][version] = 1.0
+projects[pathauto][subdir] = "contrib"
+projects[pathauto][version] = "1.2"
 
 projects[prepopulate][subdir] = "contrib"
 projects[prepopulate][version] = "2.x-dev"
@@ -317,42 +273,44 @@ projects[prepopulate_create_node_links][download][revision] = 4dc5dd7a6b90c64234
 projects[prepopulate_create_node_links][download][branch] = 7.x-1.x
 projects[prepopulate_create_node_links][type] = "module"
 
+projects[proj4js][subdir] = "contrib"
+projects[proj4js][version] = "1.2"
+
 projects[recaptcha][subdir] = "contrib"
-projects[recaptcha][version] = 1.11
+projects[recaptcha][version] = "1.8"
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc1"
 
 projects[references_dialog][subdir] = "contrib"
 projects[references_dialog][version] = "1.0-alpha4"
-projects[references_dialog][patch][1856978] = http://drupal.org/files/references_dialog-1856978-2.patch
 
 projects[rpx][subdir] = "contrib"
-projects[rpx][version] = 2.5
+projects[rpx][version] = "2.2"
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = 2.6
+projects[rules][version] = "2.2"
+
+projects[search_api][subdir] = "contrib"
+projects[search_api][version] = "1.4"
 
 projects[search_api_spellcheck][subdir] = "contrib"
 projects[search_api_spellcheck][version] = "1.0"
 
 projects[services][subdir] = "contrib"
-projects[services][version] = 3.5
+projects[services][version] = "3.3"
 
 projects[services_views][subdir] = "contrib"
 projects[services_views][version] = "1.0-beta2"
 
-projects[service_links][subdir] = "contrib"
-projects[service_links][version] = 2.3-beta1
-
-projects[smtp][subdir] = "contrib"
-projects[smtp][version] = 1.0
-
 projects[stringoverrides][subdir] = "contrib"
 projects[stringoverrides][version] = "1.8"
 
+projects[strongarm][subdir] = "contrib"
+projects[strongarm][version] = "2.0"
+
 projects[subscriptions][subdir] = "contrib"
-projects[subscriptions][version] = 1.1
+projects[subscriptions][version] = "1.1"
 
 projects[syntaxhighlighter][subdir] = "contrib"
 projects[syntaxhighlighter][version] = "2.0"
@@ -360,38 +318,45 @@ projects[syntaxhighlighter][version] = "2.0"
 projects[taxonomy_csv][subdir] = "contrib"
 projects[taxonomy_csv][version] = "5.10"
 
+projects[taxonomy_manager][subdir] = "contrib"
+projects[taxonomy_manager][version] = "1.0-rc1"
+
 projects[title][subdir] = "contrib"
 projects[title][version] = "1.0-alpha7"
 
+projects[token][subdir] = "contrib"
+projects[token][version] = "1.4"
+
 projects[tmgmt][subdir] = "contrib"
-projects[tmgmt][version] = 1.0-beta2
+projects[tmgmt][version] = "1.0-alpha3"
 
 projects[tmgmt_microsoft][subdir] = "contrib"
 projects[tmgmt_microsoft][version] = "1.0-alpha2"
 
-projects[translation_helpers][subdir] = "contrib"
-projects[translation_helpers][version] = 1.0
-
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.1"
 
-projects[twitter][subdir] = "contrib"
-projects[twitter][version] = 5.8
-
-projects[twitterfield][subdir] = "contrib"
-projects[twitterfield][version] = 1.0-rc1
-
 projects[variable][subdir] = "contrib"
-projects[variable][version] = 2.3
+projects[variable][version] = "2.2"
 
 projects[viewfield][subdir] = "contrib"
 projects[viewfield][version] = "2.0"
+
+projects[views][subdir] = "contrib"
+projects[views][version] = "3.7"
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.0-beta6"
 
 projects[views_field_view][subdir] = "contrib"
-projects[views_field_view][version] = 1.1
+projects[views_field_view][version] = "1.0"
+
+projects[views_php][subdir] = "contrib"
+projects[views_php][version] = "1.x-dev"
+projects[views_php][download][url] = "http://git.drupal.org/project/views_php.git"
+projects[views_php][download][revision] = 2b5ed52228394ee3c8e8c86be283da957cdfa6f6
+projects[views_php][download][branch] = 7.x-1.x
+projects[views_php][type] = "module"
 
 projects[views_random_seed][subdir] = "contrib"
 projects[views_random_seed][version] = "1.2"
@@ -400,11 +365,20 @@ projects[views_slideshow][subdir] = "contrib"
 projects[views_slideshow][version] = "3.0"
 
 projects[votingapi][subdir] = "contrib"
-projects[votingapi][version] = 2.11
+projects[votingapi][version] = "2.8"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = 3.19
+projects[webform][version] = "3.18"
 
+projects[wysiwyg][subdir] = "contrib"
+projects[wysiwyg][version] = "2.2"
+
+projects[wysiwyg_button_order][subdir] = "contrib"
+projects[wysiwyg_button_order][version] = "1.x-dev"
+projects[wysiwyg_button_order][download][url] = "http://git.drupal.org/project/wysiwyg_button_order.git"
+projects[wysiwyg_button_order][download][revision] = 4e5eec69b454f8ea4cd879fea1fb73b47936de3e
+projects[wysiwyg_button_order][download][branch] = 7.x-1.x
+projects[wysiwyg_button_order][type] = "module"
 
 ; Schema.org kickstart modules ======================================================
 
@@ -422,7 +396,7 @@ projects[rdfx][subdir] = "contrib"
 projects[field_tools][version] = "1.0-alpha3"
 projects[field_tools][subdir] = "contrib"
 
-projects[inline_entity_form][version] = 1.3
+projects[inline_entity_form][version] = "1.0-rc1"
 projects[inline_entity_form][subdir] = "contrib"
 
 projects[schemaorg][version] = "1.0-beta3"
@@ -431,7 +405,6 @@ projects[schemaorg][subdir] = "contrib"
 projects[schemaorg][patch][1185978] = http://drupal.org/files/schemaorg_cache_integration-1185978-2.patch
 ; Fix bug affected features exports
 projects[schemaorg][patch][1853590] = http://drupal.org/files/exportfix-1853590-1.patch
-
 
 ; Nuams modules =====================================================================
 
@@ -458,29 +431,13 @@ projects[transclude][download][type] = "git"
 projects[transclude][download][url] = "http://git.drupal.org/sandbox/sheldon/1827730.git"
 projects[transclude][type] = "module"
 
-
-; DKAN ========================================================================
-
-;projects[dkan_dataset][subdir] = dkan
-;projects[dkan_dataset][download][type] = git
-;projects[dkan_dataset][download][tag] = 7.x-1.0-beta2
-;projects[dkan_dataset][download][url] = "http://git.drupal.org/project/dkan_dataset.git"
-;projects[dkan_dataset][type] = "module"
-
-;projects[dkan_datastore][subdir] = dkan
-;projects[dkan_datastore][download][type] = git
-;projects[dkan_datastore][download][tag] = 7.x-1.0-beta1
-;projects[dkan_datastore][download][url] = "http://git.drupal.org/project/dkan_datastore.git"
-;projects[dkan_datastore][type] = "module"
-
-
 ; Development modules ===========================================================
 
 projects[coder][subdir] = devel
 projects[coder][version] = 1.2
 
 projects[bundle_copy][subdir] = "devel"
-projects[bundle_copy][version] = 1.1
+projects[bundle_copy][version] = "1.1"
 
 projects[uuid_features][version] = "1.x-dev"
 projects[uuid_features][subdir] = "devel"
@@ -488,6 +445,20 @@ projects[uuid_features][download][url] = "http://git.drupal.org/project/uuid_fea
 projects[uuid_features][download][revision] = dba29f80e743e5e22ddf035b894a9c1542bfc8cd
 projects[uuid_features][download][branch] = 7.x-1.x
 projects[uuid_features][type] = "module"
+
+projects[uuid][version] = "1.x-dev"
+projects[uuid][subdir] = "devel"
+projects[uuid][download][url] = "http://git.drupal.org/project/uuid.git"
+projects[uuid][download][revision] = 8b6d70f1764a83896e799712111d6b46cf482737
+projects[uuid][download][branch] = 7.x-1.x
+projects[uuid][type] = "module"
+; Patch UUID module to eliminate 'replacements' error
+; Patch should not be needed now that we're using the 1.x-dev release
+; http://drupal.org/node/1428952
+; projects[uuid][patch][1428952] = http://drupal.org/files/uuid.token_.inc-undefined-replacements.patch
+
+projects[devel][version] = "1.3"
+projects[devel][subdir] = "devel"
 
 projects[node_export][version] = "3.x"
 projects[node_export][subdir] = "devel"
@@ -527,11 +498,14 @@ libraries[ole][download][subtree]     = client
 
 libraries[colorbox][download][type]        = get
 libraries[colorbox][download][url]         = https://github.com/jackmoore/colorbox/archive/1.x.zip
-libraries[colorbox][directory_name] = "colorbox"
+libraries[ckeditor][directory_name] = "colorbox"
 libraries[colorbox][type] = "library"
 
-libraries[oauth2-php][download][type] = file
-libraries[oauth2-php][download][url] = https://oauth2-php.googlecode.com/files/oauth2-php-23.tar.gz
+; ckeditor download url taken from OpenPublic.
+libraries[ckeditor][download][type] = get
+libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.5/ckeditor_3.5.tar.gz
+; libraries[ckeditor][directory_name] = "ckeditor"
+; libraries[ckeditor][type] = "library"
 
 ; Please fill the following out. Type may be one of get, git, bzr or svn,
 ; and url is the url of the download.
@@ -551,11 +525,6 @@ libraries[oauth2-php][download][url] = https://oauth2-php.googlecode.com/files/o
 ; libraries[geophp][directory_name] = "geophp"
 
 ;libraries[geoPHP][type] = "library"
-
-libraries[leaflet][download][type] = "file"
-libraries[leaflet][download][url] = "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.6.4.zip"
-libraries[leaflet][destination] = "libraries"
-libraries[leaflet][directory_name] = "leaflet"
 
 ; JQuery Cycle Plugin download URL taken from cm.
 libraries[cycle][download][type] = "get"

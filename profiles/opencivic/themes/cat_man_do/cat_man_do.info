@@ -84,7 +84,6 @@
   regions[secondary_content] = Secondary
   regions[tertiary_content]  = Tertiary
   regions[footer]            = Footer
-  regions[footer_menu]       = Footer Menu
   regions[leaderboard]       = Leaderboard
   regions[header]            = Header
   regions[menu_bar]          = Menu Bar
@@ -137,7 +136,7 @@
   ; plugins[page_layout][layouts] = layouts/page
 
   ; Panels layout plugins
-  plugins[panels][layouts] = layouts/panels
+  ; plugins[panels][layouts] = layouts/panels
 
 
 ;----------// Site Features
@@ -454,4 +453,12 @@ version = "7.x-3.1"
 core = "7.x"
 project = "adaptivetheme"
 datestamp = "1346238662"
+
+
+
+; Information added by drush on 2014-05-28
+version = "7.x-1.0-alpha4+59-dev"
+core = "7.x"
+project = "opencivic"
+datestamp = "1401269000"
 

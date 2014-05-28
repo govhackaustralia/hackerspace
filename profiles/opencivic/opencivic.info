@@ -18,6 +18,7 @@ dependencies[] = list
 dependencies[] = menu
 dependencies[] = number
 dependencies[] = options
+; dependencies[] = overlay
 dependencies[] = path
 dependencies[] = rdf
 dependencies[] = shortcut
@@ -26,7 +27,6 @@ dependencies[] = taxonomy
 ; Contrib
 dependencies[] = addanother
 dependencies[] = addressfield
-dependencies[] = addressfield_tokens
 dependencies[] = addtoany
 dependencies[] = admin_menu
 dependencies[] = admin_menu_toolbar
@@ -42,35 +42,41 @@ dependencies[] = image_captcha
 dependencies[] = cck_phone
 dependencies[] = cer
 dependencies[] = colorbox
-dependencies[] = compact_forms
 dependencies[] = conditional_fields
 dependencies[] = content_taxonomy
 dependencies[] = content_taxonomy_autocomplete
 dependencies[] = context
 dependencies[] = context_layouts
 dependencies[] = context_ui
+dependencies[] = ctools
 dependencies[] = ctools_access_ruleset
 dependencies[] = ctools_custom_content
+dependencies[] = date
 dependencies[] = date_all_day
 dependencies[] = date_api
 dependencies[] = date_popup
 dependencies[] = date_repeat
 dependencies[] = date_repeat_field
 dependencies[] = date_views
+dependencies[] = delta
+dependencies[] = delta_ui
 dependencies[] = email
+dependencies[] = entity
 dependencies[] = entity_token
-; dependencies[] = extlink
+dependencies[] = entityreference
+dependencies[] = facetapi
+dependencies[] = features
 dependencies[] = fe_block
 dependencies[] = fe_nodequeue
 ; dependencies[] = feeds
+dependencies[] = field_group
+dependencies[] = file_entity
 dependencies[] = file_styles
 dependencies[] = fivestar
 dependencies[] = fivestar_green
 dependencies[] = flag
-dependencies[] = fontyourface
+dependencies[] = google_fonts
 dependencies[] = globalredirect
-dependencies[] = general_services
-dependencies[] = honeypot
 dependencies[] = imagecache_actions
 dependencies[] = imagecache_canvasactions
 ; dependencies[] = logintoboggan
@@ -80,19 +86,27 @@ dependencies[] = geofield_map
 dependencies[] = geophp
 dependencies[] = googleanalytics
 ; dependencies[] = job_scheduler
-dependencies[] = leaflet
-dependencies[] = leaflet_more_maps
-dependencies[] = leaflet_views
+dependencies[] = link
 ; dependencies[] = jump_menu
+dependencies[] = libraries
 dependencies[] = mail_edit
 dependencies[] = maxlength
+dependencies[] = media
+dependencies[] = media_internet
+dependencies[] = media_youtube
 dependencies[] = menu_block
-; dependencies[] = node_export
+dependencies[] = module_filter
+dependencies[] = node_export
 dependencies[] = nodequeue
-; dependencies[] = omega_tools
+dependencies[] = omega_tools
+dependencies[] = openlayers
+dependencies[] = openlayers_ui
+dependencies[] = openlayers_views
 dependencies[] = page_manager
+dependencies[] = pathauto
 dependencies[] = prepopulate
 dependencies[] = prepopulate_create_node_links
+dependencies[] = proj4js
 dependencies[] = rdfx
 dependencies[] = recaptcha
 dependencies[] = redirect
@@ -104,12 +118,12 @@ dependencies[] = rules
 dependencies[] = rules_admin
 dependencies[] = schemaorg
 dependencies[] = schemaorg_ui
+dependencies[] = search_api
 dependencies[] = search_api_facetapi
 dependencies[] = search_api_views
 dependencies[] = search_api_db
-dependencies[] = service_links
-;dependencies[] = smtp
 dependencies[] = stringoverrides
+dependencies[] = strongarm
 dependencies[] = stylizer
 dependencies[] = styles
 dependencies[] = styles_ui
@@ -120,29 +134,28 @@ dependencies[] = subscriptions_content
 dependencies[] = subscriptions_mail
 dependencies[] = subscriptions_ui
 dependencies[] = title
+dependencies[] = token
 dependencies[] = transclude
+dependencies[] = views
+dependencies[] = views_bulk_operations
 dependencies[] = views_data_export
 dependencies[] = views_field_view
 dependencies[] = viewfield
+dependencies[] = views_php
 dependencies[] = views_random_seed
-; dependencies[] = views_slideshow
+dependencies[] = views_slideshow
 dependencies[] = views_ui
 dependencies[] = votingapi
 dependencies[] = webform
-
-; For single sign-on
-;dependencies[] = oauth_common
-;dependencies[] = oauth2
-;dependencies[] = connector
-;dependencies[] = oauthconnector
-;dependencies[] = http_client
-;dependencies[] = http_client_oauth
+dependencies[] = wysiwyg
+dependencies[] = wysiwyg_button_order
 
 ; Custom
 dependencies[] = fivestar_green
 dependencies[] = subscriptions_subscribers
 dependencies[] = addressfield_extras
 dependencies[] = appcat_blocks
+dependencies[] = ocsetup
 
 ; Devel
 dependencies[] = schemaorg
@@ -155,51 +168,31 @@ dependencies[] = schemaorg
 ; dependencies[] = efb_schemaorg
 ; dependencies[] = schemaorg_ui
 ; dependencies[] = schemaorg_cache
-; Used for importing terms
 ; dependencies[] = taxonomy_csv
+; dependencies[] = taxonomy_manager
 ; dependencies[] = field_tools
 
-; Panopoly Foundation
-dependencies[] = panopoly_core
-dependencies[] = panopoly_images
-dependencies[] = panopoly_theme
-dependencies[] = panopoly_magic
-dependencies[] = panopoly_widgets
-dependencies[] = panopoly_admin
-dependencies[] = panopoly_users
-
-; Panopoly Toolset
-dependencies[] = panopoly_pages
-dependencies[] = panopoly_search
-dependencies[] = panopoly_wysiwyg
-
-; Panopoly Recommended - Admin
-;dependencies[] = navbar
-dependencies[] = backports
-;dependencies[] = simplified_menu_admin
-dependencies[] = save_draft
-dependencies[] = module_filter
-dependencies[] = date_popup_authored
-
-; Panopoly Recommended - Other
-;dependencies[] = uuid
-
 ; Features
-dependencies[] = appcat_misc_menus
+;; dependencies[] = appcat_misc
+;; dependencies[] = appcat_misc_taxonomies
+
+; dependencies[] = appcat_misc_taxonomy_app_terms
+; dependencies[] = appcat_misc_taxonomy_civic_terms
+; dependencies[] = appcat_misc_taxonomy_terms
+; dependencies[] = appcat_application_content
+; dependencies[] = appcat_organization_content
 
 ; Included in distro but not enabled at installation
 ; dependencies[] = inline_entity_form
+; dependencies[] = insert_block
+; dependencies[] = appcat_search_db
 ; dependencies[] = ole
 
 
-dependencies[] = opencivic_core
-dependencies[] = opencivic_application
-dependencies[] = opencivic_blog
-dependencies[] = opencivic_deployment
-dependencies[] = opencivic_event
-dependencies[] = opencivic_home
-dependencies[] = opencivic_organization
-dependencies[] = opencivic_story
-dependencies[] = opencivic_search
-dependencies[] = opencivic_sponsor
+
+; Information added by drush on 2014-05-28
+version = "7.x-1.0-alpha4+59-dev"
+core = "7.x"
+project = "opencivic"
+datestamp = "1401269000"
 

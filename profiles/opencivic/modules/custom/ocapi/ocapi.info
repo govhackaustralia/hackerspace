@@ -8,3 +8,11 @@ dependencies[] = rest_server
 ; File registry
 files[] = ocapi.module
 
+
+
+; Information added by drush on 2014-05-28
+version = "7.x-1.0-alpha4+59-dev"
+core = "7.x"
+project = "opencivic"
+datestamp = "1401269000"
+

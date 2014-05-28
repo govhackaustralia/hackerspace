@@ -585,3 +585,11 @@ settings[nice_menus_custom_css] = 'sites/all/themes/cat_lover/css/nice_menus_def
 settings[favicon_mimetype] = 'image/vnd.microsoft.icon'
 
 version = '1.x'
+
+
+; Information added by drush on 2014-05-28
+version = "7.x-1.0-alpha4+59-dev"
+core = "7.x"
+project = "opencivic"
+datestamp = "1401269000"
+

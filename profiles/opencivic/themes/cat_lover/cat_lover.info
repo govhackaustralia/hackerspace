@@ -508,3 +508,11 @@ settings[alpha_region_footer_equal_height_element] = '0'
 settings[alpha_region_footer_equal_height_container] = '0'
 settings[nice_menus_custom_css] = 'sites/all/themes/cat_lover/css/nice_menus_default.css'
 settings[favicon_mimetype] = 'image/vnd.microsoft.icon'
+
+
+; Information added by drush on 2014-05-28
+version = "7.x-1.0-alpha4+59-dev"
+core = "7.x"
+project = "opencivic"
+datestamp = "1401269000"
+

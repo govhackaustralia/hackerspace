@@ -1,7 +1,7 @@
 name = AppCat misc menus
 description = Site navigation menus
 core = 7.x
-package = OpenCivic
+package = AppCat
 php = 5.2.4
 version = 7.x-1.0-alpha5
 project = appcat_misc_menus
@@ -30,3 +30,11 @@ features[variable][] = menu_block_1_parent
 features[variable][] = menu_block_1_sort
 features[variable][] = menu_block_1_title_link
 features[variable][] = menu_block_ids
+
+
+; Information added by drush on 2014-05-28
+version = "7.x-1.0-alpha4+59-dev"
+core = "7.x"
+project = "opencivic"
+datestamp = "1401269000"
+
