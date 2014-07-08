@@ -28,16 +28,16 @@ class tmgmt_handler_field_tmgmt_job_operations extends views_handler_field_entit
         'title' => t('manage'),
       );
     }
-    if ($job->isCancelable() && entity_access('submit', 'tmgmt_job', $job)) {
+    if ($job->isAbortable() && entity_access('submit', 'tmgmt_job', $job)) {
       $element['#links']['cancel'] = array(
-        'href' => 'admin/config/regional/tmgmt/jobs/' . $job->tjid . '/cancel',
+        'href' => 'admin/tmgmt/jobs/' . $job->tjid . '/abort',
         'query' => array('destination' => current_path()),
-        'title' => t('cancel'),
+        'title' => t('abort'),
       );
     }
     if ($job->isDeletable() && user_access('administer tmgmt')) {
       $element['#links']['delete'] = array(
-        'href' => 'admin/config/regional/tmgmt/jobs/' . $job->tjid . '/delete',
+        'href' => 'admin/tmgmt/jobs/' . $job->tjid . '/delete',
         'query' => array('destination' => current_path()),
         'title' => t('delete'),
       );

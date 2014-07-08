@@ -22,7 +22,7 @@ function tmgmt_views_data() {
 class TMGMTJobItemViewsController extends EntityDefaultViewsController {
 
   /**
-   * Overrides EntityDefaultViewsController::views_data().
+   * {@inheritdoc}
    */
   public function views_data() {
     $data = parent::views_data();
@@ -31,6 +31,13 @@ class TMGMTJobItemViewsController extends EntityDefaultViewsController {
       'help' => t('Displays a label of the job item.'),
       'field' => array(
         'handler' => 'tmgmt_handler_field_tmgmt_entity_label',
+      ),
+    );
+    $data['tmgmt_job_item']['type'] = array(
+      'title' => t('Type'),
+      'help' => t('Displays a type of the job item.'),
+      'field' => array(
+        'handler' => 'tmgmt_handler_field_tmgmt_job_item_type',
       ),
     );
     $data['tmgmt_job_item']['progress'] = array(
@@ -60,7 +67,7 @@ class TMGMTJobItemViewsController extends EntityDefaultViewsController {
 class TMGMTJobViewsController extends EntityDefaultViewsController {
 
   /**
-   * Overrides EntityDefaultViewsController::views_data().
+   * {@inheritdoc}
    */
   public function views_data() {
     $data = parent::views_data();
@@ -118,7 +125,7 @@ class TMGMTJobViewsController extends EntityDefaultViewsController {
 class TMGMTMessageViewsController extends EntityDefaultViewsController {
 
   /**
-   * Overrides EntityDefaultViewsController::views_data().
+   * {@inheritdoc}
    */
   public function views_data() {
     $data = parent::views_data();
@@ -143,7 +150,7 @@ interface TMGMTSourceViewsControllerInterface extends TMGMTPluginBaseInterface {
 class TMGMTDefaultSourceViewsController extends TMGMTPluginBase implements TMGMTSourceViewsControllerInterface {
 
   /**
-   * Implements TMGMTSourceViewsControllerInterface::views_data().
+   * {@inheritdoc}
    */
   public function views_data() {
     // @todo Implement this in a generic fashion.

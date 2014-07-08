@@ -18,6 +18,10 @@ class tmgmt_handler_field_tmgmt_progress extends views_handler_field_entity {
     if ($this->entity_type == 'tmgmt_job') {
       $tjids = array();
       foreach ($values as $value) {
+        // Do not load statistics for aborted jobs.
+        if ($value->tmgmt_job_state == TMGMT_JOB_STATE_ABORTED) {
+          continue;
+        }
         $tjids[] = $value->tjid;
       }
       tmgmt_job_statistics_load($tjids);
@@ -25,10 +29,16 @@ class tmgmt_handler_field_tmgmt_progress extends views_handler_field_entity {
   }
 
   /**
-   * Overrides views_handler_field_entity::render().
+   * {@inheritdoc}
    */
   function render($values) {
+    /** @var TMGMTJobItem|TMGMTJob $object */
     $object = $this->get_value($values);
+    // If job has been aborted the status info is not applicable.
+    if ($object->isAborted()) {
+      return t('N/A');
+    }
+
     $counts = array(
       '@accepted' => $object->getCountAccepted(),
       '@reviewed' => $object->getCountReviewed(),

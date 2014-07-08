@@ -11,7 +11,7 @@
 class TMGMTFileTranslatorUIController extends TMGMTDefaultTranslatorUIController {
 
   /**
-   * Implements TMGMTTranslatorUIControllerInterface::checkoutSettingsForm().
+   * {@inheritdoc}
    */
   public function pluginSettingsForm($form, &$form_state, TMGMTTranslator $translator, $busy = FALSE) {
     $form['export_format'] = array(
@@ -20,6 +20,13 @@ class TMGMTFileTranslatorUIController extends TMGMTDefaultTranslatorUIController
       '#options' => tmgmt_file_format_plugin_labels(),
       '#default_value' => $translator->getSetting('export_format'),
       '#description' => t('Please select the format you want to export data.'),
+    );
+
+    $form['xliff_processing'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Extended XLIFF processing'),
+      '#description' => t('Check to further process content semantics and mask HTML tags instead just escaping it.'),
+      '#default_value' => $translator->getSetting('xliff_processing'),
     );
 
     $form['allow_override'] = array(
@@ -48,7 +55,7 @@ class TMGMTFileTranslatorUIController extends TMGMTDefaultTranslatorUIController
   }
 
   /**
-   * Implements TMGMTTranslatorUIControllerInterface::checkoutSettingsForm().
+   * {@inheritdoc}
    */
   public function checkoutSettingsForm($form, &$form_state, TMGMTJob $job) {
     if ($job->getTranslator()->getSetting('allow_override')) {
@@ -64,7 +71,7 @@ class TMGMTFileTranslatorUIController extends TMGMTDefaultTranslatorUIController
   }
 
   /**
-   * Implements TMGMTTranslatorUIControllerInterface::checkoutInfo().
+   * {@inheritdoc}
    */
   public function checkoutInfo(TMGMTJob $job) {
     // If the job is finished, it's not possible to import translations anymore.

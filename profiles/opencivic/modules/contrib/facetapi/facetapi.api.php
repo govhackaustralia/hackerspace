@@ -447,9 +447,14 @@ function hook_facetapi_url_processors() {
  *   associative array keyed by "handler" containing:
  *   - label: The human readable name of the plugin displayed in the admin UI.
  *   - class: The name of the plugin class.
- *   - query types: An array of query-types that this widget is compatible with
+ *   - query types: An array of query-types that this widget is compatible with.
+ *   - requirements: An array of requirements that must pass in order for this
+ *     widget to be displayed. Requirements are associative arrays keyed by
+ *     function to requirement options. The value defaults to a requirement that
+ *     the "element type" realm property is equal to "links".
  *
  * @see FacetapiWidget
+ * @see facetapi_get_widgets()
  */
 function hook_facetapi_widgets() {
   return array(
@@ -458,6 +463,9 @@ function hook_facetapi_widgets() {
         'label' => t('Links'),
         'class' => 'FacetapiWidgetLinks',
         'query types' => array('term', 'date'),
+        'requirements' => array(
+          'facetapi_requirement_realm_property' => array('element type' => 'links')
+        ),
       ),
     ),
   );
@@ -491,6 +499,20 @@ function hook_facetapi_force_delta_mapping() {
       ),
     ),
   );
+}
+
+/**
+ * Alters the hash that is generated for block deltas.
+ *
+ * @param type &$hash
+ *   The delta hash.
+ * @param type $delta
+ *   The block's delta.
+ *
+ * @see https://www.drupal.org/node/1828396
+ */
+function hook_facetapi_hash_alter(&$hash, $delta) {
+  $hash = drupal_html_class($hash);
 }
 
 /**

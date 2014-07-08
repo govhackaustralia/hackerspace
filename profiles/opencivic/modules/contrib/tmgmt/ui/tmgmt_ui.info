@@ -7,12 +7,15 @@ dependencies[] = tmgmt
 dependencies[] = views_bulk_operations
 dependencies[] = rules
 
-files[] = includes/tmgmt_ui.controller.inc
+files[] = includes/tmgmt_ui.controller.job.inc
+files[] = includes/tmgmt_ui.controller.job_item.inc
+files[] = includes/tmgmt_ui.controller.translator.inc
+files[] = includes/tmgmt_ui.cart.inc
 files[] = tmgmt_ui.test
 
-; Information added by drupal.org packaging script on 2013-04-23
-version = "7.x-1.0-alpha3"
+; Information added by Drupal.org packaging script on 2014-03-04
+version = "7.x-1.0-rc1"
 core = "7.x"
 project = "tmgmt"
-datestamp = "1366748712"
+datestamp = "1393965810"
 

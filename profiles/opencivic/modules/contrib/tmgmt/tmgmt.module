@@ -46,13 +46,13 @@ define('TMGMT_JOB_STATE_REJECTED', 2);
 define('TMGMT_JOB_STATE_ACCEPTED', 3);
 
 /**
- * The translation job has been cancelled.
+ * The translation job has been aborted.
  *
- * A job can be cancelled at any time. If he is currently in the submitted state
- * the translator plugin is asked if this translation can be cancelled and needs
- * to confirm it by returning TRUE in cancelTranslation().
+ * A job can be aborted at any time. If he is currently in the submitted state
+ * the translator plugin is asked if this translation can be aborted and needs
+ * to confirm it by returning TRUE in abortTranslation().
  */
-define('TMGMT_JOB_STATE_CANCELLED', 4);
+define('TMGMT_JOB_STATE_ABORTED', 4);
 
 /**
  * The translation job has been finished.
@@ -90,6 +90,11 @@ define('TMGMT_JOB_ITEM_STATE_REVIEW', 2);
 define('TMGMT_JOB_ITEM_STATE_ACCEPTED', 3);
 
 /**
+ * The translation process of the job item is aborted.
+ */
+define('TMGMT_JOB_ITEM_STATE_ABORTED', 4);
+
+/**
  * The translation data item has not been translated.
  */
 define('TMGMT_DATA_ITEM_STATE_PENDING', 0);
@@ -109,6 +114,10 @@ define('TMGMT_DATA_ITEM_STATE_TRANSLATED', 2);
  */
 define('TMGMT_DATA_ITEM_STATE_ACCEPTED', 3);
 
+/**
+ * Maximum length of a job or job item label.
+ */
+define('TMGMT_JOB_LABEL_MAX_LENGTH', 128);
 /**
  * @} End of "addtogroup tmgmt_job".
  */
@@ -316,6 +325,12 @@ function tmgmt_language_label($language) {
  */
 /**
  * Loads a translation job.
+ *
+ * @param int $tjid
+ *   Translation job id.
+ *
+ * @return TMGMTJob
+ *   Loaded translation job entity.
  */
 function tmgmt_job_load($tjid) {
   $jobs = tmgmt_job_load_multiple(array($tjid), array());
@@ -330,7 +345,7 @@ function tmgmt_job_load_multiple(array $tjids = array(), $conditions = array()) 
 }
 
 /**
- * Loads job entities that have a job item with the identifiers.
+ * Loads active job entities that have a job item with the identifiers.
  *
  * @param $plugin
  *   The source plugin.
@@ -349,8 +364,47 @@ function tmgmt_job_item_load_latest($plugin, $item_type, $item_id, $source_langu
   $query->innerJoin('tmgmt_job', 'tj', 'tj.tjid = tji.tjid');
   $result = $query->condition('tj.source_language', $source_language)
     // Only query for jobs that are currently active.
-    ->condition('tj.state', TMGMT_JOB_STATE_ACTIVE)
+    ->condition('tj.state', array(TMGMT_JOB_STATE_UNPROCESSED, TMGMT_JOB_STATE_ACTIVE))
     // And only query for job items that are not yet finished.
+    ->condition('tji.state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
+    ->condition('tji.plugin', $plugin)
+    ->condition('tji.item_type', $item_type)
+    ->condition('tji.item_id', $item_id)
+    ->fields('tji', array('tjiid'))
+    ->fields('tj', array('target_language'))
+    ->orderBy('tji.changed', 'DESC')
+    ->groupBy('tj.target_language')
+    ->groupBy('tji.tjiid')
+    ->execute();
+  if ($items = $result->fetchAllKeyed()) {
+    $return = array();
+    foreach (tmgmt_job_item_load_multiple(array_keys($items)) as $key => $item) {
+      $return[$items[$key]] = $item;
+    }
+    return $return;
+  }
+  return FALSE;
+}
+
+/**
+ * Loads all latest job entities that have a job item with the identifiers.
+ *
+ * @param $plugin
+ *   The source plugin.
+ * @param $item_type
+ *   The source item type.
+ * @param $item_id
+ *   The source item id.
+ * @param string $source_language
+ *   The source language of the item.
+ *
+ * @return array
+ *   An array of job entities.
+ */
+function tmgmt_job_item_load_all_latest($plugin, $item_type, $item_id, $source_language) {
+  $query = db_select('tmgmt_job_item', 'tji');
+  $query->innerJoin('tmgmt_job', 'tj', 'tj.tjid = tji.tjid');
+  $result = $query->condition('tj.source_language', $source_language)
     ->condition('tji.state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
     ->condition('tji.plugin', $plugin)
     ->condition('tji.item_type', $item_type)
@@ -479,6 +533,11 @@ function tmgmt_job_access($op, $job = NULL, $account = NULL) {
 
     // Custom operations.
     case 'submit':
+      return user_access('submit translation jobs');
+      break;
+
+    case 'abort':
+    case 'resubmit':
       return user_access('submit translation jobs');
       break;
 
@@ -642,7 +701,7 @@ function tmgmt_job_states() {
     TMGMT_JOB_STATE_UNPROCESSED => t('Unprocessed'),
     TMGMT_JOB_STATE_ACTIVE => t('Active'),
     TMGMT_JOB_STATE_REJECTED => t('Rejected'),
-    TMGMT_JOB_STATE_CANCELLED => t('Cancelled'),
+    TMGMT_JOB_STATE_ABORTED => t('Aborted'),
     TMGMT_JOB_STATE_FINISHED => t('Finished'),
   );
 }
@@ -658,6 +717,7 @@ function tmgmt_job_item_states() {
     TMGMT_JOB_ITEM_STATE_ACTIVE => t('In progress'),
     TMGMT_JOB_ITEM_STATE_REVIEW => t('Needs review'),
     TMGMT_JOB_ITEM_STATE_ACCEPTED => t('Accepted'),
+    TMGMT_JOB_ITEM_STATE_ABORTED => t('Aborted'),
   );
 }
 
@@ -683,7 +743,7 @@ function tmgmt_job_item_load($tjiid) {
  * @param $conditions
  *   An array of additional conditions.
  *
- * @return
+ * @return TMGMTJobItem[]
  *   An array of job item entities or an empty array if the query returned no
  *   results.
  */
@@ -724,8 +784,12 @@ function tmgmt_job_item_create($plugin, $item_type, $item_id, array $values = ar
  *   A job message entity or FALSE if the query didn't yield any results.
  */
 function tmgmt_message_load($mid) {
-  $jobs = tmgmt_message_load_multiple(array($mid));
-  return $jobs ? reset($jobs) : FALSE;
+  // Avoid collision with the message module because this looks like the module
+  // implements hook_ENTITY_TYPE_load() for message.
+  if (!is_array($mid)) {
+    $jobs = tmgmt_message_load_multiple(array($mid));
+    return $jobs ? reset($jobs) : FALSE;
+  }
 }
 
 /**
@@ -1400,20 +1464,44 @@ function _tmgmt_load_exports($module, $directory, $extension, $name = NULL) {
  *
  * @param array $data_item
  *   The data item array.
+ * @param int $max_length
+ *   (optional) Specify the max length that the resulting label string should
+ *   be cut to.
  *
  * @return string
  *   A label for the data item.
  */
-function tmgmt_data_item_label(array $data_item) {
+function tmgmt_data_item_label(array $data_item, $max_length = NULL) {
   if (!empty($data_item['#parent_label'])) {
-    return implode(t(' > '), $data_item['#parent_label']);
+    if ($max_length) {
+      // When having multiple label parts, we don't know how long each of them is,
+      // truncating each to the same length might result in a considerably shorter
+      // length than max length when there are short and long labels. Instead,
+      // start with the max length and repeat until the whole string is less than
+      // max_length. Remove 4 characters per part to avoid unecessary loops.
+      $current_max_length = $max_length - (count($data_item['#parent_label']) * 4);
+      do {
+        $current_max_length--;
+        $labels = array();
+        foreach ($data_item['#parent_label'] as $label_part) {
+          // If this not the last part, reserve 3 characters for the delimiter.
+          $labels[] = truncate_utf8($label_part, $current_max_length, FALSE, TRUE);
+        }
+        $label = implode(t(' > '), $labels);
+      } while (drupal_strlen($label) > $max_length);
+      return $label;
+    }
+    else {
+      return implode(t(' > '), $data_item['#parent_label']);
+    }
   }
   elseif (!empty($data_item['#label'])) {
-    return $data_item['#label'];
+    return $max_length ? truncate_utf8($data_item['#label'], $max_length, FALSE, TRUE) : $data_item['#label'];
   }
   else {
-    // As a last resort, fall back to a shortened version of the text.
-    return truncate_utf8($data_item['#text'], 50, TRUE, TRUE);
+    // As a last resort, fall back to a shortened version of the text. Default
+    // to a limit of 50 characters.
+    return truncate_utf8($data_item['#text'], $max_length ? $max_length : 50, FALSE, TRUE);
   }
 }
 
@@ -1444,6 +1532,10 @@ function tmgmt_views_plugins() {
  *   Returns count of words of text.
  */
 function tmgmt_word_count($text) {
+  // Strip tags in case it is requested to not include them in the count.
+  if (variable_get('tmgmt_word_count_exclude_tags', TRUE)) {
+    $text = strip_tags($text);
+  }
   // Replace each punctuation mark with space.
   $text = str_replace(array('`', '~', '!', '@', '"', '#', '$', ';', '%', '^', ':', '?', '&', '*', '(', ')', '-', '_', '+', '=', '{', '}', '[', ']', '\\', '|', '/', '\'', '<', '>', ',', '.'), ' ', $text);
   // Remove duplicate spaces.

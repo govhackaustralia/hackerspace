@@ -17,6 +17,12 @@ function tmgmt_entity_ui_translate_form($form, &$form_state, $build) {
 
   $overview = $build['entity_translation_overview'];
 
+  list($id, $vid, $bundle) = entity_extract_ids($form_state['entity_type'], $form_state['entity']);
+
+  $form['top_actions']['#type'] = 'actions';
+  $form['top_actions']['#weight'] = -10;
+  tmgmt_ui_add_cart_form($form['top_actions'], $form_state, 'entity', $build['#entity_type'], $id);
+
   // Inject our additional column into the header.
   array_splice($overview['#header'], -1, 0, array(t('Pending Translations')));
   // Make this a tableselect form.
@@ -27,7 +33,6 @@ function tmgmt_entity_ui_translate_form($form, &$form_state, $build) {
   );
   $languages = language_list();
   // Check if there is a job / job item that references this translation.
-  list($id, $vid, $bundle) = entity_extract_ids($form_state['entity_type'], $form_state['entity']);
   $entity_language = entity_language($form_state['entity_type'], $form_state['entity']);
   $items = tmgmt_job_item_load_latest('entity', $form_state['entity_type'], $id, $entity_language);
   foreach ($languages as $langcode => $language) {
@@ -126,13 +131,5 @@ function tmgmt_entity_ui_translate_form_submit($form, &$form_state) {
       drupal_set_message(t('Unable to add job item for target language %name. Make sure the source content is not empty.', array('%name' => $target_lang_name)), 'error');
     }
   }
-  $redirects = tmgmt_ui_job_checkout_multiple($jobs);
-  // If necessary, do a redirect.
-  if ($redirects) {
-    tmgmt_ui_redirect_queue_set($redirects, current_path());
-    $form_state['redirect'] = tmgmt_ui_redirect_queue_dequeue();
-
-    // Count of the job messages is one less due to the final redirect.
-    drupal_set_message(format_plural(count($redirects), t('One job needs to be checked out.'), t('@count jobs need to be checked out.')));
-  }
+  tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
 }

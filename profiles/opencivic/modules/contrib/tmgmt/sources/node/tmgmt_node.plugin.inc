@@ -8,7 +8,7 @@
 class TMGMTNodeSourcePluginController extends TMGMTDefaultSourcePluginController {
 
   /**
-   * Implements TMGMTSourcePluginControllerInterface::getData().
+   * {@inheritdoc}
    *
    * Returns the data from the fields as a structure that can be processed by
    * the Translation Management system.
@@ -18,14 +18,14 @@ class TMGMTNodeSourcePluginController extends TMGMTDefaultSourcePluginController
     $type = node_type_get_type($node);
     // Get all the fields that can be translated and arrange their values into
     // a specific structure.
-    $structure = array('#label' => node_type_get_name($node)) + tmgmt_field_get_source_data('node', $node, $job_item->getJob()->source_language);
+    $structure = tmgmt_field_get_source_data('node', $node, $job_item->getJob()->source_language);
     $structure['node_title']['#label'] = $type->title_label;
     $structure['node_title']['#text'] = $node->title;
     return $structure;
   }
 
   /**
-   * Implements TMGMTSourcePluginControllerInterface::saveTranslation().
+   * {@inheritdoc}
    */
   public function saveTranslation(TMGMTJobItem $job_item) {
     if ($node = node_load($job_item->item_id)) {
@@ -68,7 +68,7 @@ class TMGMTNodeSourcePluginController extends TMGMTDefaultSourcePluginController
   }
 
   /**
-   * Implements TMGMTSourcePluginControllerInterface::getLabel().
+   * {@inheritdoc}
    */
   public function getLabel(TMGMTJobItem $job_item) {
     if ($node = node_load($job_item->item_id)) {
@@ -78,13 +78,49 @@ class TMGMTNodeSourcePluginController extends TMGMTDefaultSourcePluginController
   }
 
   /**
-   * Implements TMGMTSourcePluginControllerInterface::getUri().
+   * {@inheritdoc}
    */
   public function getUri(TMGMTJobItem $job_item) {
     if ($node = node_load($job_item->item_id)) {
       return entity_uri('node', $node);
     }
     return parent::getUri($job_item);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getType(TMGMTJobItem $job_item) {
+    if ($node = node_load($job_item->item_id)) {
+      return node_type_get_name($node);
+    }
+    return parent::getType($job_item);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSourceLangCode(TMGMTJobItem $job_item) {
+    if ($node = node_load($job_item->item_id)) {
+      return entity_language('node', $node);
+    }
+
+    return NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getExistingLangCodes(TMGMTJobItem $job_item) {
+    $existing_lang_codes = array();
+    if ($node = node_load($job_item->item_id)) {
+      $existing_lang_codes = array(entity_language('node', $node));
+    }
+    if ($translations = translation_node_get_translations($job_item->item_id)) {
+      $existing_lang_codes = array_unique(array_merge($existing_lang_codes, array_keys($translations)));
+    }
+
+    return $existing_lang_codes;
   }
 
 }

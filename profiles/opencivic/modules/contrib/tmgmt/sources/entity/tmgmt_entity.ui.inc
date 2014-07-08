@@ -33,10 +33,13 @@ abstract class TMGMTEntityDefaultSourceUIController extends TMGMTDefaultSourceUI
     $return_value = array();
     $entities = tmgmt_entity_get_translatable_entities($type, $property_conditions, TRUE);
 
+    $entity_info = entity_get_info($type);
+    $bundles = tmgmt_entity_get_translatable_bundles($type);
+
     // For retrieved entities add translation specific data.
     foreach ($entities as $entity) {
 
-      list($entity_id, , ,) = entity_extract_ids($type, $entity);
+      list($entity_id, , $bundle) = entity_extract_ids($type, $entity);
       $entity_uri = entity_uri($type, $entity);
 
       // This occurs on user entity type.
@@ -62,6 +65,10 @@ abstract class TMGMTEntityDefaultSourceUIController extends TMGMTDefaultSourceUI
         'entity_label' => entity_label($type, $entity),
         'entity_uri' => $entity_uri['path'],
       );
+
+      if (count($bundles) > 1) {
+        $return_value[$entity_id]['bundle'] = isset($bundles[$bundle]) ? $bundles[$bundle] : t('Unknown');
+      }
 
       // Load entity translation specific data.
       foreach (language_list() as $langcode => $language) {
@@ -110,8 +117,9 @@ abstract class TMGMTEntityDefaultSourceUIController extends TMGMTDefaultSourceUI
     $form_state['entity_type'] = $type;
 
     $form['search_wrapper'] = array(
-      '#prefix' => '<div class="tmgmt-entity-sources-wrapper">',
+      '#prefix' => '<div class="tmgmt-sources-wrapper tmgmt-entity-sources-wrapper">',
       '#suffix' => '</div>',
+      '#weight' => -15,
     );
     $form['search_wrapper']['search'] = array(
       '#tree' => TRUE,
@@ -173,6 +181,34 @@ abstract class TMGMTEntityDefaultSourceUIController extends TMGMTDefaultSourceUI
       unset($form['search_wrapper']);
     }
 
+    $options = array();
+    foreach (language_list() as $langcode => $language) {
+      $options[$langcode] = $language->name;
+    }
+
+    $form['search_wrapper']['search']['target_language'] = array(
+      '#type' => 'select',
+      '#title' => t('Target language'),
+      '#options' => $options,
+      '#empty_option' => t('Any'),
+      '#default_value' => isset($_GET['target_language']) ? $_GET['target_language'] : NULL,
+    );
+    $form['search_wrapper']['search']['target_status'] = array(
+      '#type' => 'select',
+      '#title' => t('Target status'),
+      '#options' => array(
+        'untranslated_or_outdated' => t('Untranslated or outdated'),
+        'untranslated' => t('Untranslated'),
+        'outdated' => t('Outdated'),
+      ),
+      '#default_value' => isset($_GET['target_status']) ? $_GET['target_status'] : NULL,
+      '#states' => array(
+        'invisible' => array(
+          ':input[name="search[target_language]"]' => array('value' => ''),
+        ),
+      ),
+    );
+
     return $form;
   }
 
@@ -204,5 +240,18 @@ abstract class TMGMTEntityDefaultSourceUIController extends TMGMTDefaultSourceUI
 
       drupal_goto($_GET['q'], array('query' => $query));
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hook_menu() {
+    $items = parent::hook_menu();
+    if (isset($items['admin/tmgmt/sources/entity_node'])) {
+      // We assume that nodes are the most important overview if enabled, so
+      // make sure they show up first.
+      $items['admin/tmgmt/sources/entity_node']['weight'] = -20;
+    }
+    return $items;
   }
 }

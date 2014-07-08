@@ -12,19 +12,19 @@ function tmgmt_ui_entity_info() {
   $info['tmgmt_translator'] = array(
     'admin ui' => array(
       'controller class' => 'TMGMTTranslatorUIController',
-      'path' => 'admin/config/regional/tmgmt/translators',
+      'path' => 'admin/config/regional/tmgmt_translator',
     ),
   );
   $info['tmgmt_job'] = array(
     'admin ui' => array(
       'controller class' => 'TMGMTJobUIController',
-      'path' => 'admin/config/regional/tmgmt/jobs',
+      'path' => 'admin/tmgmt/jobs',
     ),
   );
   $info['tmgmt_job_item'] = array(
     'admin ui' => array(
       'controller class' => 'TMGMTJobItemUIController',
-      'path' => 'admin/config/regional/tmgmt/items',
+      'path' => 'admin/tmgmt/items',
     ),
   );
   foreach ($info as $key => $item) {
@@ -41,28 +41,81 @@ function tmgmt_ui_entity_info() {
  * Implements hook_menu().
  */
 function tmgmt_ui_menu() {
-  $items['admin/config/regional/tmgmt'] = array(
-    'title' => 'Translation Management',
-    'description' => 'Use the Translation Management Tool',
-    'page callback' => 'tmgmt_ui_dashboard_page',
-    'page arguments' => array('tmgmt_job_overview'),
-    'access callback' => 'tmgmt_job_access',
-    'access arguments' => array('view'),
-  );
-  $items['admin/config/regional/tmgmt/settings'] = array(
-    'title' => 'Settings',
+  $items['admin/config/regional/tmgmt_settings'] = array(
+    'title' => 'Translation Management settings',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tmgmt_ui_settings_form'),
     'access arguments' => array('administer tmgmt'),
-    'type' => MENU_LOCAL_TASK,
     'file' => 'includes/tmgmt_ui.pages.inc',
     'weight' => 10,
+  );
+  $items['admin/tmgmt/cart'] = array(
+    'title' => 'Cart',
+    'title callback' => 'tmgmt_ui_cart_title',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tmgmt_ui_cart_content'),
+    'access arguments' => array('create translation jobs'),
+    'file' => 'includes/tmgmt_ui.pages.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 20,
   );
   // Some source plugins might provide menu items.
   foreach (tmgmt_source_ui_controller() as $controller) {
     $items += $controller->hook_menu();
   }
   return $items;
+}
+
+/**
+ * Cart page title callback.
+ *
+ * @return string
+ */
+function tmgmt_ui_cart_title() {
+  return t('Cart (@count)', array('@count' => tmgmt_ui_cart_get()->count()));
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function tmgmt_ui_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'menu_alter') {
+    // Move tmgmt_ui_menu_alter() to the end to be able to see views-defined
+    // source overviews.
+    $group = $implementations['tmgmt_ui'];
+    unset($implementations['tmgmt_ui']);
+    $implementations['tmgmt_ui'] = $group;
+  }
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function tmgmt_ui_menu_alter(&$items) {
+  $weight = NULL;
+  $default_path = NULL;
+  // Look for the sources overview local task with the lowest weight.
+  foreach ($items as $path => $item) {
+    $item += array('weight' => 0);
+    if (strpos($path, 'admin/tmgmt/sources') !== FALSE) {
+      if ($weight === NULL || $weight > $item['weight']) {
+        $weight = $item['weight'];
+        $default_path = $path;
+      }
+    }
+  }
+
+  // If we have found a default path, define a parent menu item based on it's
+  // definitions and change the type to a default local task.
+  if ($default_path) {
+    $items['admin/tmgmt/sources'] = array(
+      'title' => 'Sources',
+      'description' => 'Source overview',
+      'type' => MENU_LOCAL_TASK,
+      'weight' => 10,
+    ) + $items[$default_path];
+    $items[$default_path]['type'] = MENU_DEFAULT_LOCAL_TASK;
+  }
 }
 
 /**
@@ -74,11 +127,11 @@ function tmgmt_ui_theme() {
       // We also have the entity_type here because we are still populating the
       // defaults via the entity api so we just need to add the description.
       'variables' => array('label' => NULL, 'entity_type' => NULL, 'url' => FALSE, 'name' => FALSE, 'description' => FALSE),
-      'file' => 'includes/tmgmt_ui.controller.inc',
+      'file' => 'includes/tmgmt_ui.theme.inc',
     ),
     'tmgmt_ui_translator_overview_form' => array(
       'render element' => 'form',
-      'file' => 'includes/tmgmt_ui.controller.inc',
+      'file' => 'includes/tmgmt_ui.theme.inc',
     ),
     'tmgmt_ui_translator_review_form' => array(
       'render element' => 'element',
@@ -122,7 +175,7 @@ function tmgmt_ui_forms() {
  */
 function tmgmt_ui_system_info_alter(&$info, $file, $type) {
   if ($file->name == 'tmgmt') {
-    $info['configure'] = 'admin/config/regional/tmgmt/settings';
+    $info['configure'] = 'admin/config/regional/tmgmt_settings';
   }
 }
 
@@ -176,6 +229,8 @@ function tmgmt_ui_embed_view($view, $display_id = NULL, array $args = array()) {
  */
 function tmgmt_ui_source_overview_form($form, &$form_state, $plugin, $item_type = NULL) {
   $controller = tmgmt_source_ui_controller($plugin);
+  $form_state['plugin'] = $plugin;
+  $form_state['item_type'] = $item_type;
   return $controller->overviewForm($form, $form_state, $item_type);
 }
 
@@ -186,8 +241,16 @@ function tmgmt_ui_source_overview_form_defaults($form, &$form_state, $plugin, $i
   $controller = tmgmt_source_plugin_controller($plugin);
   $info = tmgmt_source_plugin_info($plugin);
   // Set a generic title that includes the source plugin and item type label.
-  drupal_set_title(t('@plugin overview (@type)', array('@type' => $controller->getItemTypeLabel($item_type), '@plugin' => $info['label'])), PASS_THROUGH);
-  $form['actions']['#type'] = 'actions';
+  drupal_set_title(t('@type overview (@plugin)', array('@type' => $controller->getItemTypeLabel($item_type), '@plugin' => $info['label'])), PASS_THROUGH);
+  $form['actions'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Operations'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#weight' => -10,
+    '#attributes' => array('class' => array('tmgmt-source-operations-wrapper'))
+  );
+  tmgmt_ui_add_cart_form($form['actions'], $form_state, $plugin, $item_type);
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Request translation'),
@@ -223,6 +286,139 @@ function tmgmt_ui_source_overview_form_submit($form, &$form_state) {
 }
 
 /**
+ * Gets the tmgmt cart singleton object.
+ *
+ * @return TMGMTJobItemUICart
+ *   The cart object.
+ */
+function tmgmt_ui_cart_get() {
+  return TMGMTJobItemUICart::getInstance();
+}
+
+/**
+ * @addtogroup tmgmt_ui_cart
+ * @{
+ */
+
+/**
+ * Adds add to cart form elements.
+ *
+ * There are two use cases for this function:
+ *
+ * 1) Add the "Add to cart" submit action to the source overview form. In this
+ * case the $item_id should not be provided and only the action button will be
+ * displayed. The form is expected to submit job items ids as items[] which is
+ * being validated via tmgmt_ui_source_add_to_cart_validate().
+ *
+ * 2) Add the "Add to cart" submit action to the translate tab. For this case
+ * the $item_id is required and with the add to cart button also the cart
+ * information is displayed. In this case there is no validation as the caller
+ * needs to provide valid $item_id value.
+ *
+ * The "Add to cart" action submits the form by calling
+ * tmgmt_ui_source_add_to_cart_submit() submit callback which processes either
+ * one job item or multiple.
+ *
+ * @param array $form
+ *   Form to which to add the add to cart form elements.
+ * @param array $form_state
+ *   The current form state object.
+ * @param string $plugin
+ *   Current plugin name.
+ * @param string $item_type
+ *   Type of the source item.
+ * @param mixed $item_id
+ *   (Optional) It is required in case a single source is being added into the
+ *   cart.
+ */
+function tmgmt_ui_add_cart_form(&$form, &$form_state, $plugin, $item_type, $item_id = NULL) {
+  $form_state['tmgmt_cart'] = array(
+    'plugin' => $plugin,
+    'item_type' => $item_type,
+    'item_id' => $item_id,
+  );
+  $form['add_to_cart'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add to cart'),
+    '#submit' => array('tmgmt_ui_source_add_to_cart_submit'),
+    '#attributes' => array('title' => t('Add marked items to the cart for later processing')),
+  );
+
+  if (empty($item_id)) {
+    $form['add_to_cart']['#validate'] = array('tmgmt_ui_cart_source_overview_validate');
+  }
+  else {
+    //
+    $form['add_to_cart']['#limit_validation_errors'] = array();
+    // Compose the cart info message for the translate tab.
+    $count = tmgmt_ui_cart_get()->count();
+    if (tmgmt_ui_cart_get()->isSourceItemAdded($plugin, $item_type, $item_id)) {
+      $form['add_to_cart']['#disabled'] = TRUE;
+      $message = format_plural($count, 'There is @count item in the <a href="@url">translation cart</a> including the current item.',
+        'There are @count items in the <a href="@url">translation cart</a> including the current item.', array('@url' => url('admin/tmgmt/cart')));
+    }
+    else {
+      $message = format_plural($count, 'There is @count item in the <a href="@url">translation cart</a>.',
+        'There are @count items in the <a href="@url">translation cart</a>.', array('@url' => url('admin/tmgmt/cart')));
+    }
+
+    $form['add_to_cart']['#suffix'] = '<span class="tmgmt-ui-cart-status-message">' . $message . '</span>';
+  }
+}
+
+/**
+ * Submit handler to add items into the cart.
+ *
+ * Based on the submitted data it will create job items and add them into the
+ * cart. Use it in combination with tmgmt_ui_add_cart_form() as that function
+ * sets all the necessary values needed to crate a job an add it into the cart.
+ *
+ * @see tmgmt_ui_add_cart_form()
+ */
+function tmgmt_ui_source_add_to_cart_submit($form, &$form_state) {
+
+  $cart_info = $form_state['tmgmt_cart'];
+  if (!empty($cart_info['plugin']) && !empty($cart_info['item_type']) && !empty($form_state['values']['items'])) {
+    $source_items = array_filter($form_state['values']['items']);
+    $item_type = $cart_info['item_type'];
+    $plugin = $cart_info['plugin'];
+  }
+  elseif (!empty($cart_info['plugin']) && !empty($cart_info['item_type']) && !empty($cart_info['item_id'])) {
+    $source_items = array($cart_info['item_id']);
+    $item_type = $cart_info['item_type'];
+    $plugin = $cart_info['plugin'];
+  }
+  else {
+    drupal_set_message(t('Unable to add the content into the cart.'), 'error');
+    return;
+  }
+
+  $i = 0;
+  foreach ($source_items as $source_id) {
+    if (tmgmt_ui_cart_get()->addJobItem($plugin, $item_type, $source_id)) {
+      $i++;
+    }
+  }
+
+  drupal_set_message(format_plural($i, '@count content source was added into the <a href="@url">cart</a>.',
+    '@count content sources were added into the <a href="@url">cart</a>.', array('@url' => url('admin/tmgmt/cart'))));
+}
+
+/**
+ * Cart form validation callback for the source overview.
+ */
+function tmgmt_ui_cart_source_overview_validate($form, &$form_state) {
+  $items = array_filter($form_state['values']['items']);
+  if (empty($items)) {
+    form_set_error('items', t('No job items were selected.'));
+  }
+}
+
+/**
+ * @} End of "addtogroup tmgmt_ui_cart".
+ */
+
+/**
  * Attempts to check out a number of jobs. Performs a number of checks on each
  * job and also allows to alter the behavior through hooks.
  *
@@ -233,7 +429,9 @@ function tmgmt_ui_source_overview_form_submit($form, &$form_state) {
  *   Array of redirect url's if there are any jobs that need manual checkout.
  *
  * @ingroup tmgmt_job
+ *
  * @see tmgmt_ui_redirect_queue()
+ * @see tmgmt_ui_job_checkout_and_redirect()
  */
 function tmgmt_ui_job_checkout_multiple(array $jobs) {
   $redirects = array();
@@ -386,11 +584,10 @@ function tmgmt_ui_translation_review_form_defaults($form, &$form_state, TMGMTJob
     '#suffix' => '</div>',
   );
 
-  $source_labels = tmgmt_source_plugin_labels();
   $form['info']['sourcetype'] = array(
     '#type' => 'item',
     '#title' => t('Source type'),
-    '#markup' => $source_labels[$item->plugin],
+    '#markup' => $item->getSourceType(),
     '#prefix' => '<div class="tmgmt-ui-source-type tmgmt-ui-info-item">',
     '#suffix' => '</div>',
   );
@@ -441,7 +638,7 @@ function tmgmt_ui_translation_review_form_defaults($form, &$form_state, TMGMTJob
   // of the foreach loop.
   $zebra = 'even';
   foreach (element_children($data) as $key) {
-    $form['review'][$key] = _tmgmt_ui_review_form_element(tmgmt_flatten_data($data[$key], $key), $item, $zebra);
+    $form['review'][$key] = _tmgmt_ui_review_form_element($form_state, tmgmt_flatten_data($data[$key], $key), $item, $zebra, $key);
   }
 
   if ($output = tmgmt_ui_embed_view('tmgmt_ui_job_item_messages', 'block', array($item->tjiid))) {
@@ -468,7 +665,7 @@ function tmgmt_ui_translation_review_form_defaults($form, &$form_state, TMGMTJob
   $form['actions']['save'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
-    '#access' => !$item->isAccepted(),
+    '#access' => !$item->isAccepted() && !$item->isAborted(),
   );
   $uri = $item->getJob()->uri();
   $url = isset($_GET['destination']) ? $_GET['destination'] : $uri['path'];
@@ -484,11 +681,26 @@ function tmgmt_ui_translation_review_form_defaults($form, &$form_state, TMGMTJob
 }
 
 /**
+ * Helper function to output ajaxid.
+ *
+ * @param string $parent_key
+ *   Parent element key.
+ *
+ * @return string
+ *   The ajax id.
+ */
+function tmgmt_ui_review_form_element_ajaxid($parent_key) {
+  return 'tmgmt-ui-element-' . drupal_clean_css_identifier($parent_key) . '-wrapper';
+}
+
+/**
  * Build form elements for the review form using flatened data items.
  *
  * @todo Mention in the api documentation that the char '|' is not allowed in
  * field names.
  *
+ * @param array $form_state
+ *   Drupal form form_state object.
  * @param $data
  *   Flatened array of translation data items.
  * @param $job_item
@@ -496,15 +708,19 @@ function tmgmt_ui_translation_review_form_defaults($form, &$form_state, TMGMTJob
  * @param $zebra
  *   String containing either odd or even. This is used to style the each
  *   translation item with alternating colors.
+ * @param $parent_key
+ *   The key for $data.
  */
-function _tmgmt_ui_review_form_element($data, TMGMTJobItem $job_item, &$zebra) {
+function _tmgmt_ui_review_form_element(&$form_state, $data, TMGMTJobItem $job_item, &$zebra, $parent_key) {
   $flip = array(
     'even' => 'odd',
     'odd' => 'even',
   );
   $form = array(
     '#theme' => 'tmgmt_ui_translator_review_form',
+    '#ajaxid' => tmgmt_ui_review_form_element_ajaxid($parent_key),
   );
+
   foreach (element_children($data) as $key) {
     // The char sequence '][' confuses the form API so we need to replace it.
     $target_key = str_replace('][', '|', $key);
@@ -514,7 +730,6 @@ function _tmgmt_ui_review_form_element($data, TMGMTJobItem $job_item, &$zebra) {
         '#tree' => TRUE,
         '#theme' => 'tmgmt_ui_translator_review_form_element',
         '#parent_label' => $data[$key]['#parent_label'],
-        '#ajaxid' => drupal_html_id('tmgmt-ui-element-' . $key),
         '#zebra' => $zebra,
       );
       $form[$target_key]['status'] = array(
@@ -524,7 +739,8 @@ function _tmgmt_ui_review_form_element($data, TMGMTJobItem $job_item, &$zebra) {
       $form[$target_key]['actions'] = array(
         '#type' => 'container',
       );
-      if (!$job_item->isAccepted()) {
+      // Display data item actions unless the job item is accepted or aborted.
+      if (!$job_item->isAccepted() && !$job_item->isAborted()) {
         if ($data[$key]['#status'] != TMGMT_DATA_ITEM_STATE_REVIEWED) {
           $form[$target_key]['actions']['reviewed'] = array(
             '#type' => 'submit',
@@ -535,7 +751,7 @@ function _tmgmt_ui_review_form_element($data, TMGMTJobItem $job_item, &$zebra) {
             '#submit' => array('tmgmt_ui_translation_review_form_update_state', 'tmgmt_ui_translation_review_form_submit'),
             '#ajax' => array(
               'callback' => 'tmgmt_ui_translation_review_form_ajax',
-              'wrapper' => $form[$target_key]['#ajaxid'],
+              'wrapper' => $form['#ajaxid'],
             ),
           );
         }
@@ -549,7 +765,7 @@ function _tmgmt_ui_review_form_element($data, TMGMTJobItem $job_item, &$zebra) {
             '#submit' => array('tmgmt_ui_translation_review_form_update_state', 'tmgmt_ui_translation_review_form_submit'),
             '#ajax' => array(
               'callback' => 'tmgmt_ui_translation_review_form_ajax',
-              'wrapper' => $form[$target_key]['#ajaxid'],
+              'wrapper' => $form['#ajaxid'],
             ),
           );
         }
@@ -563,6 +779,43 @@ function _tmgmt_ui_review_form_element($data, TMGMTJobItem $job_item, &$zebra) {
             '#submit' => array('tmgmt_ui_translation_review_form_update_state'),
           );
         }
+
+        if (!empty($data[$key]['#translation']['#text_revisions'])) {
+          $form[$target_key]['actions']['revert'] = array(
+            '#type' => 'submit',
+            // Unicode character U+21B6 ANTICLOCKWISE TOP SEMICIRCLE ARROW
+            '#value' => '↶',
+            '#attributes' => array('title' => t('Revert to previous revision')),
+            '#name' => 'revert-' . $target_key,
+            '#data_item_key' => $key,
+            '#submit' => array('tmgmt_ui_translation_review_form_revert'),
+            '#ajax' => array(
+              'callback' => 'tmgmt_ui_translation_review_form_ajax',
+              'wrapper' => $form['#ajaxid'],
+            ),
+          );
+        }
+      }
+      if (!empty($data[$key]['#translation']['#text_revisions'])) {
+        $revisions = array();
+
+        foreach ($data[$key]['#translation']['#text_revisions'] as $revision) {
+          $revisions[] = t('Origin: %origin, Created: %created</br>%text', array(
+            '%origin' => $revision['#origin'],
+            '%created' => format_date($revision['#timestamp']),
+            '%text' => filter_xss($revision['#text']),
+          ));
+        }
+        $form[$target_key]['below']['revisions_wrapper'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Translation revisions'),
+          '#collapsed' => TRUE,
+          '#collapsible' => TRUE,
+        );
+        $form[$target_key]['below']['revisions_wrapper']['revisions'] = array(
+          '#theme' => 'item_list',
+          '#items' => $revisions,
+        );
       }
       $form[$target_key]['translation'] = array(
         '#type' => 'textarea',
@@ -576,9 +829,41 @@ function _tmgmt_ui_review_form_element($data, TMGMTJobItem $job_item, &$zebra) {
         '#title' => t('Source'),
         '#disabled' => TRUE,
       );
+
+      // Give the translator ui controller a chance to affect the data item element.
+      if ($translator = $job_item->getTranslator()) {
+        $form[$target_key] = tmgmt_translator_ui_controller($translator->plugin)
+            ->reviewDataItemElement($form[$target_key], $form_state, $key, $parent_key, $data[$key], $job_item);
+      }
+      // Give the source ui controller a chance to affect the data item element.
+      $form[$target_key] = tmgmt_source_ui_controller($job_item->plugin)
+          ->reviewDataItemElement($form[$target_key], $form_state, $key, $parent_key, $data[$key], $job_item);
     }
   }
   return $form;
+}
+
+/**
+ * Review form revert action callback.
+ */
+function tmgmt_ui_translation_review_form_revert($form, &$form_state) {
+
+  /** @var TMGMTJobItem $item */
+  $item = $form_state['item'];
+
+  $key = tmgmt_ensure_keys_array($form_state['triggering_element']['#data_item_key']);
+
+  if ($item->dataItemRevert($key)) {
+    // Update the form_state input values so that the new default vale will be
+    // shown.
+    $form_key = str_replace('][', '|', $form_state['triggering_element']['#data_item_key']);
+    unset($form_state['input'][$form_key]['translation']);
+    $item->save();
+  }
+  else {
+    drupal_set_message(t('No past revision found, translation was not reverted.'), 'warning');
+  }
+  $form_state['rebuild'] = TRUE;
 }
 
 /**
@@ -617,6 +902,7 @@ function tmgmt_ui_translation_review_form_validate($form, &$form_state) {
  * Submit callback for the job item review form.
  */
 function tmgmt_ui_translation_review_form_submit($form, &$form_state) {
+  /** @var TMGMTJobItem $item */
   $item = $form_state['item'];
   // First invoke the submit method on the source controller.
   $source = tmgmt_source_ui_controller($item->plugin);
@@ -629,10 +915,13 @@ function tmgmt_ui_translation_review_form_submit($form, &$form_state) {
   // Write changes back to item.
   foreach ($form_state['values'] as $key => $value) {
     if (is_array($value) && isset($value['translation'])) {
-      $data['#translation'] = array(
+      // Update the translation, this will only update the translation in case
+      // it has changed.
+      $data = array(
         '#text' => $value['translation'],
+        '#origin' => 'local',
       );
-      $item->updateData($key, $data);
+      $item->addTranslatedData($data, $key);
     }
   }
   // Check if the user clicked on 'Accept', 'Submit' or 'Reject'.
@@ -721,13 +1010,10 @@ function tmgmt_ui_translation_review_form_update_state($form, &$form_state) {
  * Ajax callback for the job item review form.
  */
 function tmgmt_ui_translation_review_form_ajax($form, &$form_state) {
-  $key = array_slice($form_state['triggering_element']['#array_parents'], 0, 3);
-  $commands = array();
+  $key = array_slice($form_state['triggering_element']['#array_parents'], 0, 2);
   $render_data = drupal_array_get_nested_value($form, $key);
-  $commands[] = ajax_command_replace(NULL, drupal_render($render_data));
   tmgmt_ui_write_request_messages($form_state['item']->getJob());
-  $commands[] = ajax_command_html('#tmgmt-status-messages-' . strtolower($render_data['#parent_label'][0]), theme('status_messages'));
-  return array('#type' => 'ajax', '#commands' => $commands);
+  return drupal_render($render_data);
 }
 
 /**
@@ -842,7 +1128,7 @@ function tmgmt_ui_color_legend() {
 
   $output = '<div class="tmgmt-color-legend clearfix">';
 
-  foreach ($legends as $legend){
+  foreach ($legends as $legend) {
     $output .= '<div class="tmgmt-one-legend">
         <div class="tmgmt-legend-icon tmgmt-ui-icon tmgmt-ui-icon-10 ' .
         $legend['color'] . '"><span></span></div>
@@ -851,6 +1137,59 @@ function tmgmt_ui_color_legend() {
   }
 
   $output .= '</div>';
+
+  return $output;
+}
+
+/**
+ * Attempts to checkout a number of jobs and prepare the necessary redirects.
+ *
+ * @param array $form_state
+ *   Form state array, used to set the initial redirect.
+ * @param array $jobs
+ *   Array of jobs to attempt checkout
+ *
+ * @ingroup tmgmt_job
+ *
+ * @see tmgmt_ui_job_checkout_multiple()
+ */
+function tmgmt_ui_job_checkout_and_redirect(array &$form_state, array $jobs) {
+  $redirects = tmgmt_ui_job_checkout_multiple($jobs);
+  // If necessary, do a redirect.
+  if ($redirects) {
+    if (isset($_GET['destination'])) {
+      // Remove existing destination, as that will prevent us from being
+      // redirect to the job checkout page. Set the destination as the final
+      // redirect instead.
+      tmgmt_ui_redirect_queue_set($redirects, $_GET['destination']);
+      unset($_GET['destination']);
+    }
+    else {
+      tmgmt_ui_redirect_queue_set($redirects, current_path());
+    }
+    $form_state['redirect'] = tmgmt_ui_redirect_queue_dequeue();
+
+    // Count of the job messages is one less due to the final redirect.
+    drupal_set_message(format_plural(count($redirects), t('One job needs to be checked out.'), t('@count jobs need to be checked out.')));
+  }
+}
+
+/**
+ * Implements hook_help().
+ */
+function tmgmt_ui_help($path, $arg) {
+  $output = '';
+  if (strpos($path, 'admin/tmgmt/sources') !== FALSE) {
+    $output = '<div class="source-help-wrapper">' . tmgmt_ui_color_legend() . '</div>';
+  }
+  if ($path == 'admin/tmgmt/cart') {
+    $output = '<p>' . t('The TMGMT cart is used to bundle text items from
+    different sources into one translation job. Use the "Add to cart" button to
+    add all selected items in any source list. <br/>From the cart page, you can
+    request a translation of all selected elements in the cart into any available
+    language. One translation job will be created for each language pair involved.')
+      . '</p>';
+  }
 
   return $output;
 }

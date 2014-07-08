@@ -13,7 +13,7 @@ function addtoany_views_data() {
   $data['node']['addtoany_link'] = array(
     'title' => t('AddToAny link'),
     'help' => t('Link provided by the AddToAny module'),
-    'group' => t('Node'),
+    'group' => t('Content'),
     'field' => array(
       'handler' => 'addtoany_handler_field_addtoany_link',
       'click sortable' => FALSE,

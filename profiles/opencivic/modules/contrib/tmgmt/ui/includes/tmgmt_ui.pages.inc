@@ -189,13 +189,13 @@ function tmgmt_translator_form($form, &$form_state, TMGMTTranslator $translator,
     '#type' => 'submit',
     '#value' => t('Delete'),
     '#submit' => array('tmgmt_ui_submit_redirect'),
-    '#redirect' => 'admin/config/regional/tmgmt/translators/manage/' . $translator->name . '/delete',
+    '#redirect' => 'admin/config/regional/tmgmt_translator/manage/' . $translator->name . '/delete',
     '#access' => $old,
   );
   $form['actions']['cancel'] = array(
     '#type' => 'link',
     '#title' => t('Cancel'),
-    '#href' => 'admin/config/regional/tmgmt/translators',
+    '#href' => 'admin/config/regional/tmgmt_translator',
   );
   return $form;
 }
@@ -225,7 +225,7 @@ function tmgmt_translator_form_validate($form, &$form_state) {
 function tmgmt_translator_form_submit($form, &$form_state) {
   entity_ui_form_submit_build_entity($form, $form_state)->save();
   drupal_set_message(t('The configuration options have been saved.'));
-  $form_state['redirect'] = 'admin/config/regional/tmgmt/translators';
+  $form_state['redirect'] = 'admin/config/regional/tmgmt_translator';
 }
 
 /**
@@ -373,30 +373,103 @@ function tmgmt_job_form($form, &$form_state, TMGMTJob $job, $op = 'edit') {
   }
 
   if ($view = views_get_view('tmgmt_ui_job_items')) {
-    $form['items'] = array(
-      '#type' => 'item',
-      '#title' => $view->get_title(),
-      '#prefix' => '<div class="' . 'tmgmt-ui-job-items ' . ($job->isSubmittable() ? 'tmgmt-ui-job-submit' : 'tmgmt-ui-job-manage') . '">',
+    $form['job_items_wrapper'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Job items'),
+      '#collapsible' => TRUE,
+      '#weight' => 10,
+      '#prefix' => '<div class="tmgmt-ui-job-checkout-fieldset">',
+      '#suffix' => '</div>',
+    );
+
+    // Translation jobs.
+    $form['job_items_wrapper']['items'] = array(
+      '#type' => 'markup',
       '#markup' => $view->preview($job->isSubmittable() ? 'submit' : 'block', array($job->tjid)),
+      '#prefix' => '<div class="' . 'tmgmt-ui-job-items ' . ($job->isSubmittable() ? 'tmgmt-ui-job-submit' : 'tmgmt-ui-job-manage') . '">',
       '#attributes' => array('class' => array('tmgmt-ui-job-items', $job->isSubmittable() ? 'tmgmt-ui-job-submit' : 'tmgmt-ui-job-manage')),
       '#suffix' => '</div>',
-      '#weight' => $job->isSubmittable() ? 30 : 10,
     );
-  }
 
-  $form['translator_wrapper'] = array(
-    '#type' => 'container',
-    '#prefix' => '<div id="tmgmt-ui-translator-wrapper">',
-    '#suffix' => '</div>',
-    '#weight' => 20,
-  );
+    // A Wrapper for a button and a table with all suggestions.
+    $form['job_items_wrapper']['suggestions'] = array(
+      '#type' => 'container',
+      '#access' => $job->isSubmittable(),
+    );
+
+    // Button to load all translation suggestions with AJAX.
+    $form['job_items_wrapper']['suggestions']['load'] = array(
+      '#type' => 'submit',
+      '#value' => t('Load suggestions'),
+      '#submit' => array('tmgmt_ui_ajax_submit_load_suggestions'),
+      '#limit_validation_errors' => array(),
+      '#attributes' => array(
+        'class' => array('tmgmt-ui-job-suggestions-load'),
+      ),
+      '#ajax' => array(
+        'callback' => 'tmgmt_ui_ajax_callback_load_suggestions',
+        'wrapper' => 'tmgmt-ui-job-items-suggestions',
+        'method' => 'replace',
+        'effect' => 'fade',
+      ),
+    );
+
+    $form['job_items_wrapper']['suggestions']['container'] = array(
+      '#type' => 'container',
+      '#prefix' => '<div id="tmgmt-ui-job-items-suggestions">',
+      '#suffix' => '</div>',
+    );
+
+    // Create the suggestions table.
+    $suggestions_table = array(
+      '#type' => 'tableselect',
+      '#header' => array(),
+      '#options' => array(),
+      '#multiple' => TRUE,
+    );
+
+    // If this is an AJAX-Request, load all related nodes and fill the table.
+    if ($form_state['rebuild'] && !empty($form_state['rebuild_suggestions'])) {
+      _tmgmt_ui_translation_suggestions($suggestions_table, $form_state);
+
+      // A save button on bottom of the table is needed.
+      $suggestions_table = array(
+        'suggestions_table' => $suggestions_table,
+        'suggestions_add' => array(
+          '#type' => 'submit',
+          '#value' => t('Add suggestions'),
+          '#submit' => array('tmgmt_ui_submit_add_suggestions'),
+          '#limit_validation_errors' => array(array('suggestions_table')),
+          '#attributes' => array(
+            'class' => array('tmgmt-ui-job-suggestions-add'),
+          ),
+          '#access' => !empty($suggestions_table['#options']),
+        ),
+      );
+      $form['job_items_wrapper']['suggestions']['container']['suggestions_list'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Suggestions'),
+          '#prefix' => '<div id="tmgmt-ui-job-items-suggestions">',
+          '#suffix' => '</div>',
+        ) + $suggestions_table;
+    }
+
+  }
 
   // Display the checkout settings form if the job can be checked out.
   if ($job->isSubmittable()) {
+
+    $form['translator_wrapper'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Configure translator'),
+      '#collapsible' => FALSE,
+      '#weight' => 20,
+    );
+
     // Show a list of translators tagged by availability for the selected source
     // and target language combination.
     if (!$translators = tmgmt_translator_labels_flagged($job)) {
-      drupal_set_message(t('There are no translators available. Before you can checkout you need to !configure at least one translator.', array('!configure' => l(t('configure'), 'admin/config/regional/tmgmt/translators'))), 'warning');
+      drupal_set_message(t('There are no translators available. Before you can checkout you need to !configure at least one translator.', array('!configure' => l(t('configure'), 'admin/config/regional/tmgmt_translator'))), 'warning');
     }
     $preselected_translator = !empty($job->translator) && isset($translators[$job->translator]) ? $job->translator : key($translators);
     $job->translator = isset($form_state['values']['translator']) ? $form_state['values']['translator'] : $preselected_translator;
@@ -428,7 +501,22 @@ function tmgmt_job_form($form, &$form_state, TMGMTJob $job, $op = 'edit') {
   }
   // Otherwise display the checkout info.
   elseif (!empty($job->translator)) {
+
+    $form['translator_wrapper'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Translator information'),
+      '#collapsible' => TRUE,
+      '#weight' => 20,
+    );
+
     $form['translator_wrapper']['info'] = tmgmt_ui_checkout_info($job);
+  }
+
+  if (!$job->isSubmittable() && empty($form['translator_wrapper']['info'])) {
+    $form['translator_wrapper']['info'] = array(
+      '#type' => 'markup',
+      '#markup' => t('The translator does not provide any information.'),
+    );
   }
 
   $form['clearfix'] = array(
@@ -444,7 +532,7 @@ function tmgmt_job_form($form, &$form_state, TMGMTJob $job, $op = 'edit') {
       '#weight' => 50,
     );
     $form['messages']['view'] = array(
-      '#type' => 'item',
+      '#type' => 'markup',
       '#markup' => $output,
     );
   }
@@ -462,28 +550,149 @@ function tmgmt_job_form($form, &$form_state, TMGMTJob $job, $op = 'edit') {
       '#access' => $job->isSubmittable(),
       '#disabled' => empty($job->translator),
     );
+    $form['actions']['resubmit_job'] = array(
+      '#type' => 'submit',
+      '#submit' => array('tmgmt_ui_submit_redirect'),
+      '#redirect' => 'admin/tmgmt/jobs/' . $job->tjid . '/resubmit',
+      '#value' => t('Resubmit'),
+      '#access' => $job->isAborted(),
+    );
+    $form['actions']['abort_job'] = array(
+      '#type' => 'submit',
+      '#value' => t('Abort job'),
+      '#redirect' => 'admin/tmgmt/jobs/' . $job->tjid . '/abort',
+      '#submit' => array('tmgmt_ui_submit_redirect'),
+      '#access' => $job->isAbortable(),
+    );
   }
   if ($old) {
     $form['actions']['delete'] = array(
       '#type' => 'submit',
       '#value' => t('Delete'),
       '#submit' => array('tmgmt_ui_submit_redirect'),
-      '#redirect' => 'admin/config/regional/tmgmt/jobs/' . $job->tjid . '/delete',
+      '#redirect' => 'admin/tmgmt/jobs/' . $job->tjid . '/delete',
       // Don't run validations, so the user can always delete the job.
       '#limit_validation_errors' => array(),
+      '#access' => user_access('administer tmgmt'),
     );
   }
   // Only show the 'Cancel' button if the job has been submitted to the
   // translator.
   $form['actions']['cancel'] = array(
-    '#type' => 'button',
-    '#value' => t('Cancel'),
-    '#submit' => array('tmgmt_ui_submit_redirect'),
-    '#redirect' => 'admin/config/regional/tmgmt/jobs',
-    '#access' => $job->isActive(),
+    '#type' => 'link',
+    '#title' => t('Cancel'),
+    '#href' => 'admin/tmgmt/jobs',
+    '#weight' => 10,
   );
+
   $form['#attached']['css'][] = drupal_get_path('module', 'tmgmt_ui') . '/css/tmgmt_ui.admin.css';
   return $form;
+}
+
+/**
+ * Set a value in form_state to rebuild the form and fill with data.
+ */
+function tmgmt_ui_ajax_submit_load_suggestions(array $form, array &$form_state) {
+  $form_state['rebuild'] = TRUE;
+  $form_state['rebuild_suggestions'] = TRUE;
+}
+
+/**
+ * Adds selected suggestions to the job.
+ */
+function tmgmt_ui_submit_add_suggestions($form, &$form_state) {
+  // Save all selected suggestion items.
+  if (isset($form_state['values']['suggestions_table']) && is_array($form_state['values']['suggestions_table'])) {
+    foreach ($form_state['values']['suggestions_table'] as $id) {
+      $key = (int)$id - 1; // Because in the tableselect we need an idx > 0.
+      if (isset($form_state['tmgmt_suggestions'][$key]['job_item'])) {
+        $item = $form_state['tmgmt_suggestions'][$key]['job_item'];
+        $form_state['tmgmt_job']->addExistingItem($item);
+      }
+    }
+  }
+
+  // Force a rebuild of the form.
+  $form_state['rebuild'] = TRUE;
+  unset($form_state['tmgmt_suggestions']);
+}
+
+/**
+ * Returns the suggestions table for an AJAX-Call.
+ */
+function tmgmt_ui_ajax_callback_load_suggestions($form, &$form_state) {
+  return $form['job_items_wrapper']['suggestions']['container']['suggestions_list'];
+}
+
+/**
+ * Fills the tableselect with all translation suggestions.
+ *
+ * Calls hook_tmgmt_source_suggestions(TMGMTJob) and creates the resulting list
+ * based on the results from all modules.
+ *
+ * @param array $suggestions_table
+ *   Tableselect part for a $form array where the #options should be inserted.
+ * @param array $form_state
+ *   The main form_state.
+ */
+function _tmgmt_ui_translation_suggestions(array &$suggestions_table, array &$form_state) {
+  $options = array();
+  $job = $form_state['tmgmt_job'];
+  if ($job instanceof TMGMTJob) {
+    // Get all suggestions from all modules which implements
+    // 'hook_tmgmt_source_suggestions' and cache them in $form_state.
+    if (!isset($form_state['tmgmt_suggestions'])) {
+      $form_state['tmgmt_suggestions'] = $job->getSuggestions();
+    }
+
+    // Remove suggestions which are already processed, translated, ...
+    $job->cleanSuggestionsList($form_state['tmgmt_suggestions']);
+
+    // Process all valid entries.
+    foreach ($form_state['tmgmt_suggestions'] as $k => $result) {
+      if (is_array($result) && isset($result['job_item']) && ($result['job_item'] instanceof TMGMTJobItem)) {
+        $options[$k + 1] = _tmgmt_ui_add_suggestion_item($result);
+      }
+    }
+
+    $suggestions_table['#options'] = $options;
+    $suggestions_table['#empty'] = t('No related suggestions available.');
+    $suggestions_table['#header'] = array(
+      'title' => t('Label'),
+      'plugin' => t('Type'),
+      'reason' => t('Reason'),
+      'words' => t('Word count'),
+    );
+  }
+}
+
+/**
+ * Create a Suggestion-Table entry based on a TMGMTJob and a title.
+ *
+ * @param array $result
+ *   Suggestion array with the keys job_item, reason and from_item.
+ *
+ * @return array
+ *   Options-Entry for a tableselect array.
+ */
+function _tmgmt_ui_add_suggestion_item(array $result) {
+  $item = $result['job_item'];
+
+  $reason = isset($result['reason']) ? $result['reason'] : NULL;
+  $option = array(
+    'title' => $item->label(),
+    'plugin' => $item->getSourceType(),
+    'words' => $item->getWordCount(),
+    'reason' => $reason,
+  );
+
+  if (!empty($result['from_item'])) {
+    $from_item = tmgmt_job_item_load($result['from_item']);
+    if ($from_item) {
+      $option['reason'] = t('%reason in %job', array('%reason' => $option['reason'], '%job' => $from_item->label()));
+    }
+  }
+  return $option;
 }
 
 /**
@@ -508,7 +717,7 @@ function tmgmt_job_form_submit($form, &$form_state) {
   }
   $job->save();
   // Per default we want to redirect the user to the overview.
-  $form_state['redirect'] = 'admin/config/regional/tmgmt';
+  $form_state['redirect'] = 'admin/tmgmt';
   // Everything below this line is only invoked if the 'Submit to translator'
   // button was clicked.
   if ($form_state['triggering_element']['#value'] == $form['actions']['checkout']['#value']) {
@@ -645,14 +854,164 @@ function tmgmt_ui_ajax_callback_translator_select($form, &$form_state) {
 }
 
 /**
+ * @addtogroup tmgmt_ui_cart
+ * @{
+ */
+
+/**
+ * Form constructor for cart form.
+ *
+ * @param array $form
+ * @param array $form_state
+ *
+ * @return array $form
+ */
+function tmgmt_ui_cart_content($form, &$form_state) {
+
+  $languages = tmgmt_available_languages();
+  $options = array();
+  foreach (tmgmt_ui_cart_get()->getJobItemsFromCart() as $item) {
+    $uri = $item->getSourceUri();
+    $options[$item->tjiid] = array(
+        $item->getSourceType(),
+        (!empty($uri['path']) ? l($item->label(), $uri['path']) : $item->label()),
+        isset($languages[$item->getSourceLangCode()]) ? $languages[$item->getSourceLangCode()] : t('Unknown'),
+    );
+  }
+
+  $form['items'] = array(
+    '#type' => 'tableselect',
+    '#header' => array(t('Type'), t('Content'), t('Language')),
+    '#empty' => t('There are no items in your cart.'),
+    '#options' => $options,
+  );
+
+  $form['target_language'] = array(
+    '#type' => 'select',
+    '#title' => t('Request translation into language/s'),
+    '#multiple' => TRUE,
+    '#options' => $languages,
+    '#description' => t('If the item\'s source language will be the same as the target language the item will be ignored.'),
+  );
+
+  $form['empty_cart'] = array(
+    '#type' => 'submit',
+    '#value' => t('Empty cart'),
+    '#submit' => array('tmgmt_ui_cart_empty_cart_form_submit'),
+  );
+
+  $form['remove_selected'] = array(
+    '#type' => 'submit',
+    '#value' => t('Remove selected'),
+    '#submit' => array('tmgmt_ui_cart_remove_selected_form_submit'),
+    '#validate' => array('tmgmt_ui_cart_source_overview_validate'),
+  );
+
+  $form['request_translation'] = array(
+    '#type' => 'submit',
+    '#value' => t('Request translation'),
+    '#submit' => array('tmgmt_ui_cart_request_translation_form_submit'),
+    '#validate' => array('tmgmt_ui_cart_source_overview_validate'),
+  );
+
+  return $form;
+
+}
+
+/**
+ * Custom form submit callback for tmgmt_ui_cart_cart_form().
+ */
+function tmgmt_ui_cart_remove_selected_form_submit($form, &$form_state) {
+  $job_item_ids = array_filter($form_state['values']['items']);
+  tmgmt_ui_cart_get()->removeJobItems($job_item_ids);
+  entity_delete_multiple('tmgmt_job_item', $job_item_ids);
+  drupal_set_message(t('Job items were removed from the cart.'));
+}
+
+/**
+ * Custom form submit callback for tmgmt_ui_cart_cart_form().
+ */
+function tmgmt_ui_cart_empty_cart_form_submit($form, &$form_state) {
+  entity_delete_multiple('tmgmt_job_item', array_keys(tmgmt_ui_cart_get()->getJobItemsFromCart()));
+  tmgmt_ui_cart_get()->emptyCart();
+  drupal_set_message(t('All job items were removed from the cart.'));
+}
+
+/**
+ * Custom form submit callback for tmgmt_ui_cart_cart_form().
+ */
+function tmgmt_ui_cart_request_translation_form_submit($form, &$form_state) {
+  global $user;
+
+  $target_languages = array_filter($form_state['values']['target_language']);
+
+  $job_items_by_source_language = array();
+  // Group the selected items by source language.
+  foreach (tmgmt_job_item_load_multiple(array_filter($form_state['values']['items'])) as $job_item) {
+    $job_items_by_source_language[$job_item->getSourceLangCode()][$job_item->tjiid] = $job_item;
+  }
+
+  $jobs = array();
+  $remove_job_item_ids = array();
+  // Loop over all target languages, create a job for each source and target
+  // language combination add add the relevant job items to it.
+  foreach ($target_languages as $target_language) {
+    foreach ($job_items_by_source_language as $source_language => $job_items) {
+      // Skip in case the source language is the same as the target language.
+      if ($source_language == $target_language) {
+        continue;
+      }
+
+
+      $job = tmgmt_job_create($source_language, $target_language, $user->uid);
+      $job_empty = TRUE;
+      /** @var TMGMTJobItem $job_item */
+      foreach ($job_items as $id => $job_item) {
+        try {
+          // As the same item might be added to multiple jobs, we need to
+          // re-create them and delete the old ones, after removing them from
+          // the cart.
+          $job->addItem($job_item->plugin, $job_item->item_type, $job_item->item_id);
+          $remove_job_item_ids[$job_item->tjiid] = $job_item->tjiid;
+          $job_empty = FALSE;
+        }
+        catch (Exception $e) {
+          // If an item fails for one target language, then it is also going
+          // to fail for others, so remove it from the array.
+          unset($job_items_by_source_language[$source_language][$id]);
+          drupal_set_message($e->getMessage(), 'error');
+        }
+      }
+
+      if (!$job_empty) {
+        $jobs[] = $job;
+      }
+    }
+  }
+
+  // Remove job items from the cart.
+  if ($remove_job_item_ids) {
+    tmgmt_ui_cart_get()->removeJobItems($remove_job_item_ids);
+    entity_delete_multiple('tmgmt_job_item', $remove_job_item_ids);
+  }
+
+  // Start the checkout process if any jobs were created.
+  if ($jobs) {
+    tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
+  }
+}
+
+/**
+ * @} End of "addtogroup tmgmt_ui_cart".
+ */
+
+/**
  * Helper function for appending the parent job path to the breadcrumb of a job
  * item menu path.
  */
 function _tmgmt_ui_breadcrumb(TMGMTJobItem $item) {
   $breadcrumb = drupal_get_breadcrumb();
-  foreach (array('admin/config/regional/tmgmt/jobs', 'admin/config/regional/tmgmt/jobs/' . $item->tjid) as $path) {
-    $menu = menu_get_item($path);
-    $breadcrumb[] = l($menu['title'], $path);
-  }
+  $menu = menu_get_item('admin/tmgmt/jobs/' . $item->tjid);
+  $breadcrumb[] = l($menu['title'], 'admin/tmgmt/jobs/' . $item->tjid);
   drupal_set_breadcrumb($breadcrumb);
 }

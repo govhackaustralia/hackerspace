@@ -20,7 +20,7 @@ class TMGMTEntitySourcePluginController extends TMGMTDefaultSourcePluginControll
   }
 
   /**
-   * Implements TMGMTEntitySourcePluginController::getData().
+   * {@inheritdoc}
    *
    * Returns the data from the fields as a structure that can be processed by
    * the Translation Management system.
@@ -34,7 +34,7 @@ class TMGMTEntitySourcePluginController extends TMGMTDefaultSourcePluginControll
   }
 
   /**
-   * Implements TMGMTEntitySourcePluginController::saveTranslation().
+   * {@inheritdoc}
    */
   public function saveTranslation(TMGMTJobItem $job_item) {
     $entity = entity_load_single($job_item->item_type, $job_item->item_id);
@@ -60,4 +60,48 @@ class TMGMTEntitySourcePluginController extends TMGMTDefaultSourcePluginControll
     $job_item->accepted();
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getType(TMGMTJobItem $job_item) {
+    if ($entity = entity_load_single($job_item->item_type, $job_item->item_id)) {
+      $bundles = tmgmt_entity_get_translatable_bundles($job_item->item_type);
+      $info = entity_get_info($job_item->item_type);
+      list(, , $bundle) = entity_extract_ids($job_item->item_type, $entity);
+      // Display entity type and label if we have one and the bundle isn't
+      // the same as the entity type.
+      if (isset($bundles[$bundle]) && $bundle != $job_item->item_type) {
+        return t('@type (@bundle)', array('@type' => $info['label'], '@bundle' => $bundles[$bundle]));
+      }
+      // Otherwise just display the entity type label.
+      elseif (isset($info['label'])) {
+        return $info['label'];
+      }
+      return parent::getType($job_item);
+    }
+  }
+
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSourceLangCode(TMGMTJobItem $job_item) {
+    $entity = entity_load_single($job_item->item_type, $job_item->item_id);
+    return isset($entity->translations->original) ? $entity->translations->original : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getExistingLangCodes(TMGMTJobItem $job_item) {
+    if ($entity = entity_load_single($job_item->item_type, $job_item->item_id)) {
+      $entity_info = entity_get_info($job_item->item_type);
+      if (isset($entity_info['entity keys']['translations'])){
+        $translations_key = $entity_info['entity keys']['translations'];
+        return array_keys($entity->{$translations_key}->data);
+      }
+    }
+
+    return array();
+  }
 }

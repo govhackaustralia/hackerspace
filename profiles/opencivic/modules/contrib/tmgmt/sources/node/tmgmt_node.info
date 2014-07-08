@@ -15,10 +15,12 @@ files[] = tmgmt_node.test
 files[] = views/tmgmt_node.views.inc
 files[] = views/handlers/tmgmt_node_handler_field_translation_language_status.inc
 files[] = views/handlers/tmgmt_node_handler_field_translation_language_status_single.inc
+files[] = views/handlers/tmgmt_node_handler_filter_node_translatable_types.inc
+files[] = views/handlers/tmgmt_node_handler_filter_missing_translation.inc
 
-; Information added by drupal.org packaging script on 2013-04-23
-version = "7.x-1.0-alpha3"
+; Information added by Drupal.org packaging script on 2014-03-04
+version = "7.x-1.0-rc1"
 core = "7.x"
 project = "tmgmt"
-datestamp = "1366748712"
+datestamp = "1393965810"
 

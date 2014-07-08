@@ -10,8 +10,10 @@
  */
 class TMGMTLocalTranslatorPluginController extends TMGMTDefaultTranslatorPluginController {
 
+  protected $language_pairs = array();
+
   /**
-   * Implements TMGMTTranslatorPluginControllerInterface::requestTranslation().
+   * {@inheritdoc}
    */
   public function requestTranslation(TMGMTJob $job) {
     $tuid = $job->getSetting('translator');
@@ -29,91 +31,61 @@ class TMGMTLocalTranslatorPluginController extends TMGMTDefaultTranslatorPluginC
     }
     $local_task->save();
 
+    // Create task items.
+    foreach ($job->getItems() as $item) {
+      $local_task->addTaskItem($item);
+    }
+
     // The translation job has been successfully submitted.
     $job->submitted();
   }
 
   /**
-   * Overrides TMGMTDefaultTranslatorPluginController::getSupportedTargetLanguages().
+   * {@inheritdoc}
    */
   public function getSupportedTargetLanguages(TMGMTTranslator $translator, $source_language) {
-    $languages = drupal_map_assoc(tmgmt_local_translation_capabilities($source_language));
+    $languages = tmgmt_local_supported_target_languages($source_language);
     if ($translator->getSetting('allow_all')) {
       $languages += parent::getSupportedTargetLanguages($translator, $source_language);
     }
     return $languages;
   }
 
-}
-
-/**
- * Local translator plugin UI controller.
- */
-class TMGMTLocalTranslatorUIController extends TMGMTDefaultTranslatorUIController {
-
   /**
-   * Overrides TMGMTDefaultTranslatorPluginController::checkoutSettingsForm().
+   * {@inheritdoc}
    */
-  public function checkoutSettingsForm($form, &$form_state, TMGMTJob $job) {
-    if ($translators = tmgmt_local_translators($job->source_language, $job->target_language)) {
-      $form['translator'] = array(
-        '#title' => t('Select translator for this job'),
-        '#type' => 'select',
-        '#options' => array('' => t('Select user')) + $translators,
-        '#default_value' => $job->getSetting('translator'),
-      );
-    }
-    else {
-      $form['message'] = array(
-        '#markup' => t('There are no translators available.'),
-      );
+  public function getSupportedLanguagePairs(TMGMTTranslator $translator) {
+
+    if (!empty($this->language_pairs)) {
+      return $this->language_pairs;
     }
 
-    return $form;
-  }
+    $roles = user_roles(TRUE, 'provide translation services');
 
-  /**
-   * Overrides TMGMTTranslatorUIControllerInterface::checkoutInfo().
-   */
-  public function checkoutInfo(TMGMTJob $job) {
-    $label = $job->getTranslator()->label();
-    $form['#title'] = t('@translator translation job information', array('@translator' => $label));
-    $form['#type'] = 'fieldset';
+    $query = db_select('field_data_tmgmt_translation_skills', 'ts');
 
-    $tuid = $job->getSetting('translator');
-    if ($tuid && $translator = user_load($tuid)) {
-      $form['job_status'] = array(
-        '#type' => 'item',
-        '#title' => t('Job status'),
-        '#markup' => t('Translation job is assigned to %name.', array('%name' => entity_label('user', $translator))),
-      );
+    $query->join('users', 'u', 'u.uid = ts.entity_id AND u.status = 1');
+
+    $query->addField('ts', 'tmgmt_translation_skills_language_from', 'source_language');
+    $query->addField('ts', 'tmgmt_translation_skills_language_to', 'target_language');
+
+    $query->condition('ts.deleted', 0);
+    $query->condition('ts.entity_type', 'user');
+
+    if (!in_array(DRUPAL_AUTHENTICATED_RID, array_keys($roles))) {
+      $query->join('users_roles', 'ur', 'ur.uid = u.uid AND ur.rid');
+      $or_conditions = db_or()->condition('ur.rid', array_keys($roles))->condition('u.uid', 1);
+      $query->condition($or_conditions);
     }
-    else {
-      $form['job_status'] = array(
-        '#type' => 'item',
-        '#title' => t('Job status'),
-        '#markup' => t('Translation job is not assigned to any translator.'),
+
+    foreach ($query->execute()->fetchAll() as $item) {
+      $this->language_pairs[] = array(
+        'source_language' => $item->source_language,
+        'target_language' => $item->target_language,
       );
     }
 
-    if ($job->getSetting('job_comment')) {
-      $form['job_comment'] = array(
-        '#type' => 'item',
-        '#title' => t('Job comment'),
-        '#markup' => check_plain($job->getSetting('job_comment')),
-      );
-    }
-
-    return $form;
-  }
-
-  public function pluginSettingsForm($form, &$form_state, TMGMTTranslator $translator, $busy = FALSE) {
-    $form['allow_all'] = array(
-      '#title' => t('Allow translations for enabled languages even if no translator has the necessary capabilities'),
-      '#type' => 'checkbox',
-      '#default_value' => $translator->getSetting('allow_all'),
-    );
-    return $form;
+    return $this->language_pairs;
   }
 
 }

@@ -38,6 +38,33 @@ function hook_tmgmt_source_plugin_info_alter(&$info) {
 }
 
 /**
+ * Return a list of suggested sources for job items.
+ *
+ * @param array $items
+ *   An array with TMGMTJobItem objects which must be checked for suggested
+ *   translations.
+ *   - TMGMTJobItem A JobItem to check for suggestions.
+ *   - ...
+ * @param TMGMTJob $job
+ *   The current translation job to check for additional translation items.
+ *
+ * @return array
+ *   An array with all additional translation suggestions.
+ *   - job_item: A TMGMTJobItem instance.
+ *   - referenced: A string which indicates where this suggestion comes from.
+ *   - from_job: The main TMGMTJob-ID which suggests this translation.
+ */
+function hook_tmgmt_source_suggestions(array $items, TMGMTJob $job) {
+  return array(
+    array(
+      'job_item' => tmgmt_job_item_create('entity', 'node', 0),
+      'reason' => t('Referenced @type of field @label', array('@type' => 'entity', '@label' => 'label')),
+      'from_item' => $items[1]->tjiid,
+    )
+  );
+}
+
+/**
  * @} End of "addtogroup tmgmt_source".
  */
 
@@ -173,4 +200,73 @@ function hook_tmgmt_translator_plugin_info_alter(&$info) {
  * - Save the accepted translations returned by the translation plugin in their
  *   sources in their implementation of
  *   TMGMTSourcePluginControllerInterface::saveTranslation().
+ */
+
+/**
+ * @defgroup tmgmt_remote_languages_mapping Remote languages mapping
+ *
+ * Logic to deal with different language codes at client and server that stand
+ * for the same language.
+ *
+ * Each tmgmt plugin is expected to support this feature. However for those
+ * plugins where such feature has no use there is a plugin setting
+ * "map remote languages" which can be set to FALSE.
+ *
+ * @section mappings_info Mappings info
+ *
+ * There are several methods defined by
+ * TMGMTTranslatorPluginControllerInterface and implemented in
+ * TMGMTDefaultTranslatorPluginController that deal with mappings info.
+ *
+ * - getRemoteLanguagesMappings() - provides pairs of local_code => remote_code.
+ * - mapToRemoteLanguage() & mapToLocalLanguage() - helpers to map local/remote.
+ *   Note that methods with same names and functionality are provided by the
+ *   TMGMTTranslator entity. These are convenience methods.
+ *
+ * The above methods should not need reimplementation unless special logic is
+ * needed. However following methods provide only the fallback behaviour and
+ * therefore it is recommended that each plugin provides its specific
+ * implementation.
+ *
+ * - getDefaultRemoteLanguagesMappings() - we might know some mapping pairs
+ *   prior to configuring a plugin, this is the place where we can define these
+ *   mappings. The default implementation returns an empty array.
+ * - getSupportedRemoteLanguages() - gets array of language codes in lang_code =>
+ *   lang_code format. It says with what languages the remote system can deal
+ *   with. These codes are in the remote format.
+ *
+ * @section mapping_remote_to_local Mapping remote to local
+ *
+ * Mapping remote to local language codes is done when determining the
+ * language capabilities of the remote system. All following logic should then
+ * solely work with local language codes. There are two methods defined by
+ * the TMGMTTranslatorPluginControllerInterface interface. To do the mapping
+ * a plugin must implement getSupportedTargetLanguages().
+ *
+ * - getSupportedTargetLanguages() - should return local language codes. So
+ *   within this method the mapping needs to be executed.
+ * - getSupportedLanguagePairs() - gets language pairs for which translations
+ *   can be done. The language codes must be in local form. The default
+ *   implementation uses getSupportedTargetLanguages() so mapping occur. However
+ *   this approach is not effective and therefore each plugin should provide
+ *   its specific implementation with regard to performance.
+ *
+ * @section mapping_local_to_remote Mapping local to remote
+ *
+ * Mapping of local to remote language codes is done upon translation job
+ * request in the TMGMTTranslatorPluginControllerInterface::requestTranslation()
+ * plugin implementation.
+ */
+
+/**
+ * @defgroup tmgmt_ui_cart Translation cart
+ *
+ * The translation cart can collect multiple source items of different types
+ * which are meant for translation into a list. The list then provides
+ * functionality to request translation of the items into multiple target
+ * languages.
+ *
+ * Each source can easily plug into the cart system utilising the
+ * tmgmt_ui_add_cart_form() on either the source overview page as well as the
+ * translate tab.
  */
