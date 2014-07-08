@@ -364,10 +364,10 @@ function ocsetup_aliases() {
 
   // Define correspondint entity references.
   $records = array(
-    array(
+/*    array(
       'entity_types_content_fields' => 'node*application*field_related_applications*node*application*field_related_applications',
       'enabled' => 1,
-    ),
+    ),*/
 
     array(
       'entity_types_content_fields' => 'node*organization*field_member*node*organization*field_member',
@@ -383,7 +383,7 @@ function ocsetup_aliases() {
     ),
   );
   foreach($records as $fields) {
-    db_insert('cer')->fields($fields)->execute();
+    //db_insert('cer')->fields($fields)->execute();
   }
 
 }
