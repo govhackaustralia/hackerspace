@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language->language; ?>" version="XHTML+RDFa 1.0" dir="<?php print $language->dir; ?>"<?php print $rdf_namespaces; ?>>
 <head profile="<?php print $grddl_profile; ?>">
   <?php print $head; ?>
-  <meta property="og:image" content="http://www.sanitationhackathon.org/sites/default/files/sanhack.png"/>
+  <meta property="og:image" content="http://www.govhack.org/wp-content/uploads/logo-square-fb215.jpg"/>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
   <?php print $scripts; ?>
