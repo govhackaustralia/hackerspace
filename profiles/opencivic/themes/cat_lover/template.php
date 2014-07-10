@@ -49,6 +49,17 @@ function cat_lover_preprocess_page(&$vars, $hook) {
   drupal_add_js(drupal_get_path('theme', 'cat_lover') .'/js/chartbeat.js', $options);
 }
 */
+/**
+ * Override or insert variables into the node templates.
+  */                  
+  
+function cat_lover_preprocess_node(&$variables, $hook) {
+    if($variables['type'] == variable_get('hackerspace_project_type', 'project')) {
+        if($variables['view_mode'] == variable_get('view_mode_full', 'full')) {
+          $variables['theme_hook_suggestions'][] = 'node__' . $variables['type'] . '__full';
+        }
+    }
+}
 
 /* Search */
 function cat_lover_preprocess_search_result (&$vars) {
