@@ -1,0 +1,20 @@
+name = "OpenLayers"
+description = "OpenLayers base API module"
+core = 7.x
+package = "OpenLayers"
+php = 5.2
+dependencies[] = libraries
+dependencies[] = proj4js
+dependencies[] = ctools
+dependencies[] = file
+
+; Core files
+files[] = openlayers.module
+
+
+; Information added by drush on 2014-05-28
+version = "7.x-2.0-beta3+142-dev"
+core = "7.x"
+project = "openlayers"
+datestamp = "1401269296"
+

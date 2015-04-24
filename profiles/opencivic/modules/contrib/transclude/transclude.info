@@ -1,0 +1,11 @@
+; $Id$
+name = Transclude
+description = Transclude one node content into another
+core = 7.x
+
+
+; Information added by drush on 2014-05-28
+version = "unknown"
+project = "transclude"
+datestamp = "1401269409"
+
