@@ -762,7 +762,7 @@ function entityreference_field_widget_settings_form($field, $instance) {
  * Implements hook_options_list().
  */
 function entityreference_options_list($field, $instance = NULL, $entity_type = NULL, $entity = NULL) {
-  if (!$options = entityreference_get_selection_handler($field, $instance, $entity_type, $entity)->getReferencableEntities()) {
+  if (!$options = entityreference_get_selection_handler($field, $instance, $entity_type, $entity)->getReferencableEntities(NULL, 'CONTAINS', 0, $entity)) {
     return array();
   }
 
@@ -1049,7 +1049,7 @@ function entityreference_autocomplete_callback_get_matches($type, $field, $insta
 
   if (isset($tag_last)) {
     // Get an array of matching entities.
-    $entity_labels = $handler->getReferencableEntities($tag_last, $instance['widget']['settings']['match_operator'], 10);
+    $entity_labels = $handler->getReferencableEntities($tag_last, $instance['widget']['settings']['match_operator'], 10, $entity);
 
     // Loop through the products and convert them into autocomplete output.
     foreach ($entity_labels as $values) {

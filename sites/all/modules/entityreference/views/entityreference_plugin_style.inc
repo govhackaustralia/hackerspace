@@ -51,7 +51,8 @@ class entityreference_plugin_style extends views_plugin_style {
     // @todo We don't display grouping info for now. Could be useful for select
     // widget, though.
     $results = array();
-    foreach ($sets as $records) {
+    foreach ($sets as $set_heading => $records) {
+      //if ($set_heading != "") $results[] = $set_heading;
       foreach ($records as $index => $values) {
         $this->view->row_index = $index;
         // Sanitize html, remove line breaks and extra whitespace.

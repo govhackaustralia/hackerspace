@@ -1,0 +1,4 @@
+name = Govhack Dependent Field
+description = Govhack Dependent Field
+core = 7.x
+files[] = govhack_dependent_field.module

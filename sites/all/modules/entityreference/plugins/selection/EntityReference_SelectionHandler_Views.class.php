@@ -74,8 +74,6 @@ class EntityReference_SelectionHandler_Views implements EntityReference_Selectio
   protected function initializeView($match = NULL, $match_operator = 'CONTAINS', $limit = 0, $ids = NULL) {
     $view_name = $this->field['settings']['handler_settings']['view']['view_name'];
     $display_name = $this->field['settings']['handler_settings']['view']['display_name'];
-    $args = $this->field['settings']['handler_settings']['view']['args'];
-    $entity_type = $this->field['settings']['target_type'];
 
     // Check that the view is valid and the display still exists.
     $this->view = views_get_view($view_name);
@@ -102,9 +100,22 @@ class EntityReference_SelectionHandler_Views implements EntityReference_Selectio
   /**
    * Implements EntityReferenceHandler::getReferencableEntities().
    */
-  public function getReferencableEntities($match = NULL, $match_operator = 'CONTAINS', $limit = 0) {
+  public function getReferencableEntities($match = NULL, $match_operator = 'CONTAINS', $limit = 0, $entity = NULL) {
     $display_name = $this->field['settings']['handler_settings']['view']['display_name'];
     $args = $this->field['settings']['handler_settings']['view']['args'];
+
+    // GOVHACK SPECIAL HACKHACKHACK FIXME TODO OMGWHAT
+    if ($this->field['field_name'] == 'field_prizes') {
+      if (isset($_POST['field_project_jurisdiction']['und'])) {
+        $args = Array($_POST['field_project_jurisdiction']['und']);
+      }
+      else {
+        if ($entity !== NULL) {
+          $args = Array($entity->field_project_jurisdiction['und'][0]['tid']);
+        }
+      }
+    }
+
     $result = array();
     if ($this->initializeView($match, $match_operator, $limit)) {
       // Get the results.

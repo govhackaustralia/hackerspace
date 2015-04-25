@@ -1,0 +1,15 @@
+<?php
+function _update_colors_callback($form, $form_state) {
+  return $form['field_prizes'];
+}
+function govhack_dependent_field_form_alter(&$form, &$form_state, $form_id) {
+  if($form_id == 'project_node_form') {
+    $form['field_project_jurisdiction']['und']['#ajax'] = array(
+      'callback' => '_update_colors_callback',
+      'wrapper' => 'colors_wrapper',
+    );
+    $form['field_prizes']['und']['#prefix'] = '<div id="colors_wrapper">';
+    $form['field_prizes']['und']['#suffix'] = '</div>';
+
+  }
+}
