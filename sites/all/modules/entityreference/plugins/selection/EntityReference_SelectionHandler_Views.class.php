@@ -106,14 +106,26 @@ class EntityReference_SelectionHandler_Views implements EntityReference_Selectio
 
     // GOVHACK SPECIAL HACKHACKHACK FIXME TODO OMGWHAT
     if ($this->field['field_name'] == 'field_prizes') {
-      if (isset($_POST['field_project_jurisdiction']['und'])) {
-        $args = Array($_POST['field_project_jurisdiction']['und']);
+      $args = Array();
+
+      if (isset($_POST['field_country']['und'])) {
+        $args[] = $_POST['field_country']['und'];
       }
       else {
         if ($entity !== NULL) {
-          $args = Array($entity->field_project_jurisdiction['und'][0]['tid']);
+          $args[] = $entity->field_country['und'][0]['tid'];
         }
       }
+
+      if (isset($_POST['field_project_jurisdiction']['und'])) {
+        $args[] = $_POST['field_project_jurisdiction']['und'];
+      }
+      else {
+        if ($entity !== NULL) {
+          $args[] = $entity->field_project_jurisdiction['und'][0]['tid'];
+        }
+      }
+
     }
 
     $result = array();

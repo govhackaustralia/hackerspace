@@ -10,6 +10,79 @@
 function ochack_project_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance:
+  // 'field_collection_item-field_other_team_members-field_team_member_email'
+  $field_instances['field_collection_item-field_other_team_members-field_team_member_email'] = array(
+    'bundle' => 'field_other_team_members',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'field_collection_item',
+    'field_name' => 'field_team_member_email',
+    'label' => 'Team Member Email',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'email',
+      'settings' => array(
+        'label_help_description' => '',
+        'size' => 60,
+      ),
+      'type' => 'email_textfield',
+      'weight' => 32,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'field_collection_item-field_other_team_members-field_team_member_name'
+  $field_instances['field_collection_item-field_other_team_members-field_team_member_name'] = array(
+    'bundle' => 'field_other_team_members',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'field_collection_item',
+    'field_name' => 'field_team_member_name',
+    'label' => 'Team Member Name',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'label_help_description' => '',
+        'maxlength_js' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 31,
+    ),
+  );
+
   // Exported field_instance: 'node-project-body'
   $field_instances['node-project-body'] = array(
     'bundle' => 'project',
@@ -61,8 +134,8 @@ function ochack_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-field_code_for_australia'
-  $field_instances['node-project-field_code_for_australia'] = array(
+  // Exported field_instance: 'node-project-field_best_entrepreneurship_team'
+  $field_instances['node-project-field_best_entrepreneurship_team'] = array(
     'bundle' => 'project',
     'default_value' => array(
       0 => array(
@@ -70,13 +143,14 @@ function ochack_project_field_default_field_instances() {
       ),
     ),
     'deleted' => 0,
-    'description' => 'Would your team like to be considered for Code for Australia opportunities?',
+    'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'above',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 33,
+        'type' => 'list_default',
+        'weight' => 43,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -86,11 +160,10 @@ function ochack_project_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_code_for_australia',
-    'label' => 'Code for Australia',
+    'field_name' => 'field_best_entrepreneurship_team',
+    'label' => 'Please consider this team for the Best Entrepreneurship Team prize',
     'required' => 0,
     'settings' => array(
-      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -99,10 +172,175 @@ function ochack_project_field_default_field_instances() {
       'settings' => array(
         'display_label' => 1,
         'label_help_description' => '',
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
       'type' => 'options_onoff',
-      'weight' => 9,
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance: 'node-project-field_best_professional_geek_tea'
+  $field_instances['node-project-field_best_professional_geek_tea'] = array(
+    'bundle' => 'project',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Please provide a professional email address for a professional geek',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 47,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_best_professional_geek_tea',
+    'label' => 'Best Professional Geek Teams',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'label_help_description' => '',
+        'maxlength_js' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 7,
+    ),
+  );
+
+  // Exported field_instance: 'node-project-field_best_public_servant_teams'
+  $field_instances['node-project-field_best_public_servant_teams'] = array(
+    'bundle' => 'project',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Please enter a .gov.au or other official government email address',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 46,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_best_public_servant_teams',
+    'label' => 'Best Public Servant Teams',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'email',
+      'settings' => array(
+        'label_help_description' => '',
+        'size' => 60,
+      ),
+      'type' => 'email_textfield',
+      'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'node-project-field_best_school_teams'
+  $field_instances['node-project-field_best_school_teams'] = array(
+    'bundle' => 'project',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'This category is for young hackers aged 13-18! Please enter a .edu.au email address.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 45,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_best_school_teams',
+    'label' => 'Best Youth Teams',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'label_help_description' => '',
+        'maxlength_js' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 5,
+    ),
+  );
+
+  // Exported field_instance: 'node-project-field_best_university_teams'
+  $field_instances['node-project-field_best_university_teams'] = array(
+    'bundle' => 'project',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Please enter a .edu.au email address',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 44,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_best_university_teams',
+    'label' => 'Best University Teams',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'email',
+      'settings' => array(
+        'label_help_description' => '',
+        'size' => 60,
+      ),
+      'type' => 'email_textfield',
+      'weight' => 4,
     ),
   );
 
@@ -155,7 +393,7 @@ function ochack_project_field_default_field_instances() {
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
       'type' => 'exposed',
-      'weight' => 28,
+      'weight' => 11,
     ),
   );
 
@@ -252,26 +490,23 @@ function ochack_project_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 3,
+      'weight' => 4,
     ),
   );
 
-  // Exported field_instance: 'node-project-field_data_portal_use_case'
-  $field_instances['node-project-field_data_portal_use_case'] = array(
+  // Exported field_instance: 'node-project-field_country'
+  $field_instances['node-project-field_country'] = array(
     'bundle' => 'project',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'If you are using data from a Government portal, would you like your hack considered for addition to portal as a Use Case?',
+    'description' => 'Please indicate which country you are competing from',
     'display' => array(
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'above',
+        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 34,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 48,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -281,23 +516,21 @@ function ochack_project_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_data_portal_use_case',
-    'label' => 'Data Portal Use Case',
-    'required' => 0,
+    'field_name' => 'field_country',
+    'label' => 'Country',
+    'required' => 1,
     'settings' => array(
-      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
       'module' => 'options',
       'settings' => array(
-        'display_label' => 1,
+        'content_taxonomy_opt_groups' => 0,
         'label_help_description' => '',
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
-      'type' => 'options_onoff',
-      'weight' => 10,
+      'type' => 'options_select',
+      'weight' => 22,
     ),
   );
 
@@ -356,7 +589,7 @@ function ochack_project_field_default_field_instances() {
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
       'type' => 'link_field',
-      'weight' => 4,
+      'weight' => 18,
     ),
   );
 
@@ -464,7 +697,7 @@ function ochack_project_field_default_field_instances() {
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
       'type' => 'exposed',
-      'weight' => 26,
+      'weight' => 9,
     ),
   );
 
@@ -510,6 +743,51 @@ function ochack_project_field_default_field_instances() {
       ),
       'type' => 'text_textarea',
       'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'node-project-field_other_team_members'
+  $field_instances['node-project-field_other_team_members'] = array(
+    'bundle' => 'project',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'field_collection',
+        'settings' => array(
+          'add' => 'Add',
+          'delete' => 'Delete',
+          'description' => TRUE,
+          'edit' => 'Edit',
+          'view_mode' => 'full',
+        ),
+        'type' => 'field_collection_view',
+        'weight' => 42,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_other_team_members',
+    'label' => 'Other Team Members',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'field_collection',
+      'settings' => array(
+        'label_help_description' => '',
+      ),
+      'type' => 'field_collection_embed',
+      'weight' => 5,
     ),
   );
 
@@ -562,7 +840,7 @@ function ochack_project_field_default_field_instances() {
         'label_help_description' => '',
       ),
       'type' => 'options_buttons',
-      'weight' => 2,
+      'weight' => 24,
     ),
   );
 
@@ -607,7 +885,7 @@ function ochack_project_field_default_field_instances() {
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
       'type' => 'options_onoff',
-      'weight' => 8,
+      'weight' => 9,
     ),
   );
 
@@ -616,7 +894,7 @@ function ochack_project_field_default_field_instances() {
     'bundle' => 'project',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'If you want to compete for local prizes, please choose a state from the list below.',
+    'description' => 'Please indicate the local event location that closest matches your location. This will allow you to access even more prizes at the local level.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -634,7 +912,7 @@ function ochack_project_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_project_jurisdiction',
-    'label' => 'Local Event State',
+    'label' => 'Local Event Location',
     'required' => 1,
     'settings' => array(
       'entity_translation_sync' => FALSE,
@@ -646,10 +924,9 @@ function ochack_project_field_default_field_instances() {
       'settings' => array(
         'content_taxonomy_opt_groups' => 0,
         'label_help_description' => '',
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
       'type' => 'options_select',
-      'weight' => 1,
+      'weight' => 23,
     ),
   );
 
@@ -701,7 +978,7 @@ function ochack_project_field_default_field_instances() {
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
       'type' => 'exposed',
-      'weight' => 7,
+      'weight' => 8,
     ),
   );
 
@@ -710,7 +987,7 @@ function ochack_project_field_default_field_instances() {
     'bundle' => 'project',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Quality and design (including standards compliance)
+    'description' => 'Quality and design (including standards compliance and usability)
 ',
     'display' => array(
       'default' => array(
@@ -751,10 +1028,9 @@ function ochack_project_field_default_field_instances() {
       'module' => 'fivestar',
       'settings' => array(
         'label_help_description' => '',
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
       'type' => 'exposed',
-      'weight' => 29,
+      'weight' => 12,
     ),
   );
 
@@ -806,97 +1082,7 @@ function ochack_project_field_default_field_instances() {
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
       'type' => 'exposed',
-      'weight' => 27,
-    ),
-  );
-
-  // Exported field_instance: 'node-project-field_showcase'
-  $field_instances['node-project-field_showcase'] = array(
-    'bundle' => 'project',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => 'Would your team like to be contacted for showcase opportunities over the coming 12 months?',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 35,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_showcase',
-    'label' => 'Showcase',
-    'required' => 0,
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-        'label_help_description' => '',
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
-      'type' => 'options_onoff',
-      'weight' => 11,
-    ),
-  );
-
-  // Exported field_instance: 'node-project-field_team_awards'
-  $field_instances['node-project-field_team_awards'] = array(
-    'bundle' => 'project',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => 'If so, please confirm by ticking this box and add at least one .edu.au or .gov.au email address to your team contact details to be eligible for the Best University, Best School or Best Public Servant award',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 31,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_team_awards',
-    'label' => 'Does your team include: university students; school students; or public servants?',
-    'required' => 0,
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-        'label_help_description' => '',
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
-      'type' => 'options_onoff',
-      'weight' => 5,
+      'weight' => 10,
     ),
   );
 
@@ -905,7 +1091,7 @@ function ochack_project_field_default_field_instances() {
     'bundle' => 'project',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'These contact details will be used to contact you to arrangements for prizes and are <b>only visible to GovHack organisers and your fellow team members.</b>',
+    'description' => 'These contact details will be used to contact your team to make arrangements for prizes and are <b>only visible to GovHack organisers and your fellow team members.</b> We recommend you provide both a team captain\'s phone number and backup phone numbers for other team members!',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -940,7 +1126,7 @@ function ochack_project_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 4,
+      'weight' => 3,
     ),
   );
 
@@ -985,86 +1171,6 @@ function ochack_project_field_default_field_instances() {
       ),
       'type' => 'text_textfield',
       'weight' => 2,
-    ),
-  );
-
-  // Exported field_instance: 'node-project-field_team_prize_entrepreneurshi'
-  $field_instances['node-project-field_team_prize_entrepreneurshi'] = array(
-    'bundle' => 'project',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 38,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_team_prize_entrepreneurshi',
-    'label' => 'Would you like to compete for the Best Entrepreneurship Teams prize?',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-        'label_help_description' => '',
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
-      'type' => 'options_onoff',
-      'weight' => 6,
-    ),
-  );
-
-  // Exported field_instance: 'node-project-field_team_prize_professional'
-  $field_instances['node-project-field_team_prize_professional'] = array(
-    'bundle' => 'project',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 39,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_team_prize_professional',
-    'label' => 'Would you like to compete for the Best Professional Geek Teams prize?',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-        'label_help_description' => '',
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
-      'type' => 'options_onoff',
-      'weight' => 7,
     ),
   );
 
@@ -1123,59 +1229,7 @@ function ochack_project_field_default_field_instances() {
         'label_help_description' => '',
       ),
       'type' => 'link_field',
-      'weight' => 5,
-    ),
-  );
-
-  // Exported field_instance: 'node-project-field_usability'
-  $field_instances['node-project-field_usability'] = array(
-    'bundle' => 'project',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => 'Usability (including documentation and ease of use)',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'fivestar',
-        'settings' => array(
-          'expose' => TRUE,
-          'style' => 'average',
-          'text' => 'average',
-          'widget' => array(
-            'fivestar_widget' => NULL,
-          ),
-        ),
-        'type' => 'fivestar_formatter_default',
-        'weight' => 40,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_usability',
-    'label' => 'Usability',
-    'required' => 0,
-    'settings' => array(
-      'allow_clear' => 0,
-      'allow_ownvote' => 1,
-      'allow_revote' => 1,
-      'stars' => 5,
-      'target' => 'none',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'fivestar',
-      'settings' => array(
-        'label_help_description' => '',
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
-      'type' => 'exposed',
-      'weight' => 30,
+      'weight' => 19,
     ),
   );
 
@@ -1234,52 +1288,167 @@ function ochack_project_field_default_field_instances() {
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
       'type' => 'link_field',
-      'weight' => 6,
+      'weight' => 20,
+    ),
+  );
+
+  // Exported field_instance: 'taxonomy_term-prizes-field_caption'
+  $field_instances['taxonomy_term-prizes-field_caption'] = array(
+    'bundle' => 'prizes',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'A short description of the prize displayed on the Project form.',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'taxonomy_term',
+    'field_name' => 'field_caption',
+    'label' => 'Caption',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'label_help_description' => '',
+        'maxlength_js' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 1,
+    ),
+  );
+
+  // Exported field_instance: 'taxonomy_term-prizes-field_country'
+  $field_instances['taxonomy_term-prizes-field_country'] = array(
+    'bundle' => 'prizes',
+    'default_value' => array(
+      0 => array(
+        'tid' => 276,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 2,
+      ),
+    ),
+    'entity_type' => 'taxonomy_term',
+    'field_name' => 'field_country',
+    'label' => 'Country',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'content_taxonomy_opt_groups' => 0,
+        'label_help_description' => '',
+      ),
+      'type' => 'options_select',
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance: 'taxonomy_term-prizes-field_jurisdiction'
+  $field_instances['taxonomy_term-prizes-field_jurisdiction'] = array(
+    'bundle' => 'prizes',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Specific if this prize should only be displayed in certain Events/Jurisdictions/States (ie. it is a local prize).',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_plain',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'taxonomy_term',
+    'field_name' => 'field_jurisdiction',
+    'label' => 'Location/Jurisdiction',
+    'required' => 0,
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'label_help_description' => '',
+      ),
+      'type' => 'options_buttons',
+      'weight' => 4,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('A short description of the prize displayed on the Project form.');
+  t('Best Professional Geek Teams');
+  t('Best Public Servant Teams');
+  t('Best University Teams');
+  t('Best Youth Teams');
+  t('Caption');
   t('Code Repository/Source Material URL');
-  t('Code for Australia');
   t('Consistency');
   t('Consistency with contest purposes including social value
 ');
   t('Contributors');
-  t('Data Portal Use Case');
+  t('Country');
   t('Datasets Used');
   t('Demo URL');
-  t('Does your team include: university students; school students; or public servants?');
-  t('If so, please confirm by ticking this box and add at least one .edu.au or .gov.au email address to your team contact details to be eligible for the Best University, Best School or Best Public Servant award');
-  t('If you are using data from a Government portal, would you like your hack considered for addition to portal as a Use Case?');
-  t('If you want to compete for local prizes, please choose a state from the list below.');
   t('Image');
-  t('Local Event State');
+  t('Local Event Location');
+  t('Location/Jurisdiction');
   t('Optionally, provide the URL of the homepage where people can go to find more information or view a demo.');
   t('Originality');
+  t('Other Team Members');
   t('People\'s Choice Project Rating');
+  t('Please consider this team for the Best Entrepreneurship Team prize');
+  t('Please enter a .edu.au email address');
+  t('Please enter a .gov.au or other official government email address');
+  t('Please indicate the local event location that closest matches your location. This will allow you to access even more prizes at the local level.');
+  t('Please indicate which country you are competing from');
+  t('Please provide a professional email address for a professional geek');
   t('Prizes');
   t('Procurement Opportunities');
   t('Project description');
   t('Quality');
-  t('Quality and design (including standards compliance)
+  t('Quality and design (including standards compliance and usability)
 ');
   t('Relevance');
-  t('Showcase');
+  t('Specific if this prize should only be displayed in certain Events/Jurisdictions/States (ie. it is a local prize).');
   t('Team Contact Details');
+  t('Team Member Email');
+  t('Team Member Name');
   t('Team Name');
   t('The relevance to the team nominated category definition');
-  t('These contact details will be used to contact you to arrangements for prizes and are <b>only visible to GovHack organisers and your fellow team members.</b>');
+  t('These contact details will be used to contact your team to make arrangements for prizes and are <b>only visible to GovHack organisers and your fellow team members.</b> We recommend you provide both a team captain\'s phone number and backup phone numbers for other team members!');
+  t('This category is for young hackers aged 13-18! Please enter a .edu.au email address.');
   t('Upload an image to go with this article.');
-  t('Usability');
-  t('Usability (including documentation and ease of use)');
   t('Video URL');
   t('Vote here out of 5 stars for your favourite projects!');
-  t('Would you like to compete for the Best Entrepreneurship Teams prize?');
-  t('Would you like to compete for the Best Professional Geek Teams prize?');
-  t('Would your team like to be considered for Code for Australia opportunities?');
   t('Would your team like to be considered for future procurement opportunities based on your GovHack project?');
-  t('Would your team like to be contacted for showcase opportunities over the coming 12 months?');
   t('Write in details of any datasets used.');
   t('You <b>must</b> provide a link to your Source Code Repository or Source Material (demonstrating that original work was done during the competition) to be eligible for prizes. ');
   t('You can add other Hackerspace users as "Contributors" and then they will also be able to edit this Project Entry.');
