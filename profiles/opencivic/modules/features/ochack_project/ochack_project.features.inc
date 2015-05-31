@@ -17,6 +17,13 @@ function ochack_project_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function ochack_project_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_node_info().
  */
 function ochack_project_node_info() {
@@ -262,6 +269,28 @@ function ochack_project_rdf_default_mappings() {
     ),
     'field_team_prize_professional' => array(
       'predicates' => array(),
+    ),
+    'field_other_team_members' => array(
+      'predicates' => array(),
+    ),
+    'field_best_entrepreneurship_team' => array(
+      'predicates' => array(),
+    ),
+    'field_best_university_teams' => array(
+      'predicates' => array(),
+    ),
+    'field_best_school_teams' => array(
+      'predicates' => array(),
+    ),
+    'field_best_public_servant_teams' => array(
+      'predicates' => array(),
+    ),
+    'field_best_professional_geek_tea' => array(
+      'predicates' => array(),
+    ),
+    'field_country' => array(
+      'predicates' => array(),
+      'type' => 'rel',
     ),
   );
 

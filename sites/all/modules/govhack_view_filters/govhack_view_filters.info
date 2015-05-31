@@ -1,0 +1,6 @@
+name = Govhack View Filters
+description = Govhack View Filters
+core = 7.x
+files[] = govhack_view_filters.module
+files[] = govhack_view_filters.views.inc
+dependencies[] = views

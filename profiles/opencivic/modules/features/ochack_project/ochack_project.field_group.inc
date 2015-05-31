@@ -78,27 +78,11 @@ function ochack_project_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Competition Details',
-    'weight' => '2',
+    'weight' => '3',
     'children' => array(
       0 => 'field_project_jurisdiction',
       1 => 'field_prizes',
-      2 => 'field_act_prizes',
-      3 => 'field_victorian_technology_innov',
-      4 => 'field_adelaide_prizes',
-      5 => 'field_geelong_ballarat_prizes',
-      6 => 'field_gold_coast_prizes',
-      7 => 'field_melbourne_prizes',
-      8 => 'field_mount_gambier_prizes',
-      9 => 'field_nsw_sydney_prizes',
-      10 => 'field_tasmania_prizes',
-      11 => 'field_wa_perth_prizes',
-      12 => 'field_hack_hosting',
-      13 => 'field_science_prize',
-      14 => 'field_digital_humanities_prize',
-      15 => 'field_social_inclusion_prize',
-      16 => 'field_business_prize',
-      17 => 'field_data_journalism_prize',
-      18 => 'field_brisbane_prizes',
+      2 => 'field_country',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -124,12 +108,9 @@ function ochack_project_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Data Used',
-    'weight' => '3',
+    'weight' => '4',
     'children' => array(
       0 => 'field_other_datasets',
-      1 => 'field_local_datasets_used',
-      2 => 'field_datasets_used',
-      3 => 'field_local_sa_data_used',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -271,7 +252,7 @@ function ochack_project_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Project Results',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'field_download_url',
       1 => 'field_url',
@@ -334,13 +315,8 @@ function ochack_project_field_group_info() {
       0 => 'field_contributor',
       1 => 'field_team_contact_details',
       2 => 'field_team_name',
-      3 => 'field_team_awards',
-      4 => 'field_procurement',
-      5 => 'field_code_for_australia',
-      6 => 'field_data_portal_use_case',
-      7 => 'field_showcase',
-      8 => 'field_team_prize_entrepreneurshi',
-      9 => 'field_team_prize_professional',
+      3 => 'field_procurement',
+      4 => 'field_other_team_members',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -354,6 +330,37 @@ function ochack_project_field_group_info() {
     ),
   );
   $export['group_team_details|node|project|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_team_prizes|node|project|form';
+  $field_group->group_name = 'group_team_prizes';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'project';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Team Prizes',
+    'weight' => '2',
+    'children' => array(
+      0 => 'field_best_entrepreneurship_team',
+      1 => 'field_best_university_teams',
+      2 => 'field_best_school_teams',
+      3 => 'field_best_public_servant_teams',
+      4 => 'field_best_professional_geek_tea',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-team-prizes field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_team_prizes|node|project|form'] = $field_group;
 
   return $export;
 }
