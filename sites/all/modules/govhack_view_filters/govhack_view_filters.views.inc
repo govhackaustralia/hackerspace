@@ -2,16 +2,17 @@
 function govhack_view_filters_views_post_execute(&$view)
 {
     if ($view->current_display == 'prizes_list') {
+        $location = taxonomy_term_load($view->args[1]);
         foreach ($view->result as $i => $result) {
 
             $r = false;
-            // show all international
-            if ($result->field_field_country[0]['rendered']['#title'] == 'International') {
+            // show all international (country is blank)
+            if (empty($result->field_field_country)) {
                 $r = true;
-            } else if ($result->field_field_country[0]['raw']['tid'] == $view->args[0]) {
-                if (empty($result->field_field_jurisdiction)) {
+            } else if ($result->field_field_country[0]['raw']['tid'] == $location->field_country['und'][0]['tid']) { // national and local prizes
+                if (empty($result->field_field_jurisdiction)) { // national, no location
                     $r = true;
-                } else if( $result->field_field_jurisdiction[0]['raw']['tid'] == $view->args[1]) {
+                } else if( $result->field_field_jurisdiction[0]['raw']['tid'] == $view->args[1]) { // local, location matches
                     $r = true;
                 }
             }
