@@ -806,12 +806,6 @@ function tmgmt_update_7010() {
  * Add uid field for {tmgmt_message} table.
  */
 function tmgmt_update_7011() {
-  db_add_field('tmgmt_message', 'uid', array(
-    'description' => 'The identifier of the user who performed the action.',
-    'type' => 'int',
-    'not null' => TRUE,
-    'default' => 0,
-  ));
 }
 
 /**

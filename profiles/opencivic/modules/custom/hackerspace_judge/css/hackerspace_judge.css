@@ -2,11 +2,16 @@
     color: #ff0000;
 }
 
-.heading-3{
-    font-size: 18px;
-    font-weight: bolder;
-}
-
 .project-item{
     margin-left: 10px;
+}
+
+.form-item-field-prizes-und .form-item {
+    display: inline-block;
+    width: 320px;
+}
+
+
+.form-item-field-prizes-und .views-field-field-jurisdiction {
+    display: none;
 }

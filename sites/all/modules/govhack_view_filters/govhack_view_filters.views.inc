@@ -12,8 +12,12 @@ function govhack_view_filters_views_post_execute(&$view)
                 } else if ($result->field_field_country[0]['raw']['tid'] == $location->field_country['und'][0]['tid']) { // national and local prizes
                     if (empty($result->field_field_jurisdiction)) { // national, no location
                         $r = true;
-                    } else if ($result->field_field_jurisdiction[0]['raw']['tid'] == $view->args[1]) { // local, location matches
-                        $r = true;
+                    } else {
+                        foreach ($result->field_field_jurisdiction as $loc) {
+                            if ($loc['raw']['tid'] == $view->args[1]) { // local, location matches
+                                $r = true;
+                            }
+                        }
                     }
                 }
 
