@@ -1,20 +1,21 @@
 <?php
 function govhack_view_filters_views_post_execute(&$view)
 {
-    if ($view->current_display == 'prizes_list' && $view->args[0] != 'all') {
+    if ($view->current_display == 'prizes_list') {
             $location = taxonomy_term_load($view->args[1]);
             foreach ($view->result as $i => $result) {
 
                 $r = false;
                 // show all international (country is blank)
-                if (empty($result->field_field_country)) {
+                if (empty($result->_field_data['tid']['entity']->field_country['und']) && !is_null($view->args[1]) && $view->args[1] != '_none')  {
                     $r = true;
-                } else if ($result->field_field_country[0]['raw']['tid'] == $location->field_country['und'][0]['tid']) { // national and local prizes
-                    if (empty($result->field_field_jurisdiction)) { // national, no location
+                } else if ($result->_field_data['tid']['entity']->field_country['und'][0]['tid']
+                    == $location->field_country['und'][0]['tid'] && !is_null($view->args[1]) && $view->args[1] != '_none') { // national and local prizes
+                    if (empty($result->_field_data['tid']['entity']->field_jurisdiction['und'])) { // national, no location
                         $r = true;
                     } else {
-                        foreach ($result->field_field_jurisdiction as $loc) {
-                            if ($loc['raw']['tid'] == $view->args[1]) { // local, location matches
+                        foreach ($result->_field_data['tid']['entity']->field_jurisdiction['und'] as $loc) {
+                            if ($loc['tid'] == $view->args[1]) { // local, location matches
                                 $r = true;
                             }
                         }
@@ -37,6 +38,7 @@ function govhack_view_filters_views_post_execute(&$view)
         }
     }
     if ($view->current_display == 'project_list' ||
+        $view->current_display == 'by_prize' ||
         $view->current_display == 'project_export' ||
         $view->current_display == 'project_export_private'
     ) {

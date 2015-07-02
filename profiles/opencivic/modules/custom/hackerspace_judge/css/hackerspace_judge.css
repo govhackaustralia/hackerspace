@@ -8,10 +8,11 @@
 
 .form-item-field-prizes-und .form-item {
     display: inline-block;
-    width: 320px;
+    width: 297px;
 }
-
-
-.form-item-field-prizes-und .views-field-field-jurisdiction {
+.vertical-tabs {
+    display: none;
+}
+.form-item-body-und-0-value .field-edit-link {
     display: none;
 }

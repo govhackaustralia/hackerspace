@@ -217,7 +217,7 @@ function entityreference_field_validate($entity_type, $entity, $field, $instance
     }
   }
 
-  if ($ids) {
+  /*if ($ids) {
     $valid_ids = entityreference_get_selection_handler($field, $instance, $entity_type, $entity)->validateReferencableEntities(array_keys($ids));
 
     $invalid_entities = array_diff_key($ids, array_flip($valid_ids));
@@ -229,7 +229,7 @@ function entityreference_field_validate($entity_type, $entity, $field, $instance
         );
       }
     }
-  }
+  }*/
 
   // Invoke the behaviors.
   foreach (entityreference_get_behavior_handlers($field, $instance) as $handler) {
