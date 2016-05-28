@@ -14,6 +14,13 @@ function field_tools_field_overview() {
   $field_types = field_info_field_types();
   $fields = field_info_fields();
 
+  // Sort the fields, defaulting to field name.
+  $query = drupal_get_query_parameters();
+  $sort = isset($query['sort']) ? check_plain($query['sort']) : 'field_name';
+  uasort($fields, function($a, $b) use ($sort) {
+    return strcmp($a[$sort], $b[$sort]);
+  });
+
   $rows = array();
   foreach ($fields as $field_name => $field) {
     $row = array();
@@ -36,8 +43,16 @@ function field_tools_field_overview() {
   }
 
   $header = array(
-    t('Field name'),
-    t('Type'),
+    l(t('Field name'), current_path(), array(
+      'query' => array(
+        'sort' => 'field_name',
+      ),
+    )),
+    l(t('Type'), current_path(), array(
+      'query' => array(
+        'sort' => 'type',
+      ),
+    )),
     t('Instances'),
     t('Operations'),
   );
@@ -68,7 +83,7 @@ function field_tools_field_references_overview() {
   $rows = array();
   foreach ($fields as $field_name => $field) {
     // TODO: also deal with taxonomy term ref, product ref.
-    if (!in_array($field['type'], array('entityreference'))) {
+    if (!in_array($field['type'], array('entityreference', 'taxonomy_term_reference'))) {
       continue;
     }
 
@@ -79,13 +94,50 @@ function field_tools_field_references_overview() {
     $row[] = $field_types[$field['type']]['label'];
     // Column: field instances.
     $row[] = field_tools_field_instances_list($field);
-    // Column: targets.
+    // Column: target entity type.
     switch ($field['type']) {
+      case 'taxonomy_term_reference':
+        $target_type = 'taxonomy_term';
+        break;
       case 'entityreference':
         $target_type = $field['settings']['target_type'];
-    }
-    // TODO: target bundles.
+    } // switch
     $row[] = $entity_info[$target_type]['label'];
+    // Column: target bundles.
+    switch ($field['type']) {
+      case 'taxonomy_term_reference':
+        $vocabulary = $field['settings']['allowed_values'][0]['vocabulary'];
+        $row[] = l($entity_info['taxonomy_term']['bundles'][$vocabulary]['label'],
+          _field_ui_bundle_admin_path('taxonomy_term', $vocabulary));
+        break;
+      case 'entityreference':
+        switch ($field['settings']['handler']) {
+          case 'base':
+            // Base handler: select bundles.
+            if (empty($field['settings']['handler_settings']['target_bundles'])) {
+              // Nothing means all bundles.
+              $row[] = t("All bundles");
+            }
+            else {
+              $target_bundles = $field['settings']['handler_settings']['target_bundles'];
+              $items = array();
+              foreach ($target_bundles as $target_bundle) {
+                $items[] = l($entity_info[$target_type]['bundles'][$target_bundle]['label'],
+                  _field_ui_bundle_admin_path($target_type, $target_bundle));
+              }
+
+              $row[] = theme('item_list', array(
+                'items' => $items,
+              ));
+            }
+            break;
+          default:
+            $row[] = "**other handler**";
+            // TODO: view selection
+
+        } // switch entref handler
+        break;
+    } // switch field type
 
     $rows[] = $row;
   }
@@ -94,7 +146,8 @@ function field_tools_field_references_overview() {
     t('Field name'),
     t('Type'),
     t('Instances'),
-    t('Target'),
+    t('Target entity type'),
+    t('Target bundles'),
   );
 
   $output .= theme('table', array(
@@ -469,6 +522,9 @@ function field_tools_field_delete_form_submit($form, &$form_state) {
       '%bundle' => $bundle_name,
     )));
   }
+
+  // Redirect the user to the overview page.
+  $form_state['redirect'] = 'admin/reports/fields/tools';
 }
 
 /**
@@ -487,10 +543,22 @@ function field_tools_bundle_fields_clone_from_form($form, &$form_state, $entity_
   $field_instances = field_info_instances($entity_type, $bundle_name);
   //dsm($field_instances);
 
+  // Order the instances by weight.
+  uasort($field_instances, function($a, $b) {
+    if ($a['widget']['weight'] == $b['widget']['weight']) {
+        return 0;
+    }
+    return ($a['widget']['weight'] < $b['widget']['weight']) ? -1 : 1;
+  });
+
   $options_fields = array();
   foreach ($field_instances as $field_name => $field) {
-    $options_fields[$field_name] = $field['label'];
+    $options_fields[$field_name] = t("@field-label (machine name: @field-name)", array(
+      '@field-label' => $field['label'],
+      '@field-name' => $field_name,
+    ));
   }
+  asort($options_fields);
 
   $form['fields'] = array(
     '#title' => t('Fields to clone'),
@@ -668,6 +736,7 @@ function field_tools_bundle_export_form($form, $form_state, $entity_type, $bundl
   foreach ($instances as $field_name => $field) {
     $options_fields[$field_name] = $field['label'];
   }
+  asort($options_fields);
 
   $form['fields'] = array(
     '#title' => t('Fields to export'),
@@ -682,6 +751,8 @@ function field_tools_bundle_export_form($form, $form_state, $entity_type, $bundl
     foreach ($groups as $group_name => $group) {
       $options_groups[$group_name] = $group->label;
     }
+    asort($options_groups);
+
     $form['groups'] = array(
       '#title' => t('Groups to export'),
       '#type' => 'checkboxes',
@@ -1186,9 +1257,17 @@ function _field_tools_add_instance_to_bundles($instance, $new_instances) {
         continue;
       }
 
+      // Strip out keys that are specific to the instance being copied.
       $instance = array_diff_key($instance, array_flip(array('id', 'field_id', 'bundle', 'entity_type', 'deleted')));
-      // Only bring back displays that have matching "view mode" in this entity type.
-      $instance['display'] = array_intersect_key($original_display, $entity_types[$entity_type]['view modes']);
+
+      // Only bring back displays that have matching "view mode" in this entity
+      // type.
+      $view_modes = $entity_types[$entity_type]['view modes'];
+      // Add a key for the default display settings, so the array intersection
+      // keeps them, as we always want those.
+      $view_modes['default'] = TRUE;
+
+      $instance['display'] = array_intersect_key($original_display, $view_modes);
       if (empty($instance['display'])) {
         //@todo should there be logic to handle to no matching 'view modes'
       }

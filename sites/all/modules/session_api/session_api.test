@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * @file
  * Session API tests.
@@ -53,13 +54,13 @@ class SessionApiTestCase extends DrupalWebTestCase {
     // Capture existing values, which are restored at the end of this function.
     $old_cookie = $_COOKIE;
 
-    // Test session_api_available() with cookies disabled.
+    // session_api_available();
     $_COOKIE = NULL;
     $this->assertFalse(session_api_available(), t('Function session_api_available() correctly returns FALSE when cookies are disabled.'));
     $this->assertFalse(session_api_get_sid(), t('Function session_api_get_sid() correctly returns FALSE when cookies are disabled.'));
 
     // Enable cookies.
-    $_COOKIE = array('session_api_test' => 'test');
+    $_COOKIE = $old_cookie;
 
     // Check that the session_api_get_sid doesn't create a sid when the
     // caller don't want it to get created.
@@ -81,8 +82,5 @@ class SessionApiTestCase extends DrupalWebTestCase {
     $this->assertTrue(!empty($session_id), t('Session API test module properly initialized session api.'));
     $stored = db_query("SELECT session_id FROM {session_api} WHERE sid = :sid", array(':sid' => $sid))->fetchField();
     $this->assertEqual($stored, $session_id, t('session_api_get_sid() is properly storing the session_id.'));
-
-    // Restore original cookie.
-    $_COOKIE = $old_cookie;
   }
 }

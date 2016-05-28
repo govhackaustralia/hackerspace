@@ -26,10 +26,15 @@
  *     - 'timeout': (int) Time in seconds before a pre-signed URL times out.
  *     - 'api_args': array of additional arguments to the getObject() function:
  *       http://docs.aws.amazon.com/aws-sdk-php/latest/class-Aws.S3.S3Client.html#_getObject
+ *     - 'custom_GET_args': (array) Implementing this hook allows you to add
+ *       your own set of custom GET arguments to the S3 URLs of your files.
+ *       If your custom args' keys start with "x-", S3 will ignore them, but
+ *       still log them:
+ *       http://docs.aws.amazon.com/AmazonS3/latest/dev/LogFormat.html#LogFormatCustom
+ *
  * @param string $s3_file_path
  *   The path to the file within your S3 bucket. This includes the prefixes
- *   which might be added (e.g. s3fs-public/ for public:// files, or the
- *   S3FS Root Folder setting).
+ *   which might be added, e.g. the Public Folder and/or Root Folder settings.
  *
  * @return array
  *   The modified array of configuration items.
@@ -40,6 +45,11 @@ function hook_s3fs_url_settings_alter(&$url_settings, $s3_file_path) {
     $url_settings['presigned_url'] = TRUE;
     $url_settings['timeout'] = 10;
   }
+
+  // An example of adding a custom GET argument to all S3 URLs that
+  // records the name of the currently logged in user.
+  global $user;
+  $url_settings['custom_GET_args']['x-user'] = $user->name;
 }
 
 /**
@@ -49,17 +59,8 @@ function hook_s3fs_url_settings_alter(&$url_settings, $s3_file_path) {
  *   Associative array of upload settings
  * @see http://docs.aws.amazon.com/aws-sdk-php/latest/class-Aws.S3.S3Client.html#_putObject
 */
-function hook_s3fs_upload_params_alter(&$upload_params){
+function hook_s3fs_upload_params_alter(&$upload_params) {
   if (strpos($upload_params['Key'], 'private/') !== FALSE){
     $upload_params['ACL'] = 'private';
   }
-}
-
-/**
- * This is the old version of hook_s3fs_url_settings_alter(). It is now
- * DEPRECATED. If your code is still invoking this hook, please update to
- * hook_s3fs_url_settings_alter().
- */
-function hook_s3fs_url_info($local_path, &$url_settings) {
-  
 }
