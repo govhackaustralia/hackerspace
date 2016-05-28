@@ -5,20 +5,4 @@ sites/*/settings*.php
 sites/*/files
 sites/*/private
 
-.idea/.name
-
-.idea/encodings.xml
-
-.idea/libraries/sass_stdlib.xml
-
-.idea/misc.xml
-
-.idea/modules.xml
-
-.idea/redcross.iml
-
-.idea/scopes/scope_settings.xml
-
-.idea/vcs.xml
-
-.idea/workspace.xml
+.idea
