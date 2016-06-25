@@ -1,0 +1,71 @@
+<?php
+function _update_prizes_callback($form, $form_state)
+{
+    return $form['field_prizes'];
+}
+
+function govhack_project_node_preview($form, &$form_state)
+{
+    // calculate not yet saved changes for preview
+    $node = node_form_submit_build_node($form, $form_state);
+// Prepend preview to node edit form
+    $form_state['node_preview'] = '<div class="preview" style="border: solid 3px black;"></div>';
+    $form_state['rebuild'] = TRUE;
+    drupal_set_message("All competition elements have not be submitted, project can not be submitted.");
+    drupal_set_message("Project has been submitted -select re-Open Project");
+}
+
+function govhack_project_form_alter(&$form, &$form_state, $form_id)
+{
+    if ($form_id == 'project_node_form') {
+        // Add a 'View changes' button on the node edit form.
+        $form['actions']['submit_project'] = array(
+            '#type' => 'submit',
+            '#value' => t('Submit you entry'),
+            '#weight' => 12,
+            '#submit' => array('govhack_project_node_preview'),
+        );
+        $form['field_project_jurisdiction']['und']['#ajax'] = array(
+            'callback' => '_update_prizes_callback',
+            'wrapper' => 'prizes_wrapper',
+        );
+        /*    $form['field_country']['und']['#ajax'] = array(
+                'callback' => '_update_prizes_callback',
+                'wrapper' => 'prizes_wrapper',
+            );*/
+        // jQuery('#field-official-datasets-values tr .link-field-url input')
+        // jQuery.getJSON( "https://data.gov.au/dataset/threatened-species-state-lists".replace("/dataset/","/api/3/action/package_show?id="), function( data ) { console.log(data)});
+        $form['field_prizes']['und']['#prefix'] = '<div id="prizes_wrapper">';
+        $form['field_prizes']['und']['#suffix'] = '</div>';
+
+    }
+}
+
+/**
+ * Implements hook_block_info().
+ * http://kahthong.com/2013/06/create-your-own-custom-drupal-block-programmatically
+ */
+function govhack_project_block_info() {
+    $blocks = array();
+    $blocks['scorecard'] = array(
+        'info' => t('GovHack Score card'),
+    );
+    return $blocks;
+}
+/**
+ * Implements hook_block_view().
+ */
+function govhack_project_block_view($delta = '') {
+    $block = array();
+    switch ($delta) {
+        case 'scorecard':
+            $block['subject'] = '';
+            $block['content'] = _govhack_project_scorecard_content();
+            break;
+    }
+    return $block;
+}
+function _govhack_project_scorecard_content() {
+    $output = t('Hello world');
+    return $output;
+}

@@ -1,0 +1,4 @@
+name = Govhack Project pages
+description = Govhack Project page customisations like dependent fields and judging capability
+core = 7.x
+files[] = govhack_project.module
