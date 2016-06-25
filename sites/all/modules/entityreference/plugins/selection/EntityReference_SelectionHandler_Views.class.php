@@ -108,25 +108,36 @@ class EntityReference_SelectionHandler_Views implements EntityReference_Selectio
     if ($this->field['field_name'] == 'field_prizes') {
       $args = Array();
 
-      if (isset($_POST['field_country']['und'])) {
-        $args[] = $_POST['field_country']['und'];
+      if (isset($_POST['field_region']['und'])) {
+        $args[] = $_POST['field_region']['und'];
       }
       else {
         if ($entity !== NULL) {
-          $args[] = $entity->field_country['und'][0]['tid'];
+          $args[] = $entity->field_region['und'][0]['tid'];
         }
       }
 
-      if (isset($_POST['field_project_jurisdiction']['und'])) {
-        $args[] = $_POST['field_project_jurisdiction']['und'];
+      if (isset($_POST['field_event_location']['und'])) {
+        $args[] = $_POST['field_event_location']['und'];
       }
       else {
         if ($entity !== NULL) {
-          $args[] = $entity->field_project_jurisdiction['und'][0]['tid'];
+          $args[] = $entity->field_event_location['und'][0]['tid'];
         }
       }
-
     }
+  if ($this->field['field_name'] == 'field_event_location') {
+      $args = Array();
+
+      if (isset($_POST['field_region']['und'])) {
+          $args[] = $_POST['field_region']['und'];
+      }
+      else {
+          if ($entity !== NULL) {
+              $args[] = $entity->field_region['und'][0]['tid'];
+          }
+      }
+  }
 
     $result = array();
     if ($this->initializeView($match, $match_operator, $limit)) {

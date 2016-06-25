@@ -1,6 +1,25 @@
 <?php
 function govhack_view_filters_views_post_execute(&$view)
 {
+    if ($view->current_display == 'locations') {
+        //$region = taxonomy_term_load($view->args[0]);
+
+        $locations = taxonomy_get_children($view->args[0]);
+        $location_tids = array_keys($locations);
+        foreach($locations as $tid => $location) {
+            $view->result[] = (object)array(
+                "taxonomy_term_data_name" => $location->name,
+                "taxonomy_term_data_vid" => $location->vid,
+                "tid" => $tid,
+                "taxonomy_vocabulary_machine_name" => "jurisdiction"
+            );
+        }
+        foreach ($view->result as $i => $result) {
+            if (!in_array($result->tid, $location_tids)) {
+                unset($view->result[$i]);
+            }
+        }
+    }
     if ($view->current_display == 'prizes_list') {
             $location = taxonomy_term_load($view->args[1]);
             foreach ($view->result as $i => $result) {
@@ -47,6 +66,9 @@ function govhack_view_filters_views_post_execute(&$view)
                 $tids = Array();
                 if ($view->args[0] == 'mine') {
                     $user = user_load($GLOBALS['user']->uid);
+                    foreach ($user->field_region['und'] as $location) {
+                        $tids[] = $location['tid'];
+                    }
                     foreach ($user->field_jurisdiction['und'] as $location) {
                         $tids[] = $location['tid'];
                     }
@@ -54,7 +76,12 @@ function govhack_view_filters_views_post_execute(&$view)
                     $tids[] = $view->args[0];
                 }
                 $remove = true;
-                foreach ($result->field_field_project_jurisdiction as $location) {
+                foreach ($result->field_field_event_location as $location) {
+                    if (in_array($location['raw']['tid'], $tids)) {
+                        $remove = false;
+                    }
+                }
+                foreach ($result->field_field_region as $location) {
                     if (in_array($location['raw']['tid'], $tids)) {
                         $remove = false;
                     }
