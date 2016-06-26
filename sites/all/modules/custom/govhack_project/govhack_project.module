@@ -43,9 +43,15 @@ function govhack_project_form_alter(&$form, &$form_state, $form_id)
         $form['field_event_location']['und']['#prefix'] = '<div id="event_location_wrapper">';
         $form['field_event_location']['und']['#suffix'] = '</div>';
 
+        $form['field_ready']['und']['#prefix'] = '<div id="ready_wrapper" style="display:none;">';
+        $form['field_ready']['und']['#suffix'] = '</div>';
 
-        // jQuery('#field-official-datasets-values tr .link-field-url input')
-        // jQuery.getJSON( "https://data.gov.au/dataset/threatened-species-state-lists".replace("/dataset/","/api/3/action/package_show?id="), function( data ) { console.log(data)});
+        $form['field_official_datasets_values']['und']['#suffix'] ='
+        <script>
+        console.log(jQuery("#field-official-datasets-values tr .link-field-url input"));
+        jQuery.getJSON( "https://data.gov.au/dataset/threatened-species-state-lists".replace("/dataset/","/api/3/action/package_show?id="), function( data ) { console.log(data)});
+        </script>';
+
 
 
     }
