@@ -9,27 +9,9 @@ function _update_event_location_callback($form, $form_state)
     return $form['field_event_location'];
 }
 
-function govhack_project_node_preview($form, &$form_state)
-{
-    // calculate not yet saved changes for preview
-    $node = node_form_submit_build_node($form, $form_state);
-// Prepend preview to node edit form
-    $form_state['node_preview'] = '<div class="preview" style="border: solid 3px black;"></div>';
-    $form_state['rebuild'] = TRUE;
-    drupal_set_message("All competition elements have not be submitted, project can not be submitted.");
-    drupal_set_message("Project has been submitted -select re-Open Project");
-}
-
 function govhack_project_form_alter(&$form, &$form_state, $form_id)
 {
     if ($form_id == 'project_node_form') {
-        // Add a 'View changes' button on the node edit form.
-        $form['actions']['submit_project'] = array(
-            '#type' => 'submit',
-            '#value' => t('Submit your entry'),
-            '#weight' => 12,
-            '#submit' => array('govhack_project_node_preview'),
-        );
         $form['field_event_location']['und']['#ajax'] = array(
             'callback' => '_update_prizes_callback',
             'wrapper' => 'prizes_wrapper',
@@ -46,6 +28,29 @@ function govhack_project_form_alter(&$form, &$form_state, $form_id)
 
         $form['field_ready']['und']['#prefix'] = '<div id="ready_wrapper" style="display:none;">';
         $form['field_ready']['und']['#suffix'] = '</div>';
+
+        if ($form_state['node']->field_ready['und'][0]['value'] == 1) {
+            $form['#prefix'] = "Project has been submitted - select <a href='#' id=unlock>Re-Open Project</a>";
+        }
+        $form['#suffix'] = '<script>
+       jQuery(function() {
+         jQuery("#unlock").click(function() {
+                       jQuery("#project-node-form").css("opacity", 1.0);
+            jQuery("#project-node-form :input").prop("disabled", false);
+         });
+         jQuery("#edit-actions").append(\'<input type="submit" id="edit-submit-project" name="op" value="Submit your entry" class="form-submit">\');
+         jQuery("#edit-submit-project").click(function() {
+           jQuery("#edit-field-ready-und").prop(\'checked\', true);
+           jQuery("#edit-submit").click();
+         })
+         
+         if (jQuery("#edit-field-ready-und").prop("checked")) {
+            jQuery("#project-node-form").css("opacity", 0.5);
+            jQuery("#project-node-form :input").prop("disabled", true);
+        }
+        });
+</script>';
+
 
         $form['field_official_datasets_values']['und']['#suffix'] = '
         <script>
@@ -90,7 +95,6 @@ Drupal.behaviors.MyModule = {
     attach: function (context, settings) { 
           //Called after ajax event returns data
               Drupal.ajax["edit-field-official-datasets-und-add-more"].success = function(response, status) {
-                console.log(response);
                 setTimeout(function() {
       attachCKANAutocomplete();
     }, 100)
