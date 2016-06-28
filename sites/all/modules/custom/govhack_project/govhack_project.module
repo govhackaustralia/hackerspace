@@ -3,6 +3,7 @@ function _update_prizes_callback($form, $form_state)
 {
     return $form['field_prizes'];
 }
+
 function _update_event_location_callback($form, $form_state)
 {
     return $form['field_event_location'];
@@ -46,12 +47,60 @@ function govhack_project_form_alter(&$form, &$form_state, $form_id)
         $form['field_ready']['und']['#prefix'] = '<div id="ready_wrapper" style="display:none;">';
         $form['field_ready']['und']['#suffix'] = '</div>';
 
-        $form['field_official_datasets_values']['und']['#suffix'] ='
+        $form['field_official_datasets_values']['und']['#suffix'] = '
         <script>
-        console.log(jQuery("#field-official-datasets-values tr .link-field-url input"));
-        jQuery.getJSON( "https://data.gov.au/dataset/threatened-species-state-lists".replace("/dataset/","/api/3/action/package_show?id="), function( data ) { console.log(data)});
-        </script>';
+        var thisField;
+        if (!String.prototype.includes) {
+  String.prototype.includes = function(search, start) {
+    \'use strict\';
+    if (typeof start !== \'number\') {
+      start = 0;
+    }
+    
+    if (start + search.length > this.length) {
+      return false;
+    } else {
+      return this.indexOf(search, start) !== -1;
+    }
+  };
+}
+function attachCKANAutocomplete() {
+  jQuery("#edit-field-official-datasets .link-field-url input").each(function() {
+        jQuery(this).change(function() {
+            if (jQuery(this).val().includes("/dataset/")) {
+                thisField = jQuery(this);
+                jQuery.getJSON(jQuery(this).val().replace("/dataset/", "/api/3/action/package_show?id="), function(data) {
+                    thisField.closest("tr").find(".field-name-field-dataset-name input").val(data.result.title);
+                    thisField.closest("tr").find(".field-name-field-publishing-organisation input").val(data.result.organization.title);
+                    if (data.result.jurisdiction === "Commonwealth of Australia") {
+                        thisField.closest("tr").find(".field-name-field-jurisdiction-of-data select").val("Australian Government");
+                    } else {
+                      thisField.closest("tr").find(".field-name-field-jurisdiction-of-data select").val(data.result.jurisdiction);
+                    }
+                });
+            };
+        });
+    });
+}
+        jQuery(function() {
+    attachCKANAutocomplete() ;
+});
 
+Drupal.behaviors.MyModule = {
+    attach: function (context, settings) { 
+          //Called after ajax event returns data
+              Drupal.ajax["edit-field-official-datasets-und-add-more"].success = function(response, status) {
+                console.log(response);
+                setTimeout(function() {
+      attachCKANAutocomplete();
+    }, 100)
+                 //Pass back to original method
+                 Drupal.ajax.prototype.success.call(this, response, status);
+             }
+            
+            }
+            }
+        </script>';
 
 
     }
@@ -61,17 +110,20 @@ function govhack_project_form_alter(&$form, &$form_state, $form_id)
  * Implements hook_block_info().
  * http://kahthong.com/2013/06/create-your-own-custom-drupal-block-programmatically
  */
-function govhack_project_block_info() {
+function govhack_project_block_info()
+{
     $blocks = array();
     $blocks['scorecard'] = array(
         'info' => t('GovHack Score card'),
     );
     return $blocks;
 }
+
 /**
  * Implements hook_block_view().
  */
-function govhack_project_block_view($delta = '') {
+function govhack_project_block_view($delta = '')
+{
     $block = array();
     switch ($delta) {
         case 'scorecard':
@@ -81,7 +133,9 @@ function govhack_project_block_view($delta = '') {
     }
     return $block;
 }
-function _govhack_project_scorecard_content() {
+
+function _govhack_project_scorecard_content()
+{
     $output = t('Hello world');
     return $output;
 }
