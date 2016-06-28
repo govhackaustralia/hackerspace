@@ -592,6 +592,14 @@ if (isset($_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR']) && file_exists($_SERVER['D
   require $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] . '/loc_hackerspace_dd.inc';
 }
 // </DDSETTINGS>
+
+// On Acquia Cloud, this include file configures Drupal to use the correct
+// database in each site environment (Dev, Stage, or Prod). To use this
+// settings.php for development on your local workstation, set $db_url
+// (Drupal 5 or 6) or $databases (Drupal 7 or 8) as described in comments above.
+if (file_exists('/var/www/site-php')) {
+  require('/var/www/site-php/ausgovhack/ausgovhack-settings.inc');
+}
 $conf['404_fast_paths_exclude'] = '/\/(?:(styles|css|js))\//';
 if (isset($conf['memcache_servers'])) {
     $conf['cache_backends'][] = './sites/all/modules/memcache/memcache.inc';
@@ -601,12 +609,7 @@ if (isset($conf['memcache_servers'])) {
     $conf['memcache_stampede_protection'] = TRUE;
     # Move semaphore out of the database and into memory for performance purposes
     $conf['lock_inc'] = './sites/all/modules/memcache/memcache-lock.inc';
-}
-
-// On Acquia Cloud, this include file configures Drupal to use the correct
-// database in each site environment (Dev, Stage, or Prod). To use this
-// settings.php for development on your local workstation, set $db_url
-// (Drupal 5 or 6) or $databases (Drupal 7 or 8) as described in comments above.
-if (file_exists('/var/www/site-php')) {
-  require('/var/www/site-php/ausgovhack/ausgovhack-settings.inc');
+    // Don't bootstrap the database when serving pages from the cache.
+    $conf['page_cache_without_database'] = TRUE;
+    $conf['page_cache_invoke_hooks'] = FALSE;
 }
