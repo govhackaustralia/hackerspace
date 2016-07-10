@@ -30,12 +30,13 @@ function govhack_project_form_alter(&$form, &$form_state, $form_id)
         $form['field_ready']['und']['#suffix'] = '</div>';
 
         if ($form_state['node']->field_ready['und'][0]['value'] == 1) {
-            $form['#prefix'] = "Project has been submitted - select <a href='#' id=unlock>Re-Open Project</a>";
+            $form['#prefix'] = "<div class=\"messages status\">This project has been submitted but you can click to <a href='#' id=unlock>Re-Open Project</a> to make further changes</div>";
         }
         $form['#suffix'] = '<script>
        jQuery(function() {
          jQuery("#unlock").click(function() {
                        jQuery("#project-node-form").css("opacity", 1.0);
+                       jQuery("#edit-field-ready-und").prop("checked", false);
             jQuery("#project-node-form :input").prop("disabled", false);
          });
          jQuery("#edit-actions").append(\'<input type="submit" id="edit-submit-project" name="op" value="Submit your entry" class="form-submit">\');
