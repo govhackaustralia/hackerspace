@@ -11,6 +11,987 @@ function govhack_reports_views_default_views() {
   $export = array();
 
   $view = new view();
+  $view->name = 'Projects';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'Projects';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'GovHack 2015 Projects';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'time';
+  $handler->display->display_options['cache']['results_lifespan'] = '60';
+  $handler->display->display_options['cache']['results_lifespan_custom'] = '0';
+  $handler->display->display_options['cache']['output_lifespan'] = '300';
+  $handler->display->display_options['cache']['output_lifespan_custom'] = '0';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'field_image' => 'field_image',
+    'title' => 'title',
+    'field_team_name' => 'field_team_name',
+    'field_best_youth_teams' => 'field_team_name',
+    'field_url' => 'field_url',
+    'field_video_url' => 'field_video_url',
+    'field_event_location' => 'field_event_location',
+    'field_project_video' => 'field_video_url',
+  );
+  $handler->display->display_options['style_options']['default'] = 'title';
+  $handler->display->display_options['style_options']['info'] = array(
+    'field_image' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'title' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_team_name' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_best_youth_teams' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_url' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_video_url' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_event_location' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_project_video' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['content'] = '<style>
+.youth-label {
+margin-left: 5px;  color: white;  background-color: #5bc0de;  display: inline;  padding: .2em .6em .3em;  font-size: 75%;  font-weight: 700;  line-height: 1;  color: #fff;   text-align: center;  white-space: nowrap;  vertical-align: baseline;  border-radius: .25em;
+}
+</style>';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
+  /* No results behavior: Global: View area */
+  $handler->display->display_options['empty']['view']['id'] = 'view';
+  $handler->display->display_options['empty']['view']['table'] = 'views';
+  $handler->display->display_options['empty']['view']['field'] = 'view';
+  /* Relationship: File Usage: File */
+  $handler->display->display_options['relationships']['node_to_file']['id'] = 'node_to_file';
+  $handler->display->display_options['relationships']['node_to_file']['table'] = 'file_usage';
+  $handler->display->display_options['relationships']['node_to_file']['field'] = 'node_to_file';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = 'Project Title';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Event Location */
+  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
+  /* Field: Content: Prizes */
+  $handler->display->display_options['fields']['field_prizes']['id'] = 'field_prizes';
+  $handler->display->display_options['fields']['field_prizes']['table'] = 'field_data_field_prizes';
+  $handler->display->display_options['fields']['field_prizes']['field'] = 'field_prizes';
+  /* Field: Content: Ready */
+  $handler->display->display_options['fields']['field_ready']['id'] = 'field_ready';
+  $handler->display->display_options['fields']['field_ready']['table'] = 'field_data_field_ready';
+  $handler->display->display_options['fields']['field_ready']['field'] = 'field_ready';
+  $handler->display->display_options['fields']['field_ready']['label'] = 'Project Status';
+  $handler->display->display_options['fields']['field_ready']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_ready']['alter']['text'] = 'Submitted';
+  $handler->display->display_options['fields']['field_ready']['empty'] = 'Draft';
+  $handler->display->display_options['fields']['field_ready']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['field_ready']['type'] = 'list_key';
+  /* Sort criterion: Content: Title */
+  $handler->display->display_options['sorts']['title']['id'] = 'title';
+  $handler->display->display_options['sorts']['title']['table'] = 'node';
+  $handler->display->display_options['sorts']['title']['field'] = 'title';
+  $handler->display->display_options['sorts']['title']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['title']['expose']['label'] = 'Project Title';
+  /* Sort criterion: Content: Updated date */
+  $handler->display->display_options['sorts']['changed']['id'] = 'changed';
+  $handler->display->display_options['sorts']['changed']['table'] = 'node';
+  $handler->display->display_options['sorts']['changed']['field'] = 'changed';
+  /* Sort criterion: Content: Prizes (field_prizes) */
+  $handler->display->display_options['sorts']['field_prizes_target_id']['id'] = 'field_prizes_target_id';
+  $handler->display->display_options['sorts']['field_prizes_target_id']['table'] = 'field_data_field_prizes';
+  $handler->display->display_options['sorts']['field_prizes_target_id']['field'] = 'field_prizes_target_id';
+  /* Sort criterion: Field: Region (field_region) */
+  $handler->display->display_options['sorts']['field_region_tid']['id'] = 'field_region_tid';
+  $handler->display->display_options['sorts']['field_region_tid']['table'] = 'field_data_field_region';
+  $handler->display->display_options['sorts']['field_region_tid']['field'] = 'field_region_tid';
+  $handler->display->display_options['sorts']['field_region_tid']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['field_region_tid']['expose']['label'] = 'Region';
+  /* Sort criterion: Content: Event Location (field_event_location) */
+  $handler->display->display_options['sorts']['field_event_location_target_id']['id'] = 'field_event_location_target_id';
+  $handler->display->display_options['sorts']['field_event_location_target_id']['table'] = 'field_data_field_event_location';
+  $handler->display->display_options['sorts']['field_event_location_target_id']['field'] = 'field_event_location_target_id';
+  $handler->display->display_options['sorts']['field_event_location_target_id']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['field_event_location_target_id']['expose']['label'] = 'Local Event';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'project' => 'project',
+  );
+  $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
+  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
+
+  /* Display: Project List Page */
+  $handler = $view->new_display('page', 'Project List Page', 'project_list');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['path'] = 'projects';
+
+  /* Display: Data export */
+  $handler = $view->new_display('views_data_export', 'Data export', 'project_export');
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
+  $handler->display->display_options['style_options']['provide_file'] = 1;
+  $handler->display->display_options['style_options']['filename'] = 'projects.%timestamp-full.csv';
+  $handler->display->display_options['style_options']['parent_sort'] = 1;
+  $handler->display->display_options['style_options']['quote'] = 1;
+  $handler->display->display_options['style_options']['trim'] = 0;
+  $handler->display->display_options['style_options']['replace_newlines'] = 0;
+  $handler->display->display_options['style_options']['header'] = 1;
+  $handler->display->display_options['style_options']['keep_html'] = 0;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = 'Project Title';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = 'Project Description';
+  /* Field: Field: Region */
+  $handler->display->display_options['fields']['field_region']['id'] = 'field_region';
+  $handler->display->display_options['fields']['field_region']['table'] = 'field_data_field_region';
+  $handler->display->display_options['fields']['field_region']['field'] = 'field_region';
+  /* Field: Content: Event Location */
+  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
+  /* Field: Content: Prizes */
+  $handler->display->display_options['fields']['field_prizes']['id'] = 'field_prizes';
+  $handler->display->display_options['fields']['field_prizes']['table'] = 'field_data_field_prizes';
+  $handler->display->display_options['fields']['field_prizes']['field'] = 'field_prizes';
+  /* Field: Content: Evidence Repository URL */
+  $handler->display->display_options['fields']['field_download_url']['id'] = 'field_download_url';
+  $handler->display->display_options['fields']['field_download_url']['table'] = 'field_data_field_download_url';
+  $handler->display->display_options['fields']['field_download_url']['field'] = 'field_download_url';
+  $handler->display->display_options['fields']['field_download_url']['label'] = 'Source URL';
+  $handler->display->display_options['fields']['field_download_url']['click_sort_column'] = 'url';
+  $handler->display->display_options['fields']['field_download_url']['type'] = 'link_plain';
+  /* Field: Content: Video URL */
+  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
+  $handler->display->display_options['fields']['field_video_url']['type'] = 'link_plain';
+  /* Field: Content: Used Datasets */
+  $handler->display->display_options['fields']['field_official_datasets']['id'] = 'field_official_datasets';
+  $handler->display->display_options['fields']['field_official_datasets']['table'] = 'field_data_field_official_datasets';
+  $handler->display->display_options['fields']['field_official_datasets']['field'] = 'field_official_datasets';
+  $handler->display->display_options['fields']['field_official_datasets']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_official_datasets']['settings'] = array(
+    'edit' => '',
+    'delete' => '',
+    'add' => '',
+    'description' => 1,
+    'view_mode' => 'full',
+  );
+  $handler->display->display_options['fields']['field_official_datasets']['delta_offset'] = '0';
+  /* Field: File: Path */
+  $handler->display->display_options['fields']['uri']['id'] = 'uri';
+  $handler->display->display_options['fields']['uri']['table'] = 'file_managed';
+  $handler->display->display_options['fields']['uri']['field'] = 'uri';
+  $handler->display->display_options['fields']['uri']['relationship'] = 'node_to_file';
+  $handler->display->display_options['fields']['uri']['label'] = 'Project Image URL';
+  $handler->display->display_options['fields']['uri']['file_download_path'] = TRUE;
+  /* Field: Global: PHP */
+  $handler->display->display_options['fields']['php']['id'] = 'php';
+  $handler->display->display_options['fields']['php']['table'] = 'views';
+  $handler->display->display_options['fields']['php']['field'] = 'php';
+  $handler->display->display_options['fields']['php']['label'] = 'Used Datasets';
+  $handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+  $handler->display->display_options['fields']['php']['php_output'] = '<?php
+foreach($data->field_field_official_datasets as $member) {
+$item = reset($member[\'rendered\'][\'entity\'][\'field_collection_item\']);
+echo $item[\'field_dataset_name\'][0][\'#markup\'].\' [\'.$item[\'field_publishing_organisation\'][0][\'#markup\']."] @ ". $item[\'field_dataset_url\'][0][\'#element\'][\'url\'] ."\\n";
+}
+?>';
+  $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+  $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
+  /* Field: Content: Ready */
+  $handler->display->display_options['fields']['field_ready']['id'] = 'field_ready';
+  $handler->display->display_options['fields']['field_ready']['table'] = 'field_data_field_ready';
+  $handler->display->display_options['fields']['field_ready']['field'] = 'field_ready';
+  $handler->display->display_options['fields']['field_ready']['label'] = 'Project Status';
+  $handler->display->display_options['fields']['field_ready']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_ready']['alter']['text'] = 'Submitted';
+  $handler->display->display_options['fields']['field_ready']['empty'] = 'Draft';
+  $handler->display->display_options['fields']['field_ready']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['field_ready']['type'] = 'list_key';
+  $handler->display->display_options['path'] = 'projects/csv';
+
+  /* Display: Projects By Prize Data export */
+  $handler = $view->new_display('views_data_export', 'Projects By Prize Data export', 'by_prize');
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
+  $handler->display->display_options['style_options']['provide_file'] = 1;
+  $handler->display->display_options['style_options']['filename'] = 'projects-by-prize.%timestamp-full.csv';
+  $handler->display->display_options['style_options']['parent_sort'] = 0;
+  $handler->display->display_options['style_options']['quote'] = 1;
+  $handler->display->display_options['style_options']['trim'] = 0;
+  $handler->display->display_options['style_options']['replace_newlines'] = 0;
+  $handler->display->display_options['style_options']['header'] = 1;
+  $handler->display->display_options['style_options']['keep_html'] = 0;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Prizes */
+  $handler->display->display_options['fields']['field_prizes']['id'] = 'field_prizes';
+  $handler->display->display_options['fields']['field_prizes']['table'] = 'field_data_field_prizes';
+  $handler->display->display_options['fields']['field_prizes']['field'] = 'field_prizes';
+  $handler->display->display_options['fields']['field_prizes']['label'] = 'Prize Name';
+  $handler->display->display_options['fields']['field_prizes']['settings'] = array(
+    'link' => 0,
+  );
+  $handler->display->display_options['fields']['field_prizes']['group_rows'] = FALSE;
+  $handler->display->display_options['fields']['field_prizes']['delta_offset'] = '0';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = 'Project Title';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Field: Region */
+  $handler->display->display_options['fields']['field_region']['id'] = 'field_region';
+  $handler->display->display_options['fields']['field_region']['table'] = 'field_data_field_region';
+  $handler->display->display_options['fields']['field_region']['field'] = 'field_region';
+  /* Field: Content: Event Location */
+  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = 'Project Description';
+  /* Field: Content: Evidence Repository URL */
+  $handler->display->display_options['fields']['field_download_url']['id'] = 'field_download_url';
+  $handler->display->display_options['fields']['field_download_url']['table'] = 'field_data_field_download_url';
+  $handler->display->display_options['fields']['field_download_url']['field'] = 'field_download_url';
+  $handler->display->display_options['fields']['field_download_url']['label'] = 'Source URL';
+  $handler->display->display_options['fields']['field_download_url']['click_sort_column'] = 'url';
+  $handler->display->display_options['fields']['field_download_url']['type'] = 'link_plain';
+  /* Field: Content: Video URL */
+  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
+  $handler->display->display_options['fields']['field_video_url']['type'] = 'link_plain';
+  /* Field: Content: Used Datasets */
+  $handler->display->display_options['fields']['field_official_datasets']['id'] = 'field_official_datasets';
+  $handler->display->display_options['fields']['field_official_datasets']['table'] = 'field_data_field_official_datasets';
+  $handler->display->display_options['fields']['field_official_datasets']['field'] = 'field_official_datasets';
+  $handler->display->display_options['fields']['field_official_datasets']['settings'] = array(
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'add' => 'Add',
+    'description' => 1,
+    'view_mode' => 'full',
+  );
+  $handler->display->display_options['fields']['field_official_datasets']['delta_offset'] = '0';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Prizes (field_prizes) */
+  $handler->display->display_options['sorts']['field_prizes_target_id']['id'] = 'field_prizes_target_id';
+  $handler->display->display_options['sorts']['field_prizes_target_id']['table'] = 'field_data_field_prizes';
+  $handler->display->display_options['sorts']['field_prizes_target_id']['field'] = 'field_prizes_target_id';
+  /* Sort criterion: Content: Title */
+  $handler->display->display_options['sorts']['title']['id'] = 'title';
+  $handler->display->display_options['sorts']['title']['table'] = 'node';
+  $handler->display->display_options['sorts']['title']['field'] = 'title';
+  /* Sort criterion: Content: Updated date */
+  $handler->display->display_options['sorts']['changed']['id'] = 'changed';
+  $handler->display->display_options['sorts']['changed']['table'] = 'node';
+  $handler->display->display_options['sorts']['changed']['field'] = 'changed';
+  $handler->display->display_options['path'] = 'projects/by-prize';
+
+  /* Display: Data export private */
+  $handler = $view->new_display('views_data_export', 'Data export private', 'project_export_private');
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    3 => '3',
+    5 => '5',
+  );
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
+  $handler->display->display_options['style_options']['provide_file'] = 1;
+  $handler->display->display_options['style_options']['filename'] = 'projects-private.%timestamp-full.csv';
+  $handler->display->display_options['style_options']['parent_sort'] = 0;
+  $handler->display->display_options['style_options']['quote'] = 1;
+  $handler->display->display_options['style_options']['trim'] = 0;
+  $handler->display->display_options['style_options']['replace_newlines'] = 0;
+  $handler->display->display_options['style_options']['header'] = 1;
+  $handler->display->display_options['style_options']['keep_html'] = 0;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Content: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'node';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Team Name */
+  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = 'Project Title';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = 'Project Description';
+  /* Field: Field: Region */
+  $handler->display->display_options['fields']['field_region']['id'] = 'field_region';
+  $handler->display->display_options['fields']['field_region']['table'] = 'field_data_field_region';
+  $handler->display->display_options['fields']['field_region']['field'] = 'field_region';
+  /* Field: Content: Event Location */
+  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
+  /* Field: User: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['name']['label'] = 'Author Name';
+  /* Field: User: E-mail */
+  $handler->display->display_options['fields']['mail']['id'] = 'mail';
+  $handler->display->display_options['fields']['mail']['table'] = 'users';
+  $handler->display->display_options['fields']['mail']['field'] = 'mail';
+  $handler->display->display_options['fields']['mail']['relationship'] = 'uid';
+  /* Field: Content: Team Phone Numbers */
+  $handler->display->display_options['fields']['field_team_contact_details']['id'] = 'field_team_contact_details';
+  $handler->display->display_options['fields']['field_team_contact_details']['table'] = 'field_data_field_team_contact_details';
+  $handler->display->display_options['fields']['field_team_contact_details']['field'] = 'field_team_contact_details';
+  /* Field: Content: Project Editors */
+  $handler->display->display_options['fields']['field_contributor_1']['id'] = 'field_contributor_1';
+  $handler->display->display_options['fields']['field_contributor_1']['table'] = 'field_data_field_contributor';
+  $handler->display->display_options['fields']['field_contributor_1']['field'] = 'field_contributor';
+  $handler->display->display_options['fields']['field_contributor_1']['label'] = 'Team Members';
+  $handler->display->display_options['fields']['field_contributor_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_contributor_1']['type'] = 'entityreference_entity_id';
+  $handler->display->display_options['fields']['field_contributor_1']['settings'] = array(
+    'link' => 0,
+  );
+  $handler->display->display_options['fields']['field_contributor_1']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_contributor_1']['separator'] = '|';
+  /* Field: Content: Team Members */
+  $handler->display->display_options['fields']['field_other_team_members']['id'] = 'field_other_team_members';
+  $handler->display->display_options['fields']['field_other_team_members']['table'] = 'field_data_field_other_team_members';
+  $handler->display->display_options['fields']['field_other_team_members']['field'] = 'field_other_team_members';
+  $handler->display->display_options['fields']['field_other_team_members']['label'] = 'Other Team Members';
+  $handler->display->display_options['fields']['field_other_team_members']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_other_team_members']['type'] = 'field_collection_fields';
+  $handler->display->display_options['fields']['field_other_team_members']['settings'] = array(
+    'view_mode' => 'full',
+  );
+  $handler->display->display_options['fields']['field_other_team_members']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_other_team_members']['separator'] = '';
+  /* Field: Content: Prizes */
+  $handler->display->display_options['fields']['field_prizes']['id'] = 'field_prizes';
+  $handler->display->display_options['fields']['field_prizes']['table'] = 'field_data_field_prizes';
+  $handler->display->display_options['fields']['field_prizes']['field'] = 'field_prizes';
+  /* Field: Content: Procurement Opportunities */
+  $handler->display->display_options['fields']['field_procurement']['id'] = 'field_procurement';
+  $handler->display->display_options['fields']['field_procurement']['table'] = 'field_data_field_procurement';
+  $handler->display->display_options['fields']['field_procurement']['field'] = 'field_procurement';
+  $handler->display->display_options['fields']['field_procurement']['type'] = 'list_key';
+  /* Field: Global: PHP */
+  $handler->display->display_options['fields']['php']['id'] = 'php';
+  $handler->display->display_options['fields']['php']['table'] = 'views';
+  $handler->display->display_options['fields']['php']['field'] = 'php';
+  $handler->display->display_options['fields']['php']['label'] = 'Team Members';
+  $handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+  $handler->display->display_options['fields']['php']['php_output'] = '<?php
+foreach ($data->field_field_contributor_1 as $contributor) {
+echo $contributor["raw"]["entity"]->name.\' \'. $contributor["raw"]["entity"]->mail. "\\n";
+}
+foreach($data->field_field_other_team_members as $member) {
+$item = reset($member[\'rendered\'][\'entity\'][\'field_collection_item\']);
+echo $item[\'field_team_member_name\'][0][\'#markup\'].\' \'.$item[\'field_team_member_email\'][0][\'#markup\']."\\n";
+}
+?>';
+  $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+  $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
+  /* Field: Content: Team Prize Details */
+  $handler->display->display_options['fields']['field_team_prize_details']['id'] = 'field_team_prize_details';
+  $handler->display->display_options['fields']['field_team_prize_details']['table'] = 'field_data_field_team_prize_details';
+  $handler->display->display_options['fields']['field_team_prize_details']['field'] = 'field_team_prize_details';
+  /* Field: Content: Ready */
+  $handler->display->display_options['fields']['field_ready']['id'] = 'field_ready';
+  $handler->display->display_options['fields']['field_ready']['table'] = 'field_data_field_ready';
+  $handler->display->display_options['fields']['field_ready']['field'] = 'field_ready';
+  $handler->display->display_options['fields']['field_ready']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_ready']['alter']['text'] = 'Submitted';
+  $handler->display->display_options['fields']['field_ready']['empty'] = 'Draft';
+  $handler->display->display_options['fields']['field_ready']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['field_ready']['type'] = 'list_key';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'project' => 'project',
+  );
+  $handler->display->display_options['path'] = 'projects/csv-private-yRgkNzuFDdz';
+  $handler->display->display_options['use_batch'] = 'batch';
+  $handler->display->display_options['segment_size'] = '100';
+
+  /* Display: Higher Education Teams */
+  $handler = $view->new_display('page', 'Higher Education Teams', 'page_4');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: View area */
+  $handler->display->display_options['empty']['view']['id'] = 'view';
+  $handler->display->display_options['empty']['view']['table'] = 'views';
+  $handler->display->display_options['empty']['view']['field'] = 'view';
+  $handler->display->display_options['empty']['view']['empty'] = TRUE;
+  $handler->display->display_options['empty']['view']['view_to_insert'] = 'projects:default';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Image */
+  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
+  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['label'] = '';
+  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_image']['settings'] = array(
+    'image_style' => 'thumbnail',
+    'image_link' => 'content',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Team Name */
+  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
+  /* Field: Content: Website */
+  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
+  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
+  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
+  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
+  /* Field: Content: Video URL */
+  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
+  /* Field: Content: Event Location */
+  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  $handler->display->display_options['path'] = 'projects/edu';
+
+  /* Display: Public Servant Teams */
+  $handler = $view->new_display('page', 'Public Servant Teams', 'page_5');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: View area */
+  $handler->display->display_options['empty']['view']['id'] = 'view';
+  $handler->display->display_options['empty']['view']['table'] = 'views';
+  $handler->display->display_options['empty']['view']['field'] = 'view';
+  $handler->display->display_options['empty']['view']['empty'] = TRUE;
+  $handler->display->display_options['empty']['view']['view_to_insert'] = 'projects:default';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Image */
+  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
+  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['label'] = '';
+  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_image']['settings'] = array(
+    'image_style' => 'thumbnail',
+    'image_link' => 'content',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Team Name */
+  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
+  /* Field: Content: Website */
+  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
+  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
+  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
+  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
+  /* Field: Content: Video URL */
+  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
+  /* Field: Content: Event Location */
+  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  $handler->display->display_options['path'] = 'projects/publicservant';
+
+  /* Display: Professional Teams */
+  $handler = $view->new_display('page', 'Professional Teams', 'page_3');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: View area */
+  $handler->display->display_options['empty']['view']['id'] = 'view';
+  $handler->display->display_options['empty']['view']['table'] = 'views';
+  $handler->display->display_options['empty']['view']['field'] = 'view';
+  $handler->display->display_options['empty']['view']['empty'] = TRUE;
+  $handler->display->display_options['empty']['view']['view_to_insert'] = 'projects:default';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Image */
+  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
+  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['label'] = '';
+  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_image']['settings'] = array(
+    'image_style' => 'thumbnail',
+    'image_link' => 'content',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Team Name */
+  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
+  /* Field: Content: Website */
+  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
+  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
+  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
+  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
+  /* Field: Content: Video URL */
+  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
+  /* Field: Content: Event Location */
+  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  $handler->display->display_options['path'] = 'projects/professional';
+
+  /* Display: My Projects */
+  $handler = $view->new_display('page', 'My Projects', 'my_projects');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Image */
+  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
+  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_image']['settings'] = array(
+    'image_style' => 'thumbnail',
+    'image_link' => 'content',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  /* Field: Content: Team Name */
+  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
+  /* Field: Content: Website */
+  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
+  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
+  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
+  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
+  /* Field: Content: Video URL */
+  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
+  /* Field: Content: Event Location */
+  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'project' => 'project',
+  );
+  $handler->display->display_options['path'] = 'my_projects';
+
+  /* Display: Ready */
+  $handler = $view->new_display('page', 'Ready', 'page_1');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  /* Field: Content: Video Upload */
+  $handler->display->display_options['fields']['field_project_video']['id'] = 'field_project_video';
+  $handler->display->display_options['fields']['field_project_video']['table'] = 'field_data_field_project_video';
+  $handler->display->display_options['fields']['field_project_video']['field'] = 'field_project_video';
+  $handler->display->display_options['fields']['field_project_video']['label'] = '';
+  $handler->display->display_options['fields']['field_project_video']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_project_video']['alter']['text'] = '[field_project_video] 
+ ';
+  $handler->display->display_options['fields']['field_project_video']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_project_video']['alter']['path'] = '[field_project_video]';
+  $handler->display->display_options['fields']['field_project_video']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_project_video']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_project_video']['type'] = 'file_url_plain';
+  /* Field: Content: Video URL */
+  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['alter']['text'] = '[field_video_url][field_project_video]';
+  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
+  /* Field: Content: Evidence Repository URL */
+  $handler->display->display_options['fields']['field_download_url']['id'] = 'field_download_url';
+  $handler->display->display_options['fields']['field_download_url']['table'] = 'field_data_field_download_url';
+  $handler->display->display_options['fields']['field_download_url']['field'] = 'field_download_url';
+  $handler->display->display_options['fields']['field_download_url']['label'] = 'Source/Evidence';
+  $handler->display->display_options['fields']['field_download_url']['click_sort_column'] = 'url';
+  /* Field: Content: Ready */
+  $handler->display->display_options['fields']['field_ready']['id'] = 'field_ready';
+  $handler->display->display_options['fields']['field_ready']['table'] = 'field_data_field_ready';
+  $handler->display->display_options['fields']['field_ready']['field'] = 'field_ready';
+  $handler->display->display_options['fields']['field_ready']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_ready']['alter']['text'] = 'Submitted';
+  $handler->display->display_options['fields']['field_ready']['empty'] = 'Draft';
+  $handler->display->display_options['fields']['field_ready']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['field_ready']['type'] = 'list_key';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'project' => 'project',
+  );
+  $handler->display->display_options['path'] = 'projects/ready';
+
+  /* Display: Youth Teams */
+  $handler = $view->new_display('page', 'Youth Teams', 'page_2');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: View area */
+  $handler->display->display_options['empty']['view']['id'] = 'view';
+  $handler->display->display_options['empty']['view']['table'] = 'views';
+  $handler->display->display_options['empty']['view']['field'] = 'view';
+  $handler->display->display_options['empty']['view']['empty'] = TRUE;
+  $handler->display->display_options['empty']['view']['view_to_insert'] = 'projects:default';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Image */
+  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
+  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
+  $handler->display->display_options['fields']['field_image']['label'] = '';
+  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_image']['settings'] = array(
+    'image_style' => 'thumbnail',
+    'image_link' => 'content',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Team Name */
+  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
+  /* Field: Content: Website */
+  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
+  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
+  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
+  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
+  /* Field: Content: Video URL */
+  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
+  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
+  /* Field: Content: Event Location */
+  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  $handler->display->display_options['path'] = 'projects/youth';
+
+  /* Display: Data export private simple */
+  $handler = $view->new_display('views_data_export', 'Data export private simple', 'views_data_export_1');
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    3 => '3',
+    5 => '5',
+    4 => '4',
+  );
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
+  $handler->display->display_options['style_options']['provide_file'] = 1;
+  $handler->display->display_options['style_options']['filename'] = 'projects-private.%timestamp-full.csv';
+  $handler->display->display_options['style_options']['parent_sort'] = 0;
+  $handler->display->display_options['style_options']['quote'] = 1;
+  $handler->display->display_options['style_options']['trim'] = 0;
+  $handler->display->display_options['style_options']['replace_newlines'] = 0;
+  $handler->display->display_options['style_options']['header'] = 1;
+  $handler->display->display_options['style_options']['keep_html'] = 0;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Content: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'node';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Team Name */
+  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
+  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = 'Project Title';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = 'Project Description';
+  /* Field: Content: Event Location */
+  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
+  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
+  /* Field: User: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['name']['label'] = 'Author Name';
+  /* Field: User: E-mail */
+  $handler->display->display_options['fields']['mail']['id'] = 'mail';
+  $handler->display->display_options['fields']['mail']['table'] = 'users';
+  $handler->display->display_options['fields']['mail']['field'] = 'mail';
+  $handler->display->display_options['fields']['mail']['relationship'] = 'uid';
+  /* Field: Content: Team Phone Numbers */
+  $handler->display->display_options['fields']['field_team_contact_details']['id'] = 'field_team_contact_details';
+  $handler->display->display_options['fields']['field_team_contact_details']['table'] = 'field_data_field_team_contact_details';
+  $handler->display->display_options['fields']['field_team_contact_details']['field'] = 'field_team_contact_details';
+  /* Field: Content: Project Editors */
+  $handler->display->display_options['fields']['field_contributor_1']['id'] = 'field_contributor_1';
+  $handler->display->display_options['fields']['field_contributor_1']['table'] = 'field_data_field_contributor';
+  $handler->display->display_options['fields']['field_contributor_1']['field'] = 'field_contributor';
+  $handler->display->display_options['fields']['field_contributor_1']['label'] = 'Team Members';
+  $handler->display->display_options['fields']['field_contributor_1']['type'] = 'entityreference_entity_view';
+  $handler->display->display_options['fields']['field_contributor_1']['settings'] = array(
+    'view_mode' => 'default',
+    'links' => 1,
+  );
+  $handler->display->display_options['fields']['field_contributor_1']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_contributor_1']['separator'] = '|';
+  /* Field: Content: Team Members */
+  $handler->display->display_options['fields']['field_other_team_members']['id'] = 'field_other_team_members';
+  $handler->display->display_options['fields']['field_other_team_members']['table'] = 'field_data_field_other_team_members';
+  $handler->display->display_options['fields']['field_other_team_members']['field'] = 'field_other_team_members';
+  $handler->display->display_options['fields']['field_other_team_members']['label'] = 'Other Team Members';
+  $handler->display->display_options['fields']['field_other_team_members']['settings'] = array(
+    'edit' => '',
+    'delete' => '',
+    'add' => '',
+    'description' => 1,
+    'view_mode' => 'full',
+  );
+  $handler->display->display_options['fields']['field_other_team_members']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_other_team_members']['separator'] = '';
+  /* Field: Content: Prizes */
+  $handler->display->display_options['fields']['field_prizes']['id'] = 'field_prizes';
+  $handler->display->display_options['fields']['field_prizes']['table'] = 'field_data_field_prizes';
+  $handler->display->display_options['fields']['field_prizes']['field'] = 'field_prizes';
+  /* Field: Content: Procurement Opportunities */
+  $handler->display->display_options['fields']['field_procurement']['id'] = 'field_procurement';
+  $handler->display->display_options['fields']['field_procurement']['table'] = 'field_data_field_procurement';
+  $handler->display->display_options['fields']['field_procurement']['field'] = 'field_procurement';
+  $handler->display->display_options['fields']['field_procurement']['type'] = 'list_key';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'project' => 'project',
+  );
+  $handler->display->display_options['path'] = 'projects/csv-private-simple';
+  $handler->display->display_options['use_batch'] = 'batch';
+  $handler->display->display_options['segment_size'] = '100';
+  $export['Projects'] = $view;
+
+  $view = new view();
   $view->name = 'dataset_list';
   $view->description = '';
   $view->tag = 'default';
@@ -796,1012 +1777,6 @@ function govhack_reports_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'projects-by-prizes';
   $export['project_prizes'] = $view;
-
-  $view = new view();
-  $view->name = 'projects';
-  $view->description = '';
-  $view->tag = 'default';
-  $view->base_table = 'node';
-  $view->human_name = 'Projects';
-  $view->core = 7;
-  $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'GovHack 2015 Projects';
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'none';
-  $handler->display->display_options['cache']['type'] = 'time';
-  $handler->display->display_options['cache']['results_lifespan'] = '60';
-  $handler->display->display_options['cache']['results_lifespan_custom'] = '0';
-  $handler->display->display_options['cache']['output_lifespan'] = '300';
-  $handler->display->display_options['cache']['output_lifespan_custom'] = '0';
-  $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'table';
-  $handler->display->display_options['style_options']['columns'] = array(
-    'field_image' => 'field_image',
-    'title' => 'title',
-    'field_team_name' => 'field_team_name',
-    'field_best_youth_teams' => 'field_team_name',
-    'field_url' => 'field_url',
-    'field_video_url' => 'field_video_url',
-    'field_event_location' => 'field_event_location',
-    'field_project_video' => 'field_video_url',
-  );
-  $handler->display->display_options['style_options']['default'] = 'title';
-  $handler->display->display_options['style_options']['info'] = array(
-    'field_image' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'title' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_team_name' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_best_youth_teams' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_url' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_video_url' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_event_location' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_project_video' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-  );
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = '<style>
-.youth-label {
-margin-left: 5px;  color: white;  background-color: #5bc0de;  display: inline;  padding: .2em .6em .3em;  font-size: 75%;  font-weight: 700;  line-height: 1;  color: #fff;   text-align: center;  white-space: nowrap;  vertical-align: baseline;  border-radius: .25em;
-}
-</style>';
-  $handler->display->display_options['header']['area']['format'] = 'full_html';
-  /* No results behavior: Global: View area */
-  $handler->display->display_options['empty']['view']['id'] = 'view';
-  $handler->display->display_options['empty']['view']['table'] = 'views';
-  $handler->display->display_options['empty']['view']['field'] = 'view';
-  /* Relationship: File Usage: File */
-  $handler->display->display_options['relationships']['node_to_file']['id'] = 'node_to_file';
-  $handler->display->display_options['relationships']['node_to_file']['table'] = 'file_usage';
-  $handler->display->display_options['relationships']['node_to_file']['field'] = 'node_to_file';
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Project Title';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Event Location */
-  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
-  /* Field: Content: Prizes */
-  $handler->display->display_options['fields']['field_prizes']['id'] = 'field_prizes';
-  $handler->display->display_options['fields']['field_prizes']['table'] = 'field_data_field_prizes';
-  $handler->display->display_options['fields']['field_prizes']['field'] = 'field_prizes';
-  /* Sort criterion: Content: Title */
-  $handler->display->display_options['sorts']['title']['id'] = 'title';
-  $handler->display->display_options['sorts']['title']['table'] = 'node';
-  $handler->display->display_options['sorts']['title']['field'] = 'title';
-  $handler->display->display_options['sorts']['title']['exposed'] = TRUE;
-  $handler->display->display_options['sorts']['title']['expose']['label'] = 'Project Title';
-  /* Sort criterion: Content: Updated date */
-  $handler->display->display_options['sorts']['changed']['id'] = 'changed';
-  $handler->display->display_options['sorts']['changed']['table'] = 'node';
-  $handler->display->display_options['sorts']['changed']['field'] = 'changed';
-  /* Sort criterion: Content: Prizes (field_prizes) */
-  $handler->display->display_options['sorts']['field_prizes_target_id']['id'] = 'field_prizes_target_id';
-  $handler->display->display_options['sorts']['field_prizes_target_id']['table'] = 'field_data_field_prizes';
-  $handler->display->display_options['sorts']['field_prizes_target_id']['field'] = 'field_prizes_target_id';
-  /* Sort criterion: Field: Region (field_region) */
-  $handler->display->display_options['sorts']['field_region_tid']['id'] = 'field_region_tid';
-  $handler->display->display_options['sorts']['field_region_tid']['table'] = 'field_data_field_region';
-  $handler->display->display_options['sorts']['field_region_tid']['field'] = 'field_region_tid';
-  $handler->display->display_options['sorts']['field_region_tid']['exposed'] = TRUE;
-  $handler->display->display_options['sorts']['field_region_tid']['expose']['label'] = 'Region';
-  /* Sort criterion: Content: Event Location (field_event_location) */
-  $handler->display->display_options['sorts']['field_event_location_target_id']['id'] = 'field_event_location_target_id';
-  $handler->display->display_options['sorts']['field_event_location_target_id']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['sorts']['field_event_location_target_id']['field'] = 'field_event_location_target_id';
-  $handler->display->display_options['sorts']['field_event_location_target_id']['exposed'] = TRUE;
-  $handler->display->display_options['sorts']['field_event_location_target_id']['expose']['label'] = 'Local Event';
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'project' => 'project',
-  );
-  $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
-  $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
-  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
-  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
-
-  /* Display: Project List Page */
-  $handler = $view->new_display('page', 'Project List Page', 'project_list');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Event Location */
-  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event';
-  $handler->display->display_options['fields']['field_event_location']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_event_location']['settings'] = array(
-    'link' => 1,
-  );
-  /* Field: Field: Region */
-  $handler->display->display_options['fields']['field_region']['id'] = 'field_region';
-  $handler->display->display_options['fields']['field_region']['table'] = 'field_data_field_region';
-  $handler->display->display_options['fields']['field_region']['field'] = 'field_region';
-  /* Field: Content: Image */
-  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
-  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['label'] = '';
-  $handler->display->display_options['fields']['field_image']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_image']['alter']['target'] = '_blank';
-  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_image']['settings'] = array(
-    'image_style' => 'thumbnail',
-    'image_link' => 'content',
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Project Name';
-  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['target'] = '_blank';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  /* Field: Content: Team Name */
-  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
-  /* Field: Content: Best Youth Teams */
-  $handler->display->display_options['fields']['field_best_youth_teams']['id'] = 'field_best_youth_teams';
-  $handler->display->display_options['fields']['field_best_youth_teams']['table'] = 'field_data_field_best_youth_teams';
-  $handler->display->display_options['fields']['field_best_youth_teams']['field'] = 'field_best_youth_teams';
-  $handler->display->display_options['fields']['field_best_youth_teams']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_best_youth_teams']['alter']['text'] = '<span class="youth-label">Youth</span>';
-  $handler->display->display_options['fields']['field_best_youth_teams']['element_type'] = 'span';
-  $handler->display->display_options['fields']['field_best_youth_teams']['hide_empty'] = TRUE;
-  $handler->display->display_options['fields']['field_best_youth_teams']['empty_zero'] = TRUE;
-  $handler->display->display_options['fields']['field_best_youth_teams']['type'] = 'list_key';
-  /* Field: Content: Website */
-  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
-  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
-  /* Field: Content: Video URL */
-  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_video_url']['alter']['target'] = '_blank';
-  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
-  /* Field: Content: Video Upload */
-  $handler->display->display_options['fields']['field_project_video']['id'] = 'field_project_video';
-  $handler->display->display_options['fields']['field_project_video']['table'] = 'field_data_field_project_video';
-  $handler->display->display_options['fields']['field_project_video']['field'] = 'field_project_video';
-  $handler->display->display_options['fields']['field_project_video']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_project_video']['alter']['path'] = '[field_project_video]';
-  $handler->display->display_options['fields']['field_project_video']['alter']['target'] = '_blank';
-  $handler->display->display_options['fields']['field_project_video']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_project_video']['type'] = 'file_url_plain';
-  /* Field: Content: Ready */
-  $handler->display->display_options['fields']['field_ready']['id'] = 'field_ready';
-  $handler->display->display_options['fields']['field_ready']['table'] = 'field_data_field_ready';
-  $handler->display->display_options['fields']['field_ready']['field'] = 'field_ready';
-  $handler->display->display_options['fields']['field_ready']['label'] = 'Project Status';
-  $handler->display->display_options['fields']['field_ready']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_ready']['alter']['text'] = 'Submitted';
-  $handler->display->display_options['fields']['field_ready']['empty'] = 'Draft';
-  $handler->display->display_options['fields']['field_ready']['empty_zero'] = TRUE;
-  $handler->display->display_options['fields']['field_ready']['type'] = 'list_key';
-  $handler->display->display_options['path'] = 'projects';
-
-  /* Display: Data export */
-  $handler = $view->new_display('views_data_export', 'Data export', 'project_export');
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
-  $handler->display->display_options['style_options']['provide_file'] = 1;
-  $handler->display->display_options['style_options']['filename'] = 'projects.%timestamp-full.csv';
-  $handler->display->display_options['style_options']['parent_sort'] = 1;
-  $handler->display->display_options['style_options']['quote'] = 1;
-  $handler->display->display_options['style_options']['trim'] = 0;
-  $handler->display->display_options['style_options']['replace_newlines'] = 0;
-  $handler->display->display_options['style_options']['header'] = 1;
-  $handler->display->display_options['style_options']['keep_html'] = 0;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Project Title';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['label'] = 'Project Description';
-  /* Field: Field: Region */
-  $handler->display->display_options['fields']['field_region']['id'] = 'field_region';
-  $handler->display->display_options['fields']['field_region']['table'] = 'field_data_field_region';
-  $handler->display->display_options['fields']['field_region']['field'] = 'field_region';
-  /* Field: Content: Event Location */
-  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
-  /* Field: Content: Prizes */
-  $handler->display->display_options['fields']['field_prizes']['id'] = 'field_prizes';
-  $handler->display->display_options['fields']['field_prizes']['table'] = 'field_data_field_prizes';
-  $handler->display->display_options['fields']['field_prizes']['field'] = 'field_prizes';
-  /* Field: Content: Evidence Repository URL */
-  $handler->display->display_options['fields']['field_download_url']['id'] = 'field_download_url';
-  $handler->display->display_options['fields']['field_download_url']['table'] = 'field_data_field_download_url';
-  $handler->display->display_options['fields']['field_download_url']['field'] = 'field_download_url';
-  $handler->display->display_options['fields']['field_download_url']['label'] = 'Source URL';
-  $handler->display->display_options['fields']['field_download_url']['click_sort_column'] = 'url';
-  $handler->display->display_options['fields']['field_download_url']['type'] = 'link_plain';
-  /* Field: Content: Video URL */
-  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
-  $handler->display->display_options['fields']['field_video_url']['type'] = 'link_plain';
-  /* Field: Content: Used Datasets */
-  $handler->display->display_options['fields']['field_official_datasets']['id'] = 'field_official_datasets';
-  $handler->display->display_options['fields']['field_official_datasets']['table'] = 'field_data_field_official_datasets';
-  $handler->display->display_options['fields']['field_official_datasets']['field'] = 'field_official_datasets';
-  $handler->display->display_options['fields']['field_official_datasets']['settings'] = array(
-    'edit' => '',
-    'delete' => '',
-    'add' => '',
-    'description' => 1,
-    'view_mode' => 'full',
-  );
-  $handler->display->display_options['fields']['field_official_datasets']['delta_offset'] = '0';
-  /* Field: File: Path */
-  $handler->display->display_options['fields']['uri']['id'] = 'uri';
-  $handler->display->display_options['fields']['uri']['table'] = 'file_managed';
-  $handler->display->display_options['fields']['uri']['field'] = 'uri';
-  $handler->display->display_options['fields']['uri']['relationship'] = 'node_to_file';
-  $handler->display->display_options['fields']['uri']['label'] = 'Project Image URL';
-  $handler->display->display_options['fields']['uri']['file_download_path'] = TRUE;
-  $handler->display->display_options['path'] = 'projects/csv';
-
-  /* Display: Projects By Prize Data export */
-  $handler = $view->new_display('views_data_export', 'Projects By Prize Data export', 'by_prize');
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
-  $handler->display->display_options['style_options']['provide_file'] = 1;
-  $handler->display->display_options['style_options']['filename'] = 'projects-by-prize.%timestamp-full.csv';
-  $handler->display->display_options['style_options']['parent_sort'] = 0;
-  $handler->display->display_options['style_options']['quote'] = 1;
-  $handler->display->display_options['style_options']['trim'] = 0;
-  $handler->display->display_options['style_options']['replace_newlines'] = 0;
-  $handler->display->display_options['style_options']['header'] = 1;
-  $handler->display->display_options['style_options']['keep_html'] = 0;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Prizes */
-  $handler->display->display_options['fields']['field_prizes']['id'] = 'field_prizes';
-  $handler->display->display_options['fields']['field_prizes']['table'] = 'field_data_field_prizes';
-  $handler->display->display_options['fields']['field_prizes']['field'] = 'field_prizes';
-  $handler->display->display_options['fields']['field_prizes']['label'] = 'Prize Name';
-  $handler->display->display_options['fields']['field_prizes']['settings'] = array(
-    'link' => 0,
-  );
-  $handler->display->display_options['fields']['field_prizes']['group_rows'] = FALSE;
-  $handler->display->display_options['fields']['field_prizes']['delta_offset'] = '0';
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Project Title';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Field: Region */
-  $handler->display->display_options['fields']['field_region']['id'] = 'field_region';
-  $handler->display->display_options['fields']['field_region']['table'] = 'field_data_field_region';
-  $handler->display->display_options['fields']['field_region']['field'] = 'field_region';
-  /* Field: Content: Event Location */
-  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['label'] = 'Project Description';
-  /* Field: Content: Evidence Repository URL */
-  $handler->display->display_options['fields']['field_download_url']['id'] = 'field_download_url';
-  $handler->display->display_options['fields']['field_download_url']['table'] = 'field_data_field_download_url';
-  $handler->display->display_options['fields']['field_download_url']['field'] = 'field_download_url';
-  $handler->display->display_options['fields']['field_download_url']['label'] = 'Source URL';
-  $handler->display->display_options['fields']['field_download_url']['click_sort_column'] = 'url';
-  $handler->display->display_options['fields']['field_download_url']['type'] = 'link_plain';
-  /* Field: Content: Video URL */
-  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
-  $handler->display->display_options['fields']['field_video_url']['type'] = 'link_plain';
-  /* Field: Content: Used Datasets */
-  $handler->display->display_options['fields']['field_official_datasets']['id'] = 'field_official_datasets';
-  $handler->display->display_options['fields']['field_official_datasets']['table'] = 'field_data_field_official_datasets';
-  $handler->display->display_options['fields']['field_official_datasets']['field'] = 'field_official_datasets';
-  $handler->display->display_options['fields']['field_official_datasets']['settings'] = array(
-    'edit' => 'Edit',
-    'delete' => 'Delete',
-    'add' => 'Add',
-    'description' => 1,
-    'view_mode' => 'full',
-  );
-  $handler->display->display_options['fields']['field_official_datasets']['delta_offset'] = '0';
-  $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Content: Prizes (field_prizes) */
-  $handler->display->display_options['sorts']['field_prizes_target_id']['id'] = 'field_prizes_target_id';
-  $handler->display->display_options['sorts']['field_prizes_target_id']['table'] = 'field_data_field_prizes';
-  $handler->display->display_options['sorts']['field_prizes_target_id']['field'] = 'field_prizes_target_id';
-  /* Sort criterion: Content: Title */
-  $handler->display->display_options['sorts']['title']['id'] = 'title';
-  $handler->display->display_options['sorts']['title']['table'] = 'node';
-  $handler->display->display_options['sorts']['title']['field'] = 'title';
-  /* Sort criterion: Content: Updated date */
-  $handler->display->display_options['sorts']['changed']['id'] = 'changed';
-  $handler->display->display_options['sorts']['changed']['table'] = 'node';
-  $handler->display->display_options['sorts']['changed']['field'] = 'changed';
-  $handler->display->display_options['path'] = 'projects/by-prize';
-
-  /* Display: Data export private */
-  $handler = $view->new_display('views_data_export', 'Data export private', 'project_export_private');
-  $handler->display->display_options['defaults']['access'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'none';
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
-  $handler->display->display_options['style_options']['provide_file'] = 1;
-  $handler->display->display_options['style_options']['filename'] = 'projects-private.%timestamp-full.csv';
-  $handler->display->display_options['style_options']['parent_sort'] = 0;
-  $handler->display->display_options['style_options']['quote'] = 1;
-  $handler->display->display_options['style_options']['trim'] = 0;
-  $handler->display->display_options['style_options']['replace_newlines'] = 0;
-  $handler->display->display_options['style_options']['header'] = 1;
-  $handler->display->display_options['style_options']['keep_html'] = 0;
-  $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: Content: Author */
-  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
-  $handler->display->display_options['relationships']['uid']['table'] = 'node';
-  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Team Name */
-  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Project Title';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['label'] = 'Project Description';
-  /* Field: Field: Region */
-  $handler->display->display_options['fields']['field_region']['id'] = 'field_region';
-  $handler->display->display_options['fields']['field_region']['table'] = 'field_data_field_region';
-  $handler->display->display_options['fields']['field_region']['field'] = 'field_region';
-  /* Field: Content: Event Location */
-  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
-  /* Field: User: Name */
-  $handler->display->display_options['fields']['name']['id'] = 'name';
-  $handler->display->display_options['fields']['name']['table'] = 'users';
-  $handler->display->display_options['fields']['name']['field'] = 'name';
-  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['name']['label'] = 'Author Name';
-  /* Field: User: E-mail */
-  $handler->display->display_options['fields']['mail']['id'] = 'mail';
-  $handler->display->display_options['fields']['mail']['table'] = 'users';
-  $handler->display->display_options['fields']['mail']['field'] = 'mail';
-  $handler->display->display_options['fields']['mail']['relationship'] = 'uid';
-  /* Field: Content: Team Phone Numbers */
-  $handler->display->display_options['fields']['field_team_contact_details']['id'] = 'field_team_contact_details';
-  $handler->display->display_options['fields']['field_team_contact_details']['table'] = 'field_data_field_team_contact_details';
-  $handler->display->display_options['fields']['field_team_contact_details']['field'] = 'field_team_contact_details';
-  /* Field: Content: Project Editors */
-  $handler->display->display_options['fields']['field_contributor_1']['id'] = 'field_contributor_1';
-  $handler->display->display_options['fields']['field_contributor_1']['table'] = 'field_data_field_contributor';
-  $handler->display->display_options['fields']['field_contributor_1']['field'] = 'field_contributor';
-  $handler->display->display_options['fields']['field_contributor_1']['label'] = 'Team Members';
-  $handler->display->display_options['fields']['field_contributor_1']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_contributor_1']['type'] = 'entityreference_entity_id';
-  $handler->display->display_options['fields']['field_contributor_1']['settings'] = array(
-    'link' => 0,
-  );
-  $handler->display->display_options['fields']['field_contributor_1']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_contributor_1']['separator'] = '|';
-  /* Field: Content: Team Members */
-  $handler->display->display_options['fields']['field_other_team_members']['id'] = 'field_other_team_members';
-  $handler->display->display_options['fields']['field_other_team_members']['table'] = 'field_data_field_other_team_members';
-  $handler->display->display_options['fields']['field_other_team_members']['field'] = 'field_other_team_members';
-  $handler->display->display_options['fields']['field_other_team_members']['label'] = 'Other Team Members';
-  $handler->display->display_options['fields']['field_other_team_members']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_other_team_members']['type'] = 'field_collection_fields';
-  $handler->display->display_options['fields']['field_other_team_members']['settings'] = array(
-    'view_mode' => 'full',
-  );
-  $handler->display->display_options['fields']['field_other_team_members']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_other_team_members']['separator'] = '';
-  /* Field: Content: Prizes */
-  $handler->display->display_options['fields']['field_prizes']['id'] = 'field_prizes';
-  $handler->display->display_options['fields']['field_prizes']['table'] = 'field_data_field_prizes';
-  $handler->display->display_options['fields']['field_prizes']['field'] = 'field_prizes';
-  /* Field: Content: Procurement Opportunities */
-  $handler->display->display_options['fields']['field_procurement']['id'] = 'field_procurement';
-  $handler->display->display_options['fields']['field_procurement']['table'] = 'field_data_field_procurement';
-  $handler->display->display_options['fields']['field_procurement']['field'] = 'field_procurement';
-  $handler->display->display_options['fields']['field_procurement']['type'] = 'list_key';
-  /* Field: Global: PHP */
-  $handler->display->display_options['fields']['php']['id'] = 'php';
-  $handler->display->display_options['fields']['php']['table'] = 'views';
-  $handler->display->display_options['fields']['php']['field'] = 'php';
-  $handler->display->display_options['fields']['php']['label'] = 'Team Members';
-  $handler->display->display_options['fields']['php']['use_php_setup'] = 0;
-  $handler->display->display_options['fields']['php']['php_output'] = '<?php
-foreach ($data->field_field_contributor_1 as $contributor) {
-echo $contributor["raw"]["entity"]->name.\' \'. $contributor["raw"]["entity"]->mail. "\\n";
-}
-foreach($data->field_field_other_team_members as $member) {
-$item = reset($member[\'rendered\'][\'entity\'][\'field_collection_item\']);
-echo $item[\'field_team_member_name\'][0][\'#markup\'].\' \'.$item[\'field_team_member_email\'][0][\'#markup\']."\\n";
-}
-?>';
-  $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
-  $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
-  /* Field: Content: Team Prize Details */
-  $handler->display->display_options['fields']['field_team_prize_details']['id'] = 'field_team_prize_details';
-  $handler->display->display_options['fields']['field_team_prize_details']['table'] = 'field_data_field_team_prize_details';
-  $handler->display->display_options['fields']['field_team_prize_details']['field'] = 'field_team_prize_details';
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'project' => 'project',
-  );
-  $handler->display->display_options['path'] = 'projects/csv-private-yRgkNzuFDdz';
-
-  /* Display: Higher Education Teams */
-  $handler = $view->new_display('page', 'Higher Education Teams', 'page_4');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['header'] = FALSE;
-  $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* No results behavior: Global: View area */
-  $handler->display->display_options['empty']['view']['id'] = 'view';
-  $handler->display->display_options['empty']['view']['table'] = 'views';
-  $handler->display->display_options['empty']['view']['field'] = 'view';
-  $handler->display->display_options['empty']['view']['empty'] = TRUE;
-  $handler->display->display_options['empty']['view']['view_to_insert'] = 'projects:default';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Image */
-  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
-  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['label'] = '';
-  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_image']['settings'] = array(
-    'image_style' => 'thumbnail',
-    'image_link' => 'content',
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Team Name */
-  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
-  /* Field: Content: Website */
-  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
-  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
-  /* Field: Content: Video URL */
-  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
-  /* Field: Content: Event Location */
-  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
-  $handler->display->display_options['defaults']['sorts'] = FALSE;
-  $handler->display->display_options['path'] = 'projects/edu';
-
-  /* Display: Public Servant Teams */
-  $handler = $view->new_display('page', 'Public Servant Teams', 'page_5');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['header'] = FALSE;
-  $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* No results behavior: Global: View area */
-  $handler->display->display_options['empty']['view']['id'] = 'view';
-  $handler->display->display_options['empty']['view']['table'] = 'views';
-  $handler->display->display_options['empty']['view']['field'] = 'view';
-  $handler->display->display_options['empty']['view']['empty'] = TRUE;
-  $handler->display->display_options['empty']['view']['view_to_insert'] = 'projects:default';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Image */
-  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
-  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['label'] = '';
-  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_image']['settings'] = array(
-    'image_style' => 'thumbnail',
-    'image_link' => 'content',
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Team Name */
-  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
-  /* Field: Content: Website */
-  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
-  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
-  /* Field: Content: Video URL */
-  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
-  /* Field: Content: Event Location */
-  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
-  $handler->display->display_options['defaults']['sorts'] = FALSE;
-  $handler->display->display_options['path'] = 'projects/publicservant';
-
-  /* Display: Professional Teams */
-  $handler = $view->new_display('page', 'Professional Teams', 'page_3');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['header'] = FALSE;
-  $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* No results behavior: Global: View area */
-  $handler->display->display_options['empty']['view']['id'] = 'view';
-  $handler->display->display_options['empty']['view']['table'] = 'views';
-  $handler->display->display_options['empty']['view']['field'] = 'view';
-  $handler->display->display_options['empty']['view']['empty'] = TRUE;
-  $handler->display->display_options['empty']['view']['view_to_insert'] = 'projects:default';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Image */
-  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
-  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['label'] = '';
-  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_image']['settings'] = array(
-    'image_style' => 'thumbnail',
-    'image_link' => 'content',
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Team Name */
-  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
-  /* Field: Content: Website */
-  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
-  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
-  /* Field: Content: Video URL */
-  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
-  /* Field: Content: Event Location */
-  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
-  $handler->display->display_options['defaults']['sorts'] = FALSE;
-  $handler->display->display_options['path'] = 'projects/professional';
-
-  /* Display: My Projects */
-  $handler = $view->new_display('page', 'My Projects', 'my_projects');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Image */
-  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
-  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_image']['settings'] = array(
-    'image_style' => 'thumbnail',
-    'image_link' => 'content',
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  /* Field: Content: Team Name */
-  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
-  /* Field: Content: Website */
-  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
-  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
-  /* Field: Content: Video URL */
-  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
-  /* Field: Content: Event Location */
-  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'project' => 'project',
-  );
-  $handler->display->display_options['path'] = 'my_projects';
-
-  /* Display: Ready */
-  $handler = $view->new_display('page', 'Ready', 'page_1');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  /* Field: Content: Video Upload */
-  $handler->display->display_options['fields']['field_project_video']['id'] = 'field_project_video';
-  $handler->display->display_options['fields']['field_project_video']['table'] = 'field_data_field_project_video';
-  $handler->display->display_options['fields']['field_project_video']['field'] = 'field_project_video';
-  $handler->display->display_options['fields']['field_project_video']['label'] = '';
-  $handler->display->display_options['fields']['field_project_video']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_project_video']['alter']['text'] = '[field_project_video] 
- ';
-  $handler->display->display_options['fields']['field_project_video']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_project_video']['alter']['path'] = '[field_project_video]';
-  $handler->display->display_options['fields']['field_project_video']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_project_video']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_project_video']['type'] = 'file_url_plain';
-  /* Field: Content: Video URL */
-  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['alter']['text'] = '[field_video_url][field_project_video]';
-  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
-  /* Field: Content: Evidence Repository URL */
-  $handler->display->display_options['fields']['field_download_url']['id'] = 'field_download_url';
-  $handler->display->display_options['fields']['field_download_url']['table'] = 'field_data_field_download_url';
-  $handler->display->display_options['fields']['field_download_url']['field'] = 'field_download_url';
-  $handler->display->display_options['fields']['field_download_url']['label'] = 'Source/Evidence';
-  $handler->display->display_options['fields']['field_download_url']['click_sort_column'] = 'url';
-  /* Field: Content: Ready */
-  $handler->display->display_options['fields']['field_ready']['id'] = 'field_ready';
-  $handler->display->display_options['fields']['field_ready']['table'] = 'field_data_field_ready';
-  $handler->display->display_options['fields']['field_ready']['field'] = 'field_ready';
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'project' => 'project',
-  );
-  $handler->display->display_options['path'] = 'projects/ready';
-
-  /* Display: Youth Teams */
-  $handler = $view->new_display('page', 'Youth Teams', 'page_2');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['header'] = FALSE;
-  $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* No results behavior: Global: View area */
-  $handler->display->display_options['empty']['view']['id'] = 'view';
-  $handler->display->display_options['empty']['view']['table'] = 'views';
-  $handler->display->display_options['empty']['view']['field'] = 'view';
-  $handler->display->display_options['empty']['view']['empty'] = TRUE;
-  $handler->display->display_options['empty']['view']['view_to_insert'] = 'projects:default';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Image */
-  $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
-  $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
-  $handler->display->display_options['fields']['field_image']['label'] = '';
-  $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_image']['settings'] = array(
-    'image_style' => 'thumbnail',
-    'image_link' => 'content',
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Team Name */
-  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
-  /* Field: Content: Website */
-  $handler->display->display_options['fields']['field_url']['id'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['table'] = 'field_data_field_url';
-  $handler->display->display_options['fields']['field_url']['field'] = 'field_url';
-  $handler->display->display_options['fields']['field_url']['click_sort_column'] = 'url';
-  /* Field: Content: Video URL */
-  $handler->display->display_options['fields']['field_video_url']['id'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['table'] = 'field_data_field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['field'] = 'field_video_url';
-  $handler->display->display_options['fields']['field_video_url']['click_sort_column'] = 'url';
-  /* Field: Content: Event Location */
-  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
-  $handler->display->display_options['defaults']['sorts'] = FALSE;
-  $handler->display->display_options['path'] = 'projects/youth';
-
-  /* Display: Data export private simple */
-  $handler = $view->new_display('views_data_export', 'Data export private simple', 'views_data_export_1');
-  $handler->display->display_options['defaults']['access'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'role';
-  $handler->display->display_options['access']['role'] = array(
-    3 => '3',
-    5 => '5',
-    4 => '4',
-  );
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
-  $handler->display->display_options['style_options']['provide_file'] = 1;
-  $handler->display->display_options['style_options']['filename'] = 'projects-private.%timestamp-full.csv';
-  $handler->display->display_options['style_options']['parent_sort'] = 0;
-  $handler->display->display_options['style_options']['quote'] = 1;
-  $handler->display->display_options['style_options']['trim'] = 0;
-  $handler->display->display_options['style_options']['replace_newlines'] = 0;
-  $handler->display->display_options['style_options']['header'] = 1;
-  $handler->display->display_options['style_options']['keep_html'] = 0;
-  $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: Content: Author */
-  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
-  $handler->display->display_options['relationships']['uid']['table'] = 'node';
-  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Team Name */
-  $handler->display->display_options['fields']['field_team_name']['id'] = 'field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['table'] = 'field_data_field_team_name';
-  $handler->display->display_options['fields']['field_team_name']['field'] = 'field_team_name';
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Project Title';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['label'] = 'Project Description';
-  /* Field: Content: Event Location */
-  $handler->display->display_options['fields']['field_event_location']['id'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['table'] = 'field_data_field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['field'] = 'field_event_location';
-  $handler->display->display_options['fields']['field_event_location']['label'] = 'Local Event State';
-  /* Field: User: Name */
-  $handler->display->display_options['fields']['name']['id'] = 'name';
-  $handler->display->display_options['fields']['name']['table'] = 'users';
-  $handler->display->display_options['fields']['name']['field'] = 'name';
-  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['name']['label'] = 'Author Name';
-  /* Field: User: E-mail */
-  $handler->display->display_options['fields']['mail']['id'] = 'mail';
-  $handler->display->display_options['fields']['mail']['table'] = 'users';
-  $handler->display->display_options['fields']['mail']['field'] = 'mail';
-  $handler->display->display_options['fields']['mail']['relationship'] = 'uid';
-  /* Field: Content: Team Phone Numbers */
-  $handler->display->display_options['fields']['field_team_contact_details']['id'] = 'field_team_contact_details';
-  $handler->display->display_options['fields']['field_team_contact_details']['table'] = 'field_data_field_team_contact_details';
-  $handler->display->display_options['fields']['field_team_contact_details']['field'] = 'field_team_contact_details';
-  /* Field: Content: Project Editors */
-  $handler->display->display_options['fields']['field_contributor_1']['id'] = 'field_contributor_1';
-  $handler->display->display_options['fields']['field_contributor_1']['table'] = 'field_data_field_contributor';
-  $handler->display->display_options['fields']['field_contributor_1']['field'] = 'field_contributor';
-  $handler->display->display_options['fields']['field_contributor_1']['label'] = 'Team Members';
-  $handler->display->display_options['fields']['field_contributor_1']['type'] = 'entityreference_entity_view';
-  $handler->display->display_options['fields']['field_contributor_1']['settings'] = array(
-    'view_mode' => 'default',
-    'links' => 1,
-  );
-  $handler->display->display_options['fields']['field_contributor_1']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_contributor_1']['separator'] = '|';
-  /* Field: Content: Team Members */
-  $handler->display->display_options['fields']['field_other_team_members']['id'] = 'field_other_team_members';
-  $handler->display->display_options['fields']['field_other_team_members']['table'] = 'field_data_field_other_team_members';
-  $handler->display->display_options['fields']['field_other_team_members']['field'] = 'field_other_team_members';
-  $handler->display->display_options['fields']['field_other_team_members']['label'] = 'Other Team Members';
-  $handler->display->display_options['fields']['field_other_team_members']['settings'] = array(
-    'edit' => '',
-    'delete' => '',
-    'add' => '',
-    'description' => 1,
-    'view_mode' => 'full',
-  );
-  $handler->display->display_options['fields']['field_other_team_members']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_other_team_members']['separator'] = '';
-  /* Field: Content: Prizes */
-  $handler->display->display_options['fields']['field_prizes']['id'] = 'field_prizes';
-  $handler->display->display_options['fields']['field_prizes']['table'] = 'field_data_field_prizes';
-  $handler->display->display_options['fields']['field_prizes']['field'] = 'field_prizes';
-  /* Field: Content: Procurement Opportunities */
-  $handler->display->display_options['fields']['field_procurement']['id'] = 'field_procurement';
-  $handler->display->display_options['fields']['field_procurement']['table'] = 'field_data_field_procurement';
-  $handler->display->display_options['fields']['field_procurement']['field'] = 'field_procurement';
-  $handler->display->display_options['fields']['field_procurement']['type'] = 'list_key';
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'project' => 'project',
-  );
-  $handler->display->display_options['path'] = 'projects/csv-private-simple';
-  $export['projects'] = $view;
 
   return $export;
 }
