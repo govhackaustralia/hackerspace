@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the GovHack Reports feature.
+ */
+
+include_once 'govhack_reports.features.inc';
