@@ -33,22 +33,34 @@ function govhack_project_form_alter(&$form, &$form_state, $form_id)
             $form['#prefix'] = "<div class=\"messages status\">This project has been submitted but you can click to <a href='#' id=unlock>Re-Open Project</a> to make further changes</div>";
         }
         $form['#suffix'] = '<script>
+var veryReady;
+function checkReadiness() {
+  ready = true;
+  
+  // ready if source code and (video link or video upload) provided
+  if (ready && !veryReady) {
+             jQuery("#edit-actions").append(\'<input type="submit" id="edit-submit-project" name="op" value="Submit your entry" class="form-submit">\');
+                      jQuery("#edit-submit-project").click(function() {
+           jQuery("#edit-field-ready-und").prop(\'checked\', true);
+           jQuery("#edit-submit").click();
+         })
+             veryReady = true;
+  }
+}
        jQuery(function() {
          jQuery("#unlock").click(function() {
                        jQuery("#project-node-form").css("opacity", 1.0);
                        jQuery("#edit-field-ready-und").prop("checked", false);
             jQuery("#project-node-form :input").prop("disabled", false);
          });
-         jQuery("#edit-actions").append(\'<input type="submit" id="edit-submit-project" name="op" value="Submit your entry" class="form-submit">\');
-         jQuery("#edit-submit-project").click(function() {
-           jQuery("#edit-field-ready-und").prop(\'checked\', true);
-           jQuery("#edit-submit").click();
-         })
+
+
          
          if (jQuery("#edit-field-ready-und").prop("checked")) {
             jQuery("#project-node-form").css("opacity", 0.5);
             jQuery("#project-node-form :input").prop("disabled", true);
         }
+        checkReadiness();
         });
 </script>';
 
