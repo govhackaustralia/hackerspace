@@ -36,8 +36,15 @@ function govhack_project_form_alter(&$form, &$form_state, $form_id)
 var veryReady;
 function checkReadiness() {
   ready = true;
+  // ready if source code and (video link provided or video upload widget removed jQuery(".s3fs-cors-upload-file")) 
+  /*if jQuery( "#edit-field-download-url-und-0-url" ).empty() {
+    ready = false;
+  }
+  if jQuery( "#edit-field-video-url-und-0-url" ).empty() || !jQuery(".s3fs-cors-upload-file").empty() {
+    ready = false;
+  }*/
   
-  // ready if source code and (video link or video upload) provided
+  
   if (ready && !veryReady) {
              jQuery("#edit-actions").append(\'<input type="submit" id="edit-submit-project" name="op" value="Submit your entry" class="form-submit">\');
                       jQuery("#edit-submit-project").click(function() {
@@ -54,13 +61,15 @@ function checkReadiness() {
             jQuery("#project-node-form :input").prop("disabled", false);
          });
 
-
          
          if (jQuery("#edit-field-ready-und").prop("checked")) {
             jQuery("#project-node-form").css("opacity", 0.5);
             jQuery("#project-node-form :input").prop("disabled", true);
         }
         checkReadiness();
+        jQuery( "#edit-field-download-url-und-0-url, #edit-field-video-url-und-0-url" ).change(function() {
+          checkReadiness();
+        });
         });
 </script>';
 

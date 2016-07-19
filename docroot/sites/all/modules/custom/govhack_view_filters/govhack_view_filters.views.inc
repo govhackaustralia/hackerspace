@@ -1,4 +1,7 @@
 <?php
+
+// remember args come from sites/all/modules/entityreference/plugins/selection/EntityReference_SelectionHandler_Views.class.php
+// under GOVHACK SPECIAL HACKHACKHACK FIXME TODO OMGWHAT function getReferencableEntities(
 function govhack_view_filters_views_post_execute(&$view)
 {
     if ($view->current_display == 'locations') {
@@ -21,6 +24,8 @@ function govhack_view_filters_views_post_execute(&$view)
         }
     }
     if ($view->current_display == 'prizes_list') {
+        // $view->args[0] = event region
+        // $view->args[1] = event specific location
             $location = taxonomy_term_load($view->args[1]);
             foreach ($view->result as $i => $result) {
 

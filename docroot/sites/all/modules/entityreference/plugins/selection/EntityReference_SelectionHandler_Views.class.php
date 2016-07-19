@@ -122,7 +122,7 @@ class EntityReference_SelectionHandler_Views implements EntityReference_Selectio
       }
       else {
         if ($entity !== NULL) {
-          $args[] = $entity->field_event_location['und'][0]['tid'];
+          $args[] = $entity->field_event_location['und'][0]['target_id'];
         }
       }
     }
