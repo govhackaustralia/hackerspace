@@ -37,12 +37,12 @@ var veryReady;
 function checkReadiness() {
   ready = true;
   // ready if source code and (video link provided or video upload widget removed jQuery(".s3fs-cors-upload-file")) 
-  /*if jQuery( "#edit-field-download-url-und-0-url" ).empty() {
+  if jQuery( "#edit-field-download-url-und-0-url" ).empty() {
     ready = false;
   }
   if jQuery( "#edit-field-video-url-und-0-url" ).empty() || !jQuery(".s3fs-cors-upload-file").empty() {
     ready = false;
-  }*/
+  }
   
   
   if (ready && !veryReady) {
