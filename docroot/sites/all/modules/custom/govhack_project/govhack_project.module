@@ -30,23 +30,23 @@ function govhack_project_form_alter(&$form, &$form_state, $form_id)
         $form['field_ready']['und']['#suffix'] = '</div>';
 
         if ($form_state['node']->field_ready['und'][0]['value'] == 1) {
-            $form['#prefix'] = "<div class=\"messages status\">This project has been submitted but you can click to <a href='#' id=unlock>Re-Open Project</a> to make further changes</div>";
+            $form['#prefix'] = "<div class=\"messages status bg-success img-rounded\"><p style=\"padding: 16px;\">This project has been submitted but you can still <a href='#' id=unlock>Re-Open Project</a> now to make further changes</p></div><br/>";
         }
         $form['#suffix'] = '<script>
 var veryReady;
 function checkReadiness() {
   ready = true;
   // ready if source code and (video link provided or video upload widget removed jQuery(".s3fs-cors-upload-file")) 
-  if jQuery( "#edit-field-download-url-und-0-url" ).empty() {
+  if (!jQuery( "#edit-field-download-url-und-0-url" ).val()) {
     ready = false;
   }
-  if jQuery( "#edit-field-video-url-und-0-url" ).empty() || !jQuery(".s3fs-cors-upload-file").empty() {
+  if (!jQuery( "#edit-field-video-url-und-0-url" ).val() && !jQuery(".s3fs-cors-upload-file")) {
     ready = false;
   }
   
   
   if (ready && !veryReady) {
-             jQuery("#edit-actions").append(\'<input type="submit" id="edit-submit-project" name="op" value="Submit your entry" class="form-submit">\');
+             jQuery("#edit-actions").append(\'<input type="submit" id="edit-submit-project" name="op" value="Submit your entry" class="form-submit btn btn-info pull-right">\');
                       jQuery("#edit-submit-project").click(function() {
            jQuery("#edit-field-ready-und").prop(\'checked\', true);
            jQuery("#edit-submit").click();
