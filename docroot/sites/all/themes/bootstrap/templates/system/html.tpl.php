@@ -67,6 +67,7 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   <?php print $scripts; ?>
+    <script src="https://assets.govhack.org/js/site-switcher.min.js"></script>
 </head>
 <body<?php print $body_attributes; ?>>
   <div id="skip-link">
