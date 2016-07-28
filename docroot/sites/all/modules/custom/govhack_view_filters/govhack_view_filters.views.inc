@@ -67,7 +67,7 @@ function govhack_view_filters_views_post_execute(&$view)
         $view->current_display == 'project_export_private'
     ) {
         foreach ($view->result as $i => $result) {
-            if ($view->args[0]) {
+            if (isset($view->args[0]) && $view->args[0]) {
                 $tids = Array();
                 if ($view->args[0] == 'mine') {
                     $user = user_load($GLOBALS['user']->uid);

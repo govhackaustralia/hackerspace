@@ -62,7 +62,8 @@ function drush_govhack_project_prize_import()
         621 => "perth"
     );
     $regions = Array
-    (
+    ("australia" => array(), "international" => array(),
+        // international and australia
         "act" => Array(619 => "Canberra", 632 => "Canberra Heritage Hack"),
         "nsw" => Array(612 => "Camperdown Games for Learning",
             639 => "Parramatta",
@@ -126,38 +127,48 @@ function drush_govhack_project_prize_import()
     }
 
     foreach ($allprizes as $prize) {
+        $id = str_replace("--","-",str_replace("--","-",str_replace(Array(","," ","?","!","’","&","\xE2\x80\xA8"),"",$prize->id)));
         if (in_array($prize->name, array_keys($existing_term_names))) {
             $term = taxonomy_term_load($existing_term_names[$prize->name]);
-            drupal_set_message("Loaded " . $term->tid . " " . $prize->id);
+            //drupal_set_message("Loaded " . $term->tid . " " . $id);
         } else {
             $term = new stdClass();
             $term->vid = $vocab->vid;
             $term->name = $prize->name;
+            drupal_set_message("NEW " . $term->tid . " " . $id);
         }
         $term->description = $prize->body;
         $term->format = "full_html";
         $term->field_sponsor = array('und' => array(array('value' => $prize->organisation_title)));
-        $term->field_country = array('und' => array(array('tid' => ($prize->jurisdiction == 'nz' ? 277 : 276))));
+        if ($prize->jurisdiction != "international") {
+            $term->field_country = array('und' => array(array('tid' => ($prize->jurisdiction == 'nz' ? 277 : 276))));
+        } else {
+            $term->field_country = array('und' => array());
+        }
         $term->field_jurisdiction = array('und' => array());
 
-        if (isset($prize->events)) {
-            //drupal_set_message("Event specific " . $term->tid . " " . $prize->id);
-            //drupal_set_message(print_r($prize->events,true));
-            foreach ($prize->events as $event) {
-                //drupal_set_message(print_r(array('tid' => array_search($event,$events)),true));
-                $term->field_jurisdiction['und'][] = array('tid' => array_search($event, $events));
+        if ($prize->jurisdiction != "australia" && $prize->jurisdiction != "nz") {
+            if (isset($prize->events)) {
+                //drupal_set_message("Event specific " . $term->tid . " " . $prize->id);
+                //drupal_set_message(print_r($prize->events,true));
+                foreach ($prize->events as $event) {
+                    //drupal_set_message(print_r(array('tid' => array_search($event,$events)),true));
+                    $term->field_jurisdiction['und'][] = array('tid' => array_search($event, $events));
+                }
+            } else {
+                foreach (array_keys($regions[$prize->jurisdiction]) as $tid) {
+                    $term->field_jurisdiction['und'][] = array('tid' => $tid);
+                }
             }
         } else {
-            foreach (array_keys($regions[$prize->jurisdiction]) as $tid) {
-                $term->field_jurisdiction['und'][] = array('tid' => $tid);
-            }
+            $term->field_jurisdiction['und'] = array();
         }
         //print_r($term);
         taxonomy_term_save($term);
-        drupal_set_message("Saved " . $term->tid . " " . $prize->id);
+        drupal_set_message("Saved " . $term->tid . " " . $id);
         $conditions = array('source' => 'taxonomy/term/' . $term->tid);
         $path = path_load($conditions);
-        $path['alias'] = "prizes/" . $prize->id;
+        $path['alias'] = "prizes/" .  $id;
         path_save($path);
         //print_r($path);
     }
